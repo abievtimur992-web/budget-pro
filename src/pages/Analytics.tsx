@@ -1,0 +1,256 @@
+import React, { useState, useMemo } from 'react';
+import { useFinanceStore } from '../store/useFinanceStore';
+import { formatCurrency, formatMonthName, getCurrentMonth } from '../utils/format';
+import { 
+  Period, filterTransactionsByPeriod, calculateFinancialSummary, 
+  calculateBudgetVsActual, calculateFundAnalytics, calculateDebtAnalytics, 
+  compareWithPreviousMonth, detectUnusualSpending, calculateFinancialHealthScore, 
+  generateSmartInsights, getCashFlowData
+} from '../services/analyticsEngine';
+import { PieChart, TrendingUp, TrendingDown, Activity, AlertCircle, CheckCircle, Lightbulb } from 'lucide-react';
+
+export const Analytics = () => {
+  const { transactions, budgets, categories, funds, debts } = useFinanceStore();
+  const [periodType, setPeriodType] = useState<string>('current_month');
+  const [customStart, setCustomStart] = useState('');
+  const [customEnd, setCustomEnd] = useState('');
+
+  const period: Period = useMemo(() => {
+    if (periodType === 'custom' && customStart && customEnd) {
+      return { start: customStart, end: customEnd };
+    }
+    return (periodType !== 'custom' ? periodType : 'current_month') as Period;
+  }, [periodType, customStart, customEnd]);
+
+  // Filter Data
+  const filteredTx = useMemo(() => filterTransactionsByPeriod(transactions, period), [transactions, period]);
+  const prevPeriodTx = useMemo(() => filterTransactionsByPeriod(transactions, 'last_month'), [transactions]); // hardcoded last month for M2M comparison
+  
+  // Computations
+  const summary = useMemo(() => calculateFinancialSummary(filteredTx), [filteredTx]);
+  const prevSummary = useMemo(() => calculateFinancialSummary(prevPeriodTx), [prevPeriodTx]);
+  const budgetActuals = useMemo(() => calculateBudgetVsActual(budgets.find(b => b.month === getCurrentMonth()), filteredTx, categories), [budgets, filteredTx, categories]);
+  const fundAnalytics = useMemo(() => calculateFundAnalytics(funds), [funds]);
+  const debtAnalytics = useMemo(() => calculateDebtAnalytics(debts, filteredTx), [debts, filteredTx]);
+  const m2m = useMemo(() => compareWithPreviousMonth(filteredTx, prevPeriodTx), [filteredTx, prevPeriodTx]);
+  const unusual = useMemo(() => detectUnusualSpending(filteredTx, prevPeriodTx, categories), [filteredTx, prevPeriodTx, categories]);
+  const health = useMemo(() => calculateFinancialHealthScore(budgetActuals, summary.savingsRate, funds, debts, summary.income), [budgetActuals, summary.savingsRate, funds, debts, summary.income]);
+  const insights = useMemo(() => generateSmartInsights(summary, prevSummary, budgetActuals, unusual, health), [summary, prevSummary, budgetActuals, unusual, health]);
+  const cashFlow = useMemo(() => getCashFlowData(transactions), [transactions]); // always show full history for chart
+
+  const isEmpty = summary.income === 0 && summary.expense === 0 && summary.savings === 0 && summary.debtPaymentTotal === 0;
+
+  const renderChange = (val: number | 'new') => {
+    if (val === 'new') return <span className="text-gray-500 text-xs">Жаңа</span>;
+    if (val === 0) return <span className="text-gray-500 text-xs">Өзгерис жоқ</span>;
+    if (val > 0) return <span className="text-green-600 text-xs flex items-center gap-1"><TrendingUp size={12}/> +{val.toFixed(1)}%</span>;
+    return <span className="text-red-600 text-xs flex items-center gap-1"><TrendingDown size={12}/> {val.toFixed(1)}%</span>;
+  };
+
+  return (
+    <div className="max-w-6xl mx-auto space-y-6 pb-20">
+      <div className="flex flex-col md:flex-row justify-between items-center bg-white p-4 rounded-xl shadow-sm gap-4">
+        <h1 className="text-2xl font-bold flex items-center gap-2"><PieChart /> Аналитика</h1>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <select 
+            value={periodType} 
+            onChange={(e) => setPeriodType(e.target.value)}
+            className="bg-gray-50 border border-gray-200 rounded-lg p-2 font-medium"
+          >
+            <option value="current_month">Бул ай</option>
+            <option value="last_month">Өткен ай</option>
+            <option value="last_3_months">Соңғы 3 ай</option>
+            <option value="last_6_months">Соңғы 6 ай</option>
+            <option value="this_year">Бул жыл</option>
+            <option value="custom">Басқа ўақыт (Custom)</option>
+          </select>
+          {periodType === 'custom' && (
+            <div className="flex gap-2">
+              <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)} className="border rounded-lg p-2 text-sm" />
+              <input type="date" value={customEnd} onChange={e => setCustomEnd(e.target.value)} className="border rounded-lg p-2 text-sm" />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {isEmpty ? (
+        <div className="bg-white p-12 rounded-3xl shadow-sm text-center">
+          <p className="text-gray-500 text-lg">Бул периодта мәлимлеме жоқ.</p>
+        </div>
+      ) : (
+        <>
+          {/* 1. Health & Insights Row */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-6 rounded-3xl text-white shadow-sm flex flex-col justify-center items-center text-center">
+              <h3 className="text-indigo-100 font-medium mb-2 flex items-center gap-2"><Activity size={18}/> Финанслық Жағдай</h3>
+              <div className="text-5xl font-black mb-1">{health.total}</div>
+              <div className="text-lg font-bold bg-white/20 px-4 py-1 rounded-full">{health.label}</div>
+            </div>
+            
+            <div className="md:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+              <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2"><Lightbulb className="text-yellow-500" size={20}/> Ақыллы Мәсләҳәт (Smart Insights)</h3>
+              <div className="space-y-3">
+                {insights.map((ins, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    {ins.type === 'positive' ? <CheckCircle className="text-green-500 shrink-0" size={18}/> : 
+                     ins.type === 'warning' ? <AlertCircle className="text-yellow-500 shrink-0" size={18}/> : 
+                     <AlertCircle className="text-red-500 shrink-0" size={18}/>}
+                    <p className="text-sm text-gray-700">{ins.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* 2. Financial Summary KPI */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-white p-5 rounded-2xl shadow-sm border">
+              <p className="text-xs text-gray-500 mb-1">Жалпы кирис</p>
+              <p className="font-bold text-xl text-gray-900 mb-2">{formatCurrency(summary.income)}</p>
+              {renderChange(m2m.incomeChange)}
+            </div>
+            <div className="bg-white p-5 rounded-2xl shadow-sm border">
+              <p className="text-xs text-gray-500 mb-1">Жалпы шығыс (P&L)</p>
+              <p className="font-bold text-xl text-red-600 mb-2">{formatCurrency(summary.expense)}</p>
+              {renderChange(m2m.expenseChange)}
+            </div>
+            <div className="bg-white p-5 rounded-2xl shadow-sm border">
+              <p className="text-xs text-gray-500 mb-1">Жинақ (Savings Rate: {summary.savingsRate.toFixed(1)}%)</p>
+              <p className="font-bold text-xl text-green-600 mb-2">{formatCurrency(summary.savings)}</p>
+              {renderChange(m2m.savingsChange)}
+            </div>
+            <div className="bg-white p-5 rounded-2xl shadow-sm border">
+              <p className="text-xs text-gray-500 mb-1">Қарыз төлемлери</p>
+              <p className="font-bold text-xl text-orange-600 mb-1">{formatCurrency(summary.debtPaymentTotal)}</p>
+              <div className="text-[10px] text-gray-400 flex justify-between">
+                <span>P: {formatCurrency(summary.debtPrincipal)}</span>
+                <span>I: {formatCurrency(summary.debtInterest)}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Cash Flow */}
+            <div className="bg-white p-6 rounded-3xl shadow-sm border">
+              <h3 className="font-bold text-lg mb-4">Cash Flow</h3>
+              <div className="space-y-4">
+                {cashFlow.slice(-4).map((cf) => (
+                  <div key={cf.month} className="mb-2">
+                    <p className="text-xs font-bold text-gray-600 mb-1">{cf.month}</p>
+                    <div className="flex h-3 rounded-full overflow-hidden">
+                      <div style={{ width: `${(cf.income / (cf.income + cf.expense + cf.savings + cf.debtPayment || 1)) * 100}%` }} className="bg-green-500"></div>
+                      <div style={{ width: `${(cf.expense / (cf.income + cf.expense + cf.savings + cf.debtPayment || 1)) * 100}%` }} className="bg-red-500"></div>
+                      <div style={{ width: `${(cf.savings / (cf.income + cf.expense + cf.savings + cf.debtPayment || 1)) * 100}%` }} className="bg-blue-500"></div>
+                      <div style={{ width: `${(cf.debtPayment / (cf.income + cf.expense + cf.savings + cf.debtPayment || 1)) * 100}%` }} className="bg-orange-500"></div>
+                    </div>
+                  </div>
+                ))}
+                <div className="flex gap-4 text-xs text-gray-500 justify-center mt-4">
+                  <span className="flex items-center gap-1"><div className="w-2 h-2 bg-green-500 rounded-full"></div>Кирис</span>
+                  <span className="flex items-center gap-1"><div className="w-2 h-2 bg-red-500 rounded-full"></div>Шығыс</span>
+                  <span className="flex items-center gap-1"><div className="w-2 h-2 bg-blue-500 rounded-full"></div>Жинақ</span>
+                  <span className="flex items-center gap-1"><div className="w-2 h-2 bg-orange-500 rounded-full"></div>Қарыз</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Expense Breakdown (Top 5) */}
+            <div className="bg-white p-6 rounded-3xl shadow-sm border">
+              <h3 className="font-bold text-lg mb-4">Top 5 Шығын (Expense Breakdown)</h3>
+              <div className="space-y-4">
+                {budgetActuals.slice(0, 5).map(cat => (
+                  <div key={cat.categoryId}>
+                    <div className="flex justify-between text-sm mb-1">
+                      <span className="font-medium text-gray-700">{cat.categoryName}</span>
+                      <span className="text-gray-900 font-bold">{formatCurrency(cat.actualAmount)} ({(cat.actualAmount / (summary.expense || 1) * 100).toFixed(1)}%)</span>
+                    </div>
+                    <div className="w-full bg-gray-100 rounded-full h-2">
+                      <div className="bg-red-400 h-2 rounded-full" style={{ width: `${Math.min(100, (cat.actualAmount / (summary.expense || 1) * 100))}%` }}></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Funds Progress */}
+            <div className="bg-white p-6 rounded-3xl shadow-sm border">
+              <h3 className="font-bold text-lg mb-4 text-blue-900">Қорлар Аналитикасы</h3>
+              <div className="flex justify-between mb-2">
+                <span className="text-gray-500 text-sm">Жалпы баланс</span>
+                <span className="font-bold">{formatCurrency(fundAnalytics.totalCurrent)} / {formatCurrency(fundAnalytics.totalTarget)}</span>
+              </div>
+              <div className="w-full bg-blue-100 rounded-full h-4 mb-4">
+                <div className="bg-blue-600 h-4 rounded-full transition-all" style={{ width: `${fundAnalytics.overallProgress}%` }}></div>
+              </div>
+              
+              <div className="space-y-3 mt-6">
+                {fundAnalytics.fundDetails.map(f => (
+                  <div key={f.id} className="flex justify-between items-center text-sm border-b pb-2">
+                    <span className="font-medium">{f.name}</span>
+                    <div className="text-right">
+                      <span className="font-bold text-blue-700">{f.progress.toFixed(0)}%</span>
+                      <p className="text-[10px] text-gray-500">Мерзим: {f.estimatedTargetDate}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Debts Progress */}
+            <div className="bg-white p-6 rounded-3xl shadow-sm border">
+              <h3 className="font-bold text-lg mb-4 text-orange-900">Қарыз Аналитикасы</h3>
+              <div className="flex justify-between mb-2">
+                <span className="text-gray-500 text-sm">Жалпы қарыз қалдығы</span>
+                <span className="font-bold text-orange-600">{formatCurrency(debtAnalytics.remainingDebt)} / {formatCurrency(debtAnalytics.originalDebt)}</span>
+              </div>
+              <div className="w-full bg-orange-100 rounded-full h-4 mb-4">
+                <div className="bg-orange-500 h-4 rounded-full transition-all" style={{ width: `${debtAnalytics.debtProgress}%` }}></div>
+              </div>
+              <div className="grid grid-cols-2 gap-4 mt-6 border-t pt-4">
+                <div>
+                  <p className="text-xs text-gray-500">Төленген Principal (Таза қарыз)</p>
+                  <p className="font-bold text-green-600">{formatCurrency(debtAnalytics.principalPaid)}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500">Төленген Interest (Зыян)</p>
+                  <p className="font-bold text-red-600">{formatCurrency(debtAnalytics.interestPaid)}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Budget vs Actual */}
+          <div className="bg-white p-6 rounded-3xl shadow-sm border">
+            <h3 className="font-bold text-lg mb-4">Бюджет Орынланыўы (Budget vs Actual)</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {budgetActuals.map(cat => (
+                <div key={cat.categoryId} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                  <div className="flex-1">
+                    <p className="font-medium text-sm mb-1">{cat.categoryName}</p>
+                    <div className="flex justify-between text-xs text-gray-500 mb-1">
+                      <span>Сарпланды: {formatCurrency(cat.actualAmount)}</span>
+                      <span>Лимит: {formatCurrency(cat.budgetAmount)}</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-1.5">
+                      <div 
+                        className={`h-1.5 rounded-full ${cat.status === 'over' ? 'bg-red-500' : cat.status === 'warning' ? 'bg-yellow-500' : 'bg-green-500'}`}
+                        style={{ width: `${Math.min(100, cat.utilizationPercent || (cat.status==='over'?100:0))}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                  <div className="ml-4 text-right min-w-[60px]">
+                    <span className={`text-xs font-bold ${cat.status === 'over' ? 'text-red-600' : cat.status === 'warning' ? 'text-yellow-600' : 'text-green-600'}`}>
+                      {cat.status === 'over' ? 'OVER' : cat.utilizationPercent !== null ? `${cat.utilizationPercent.toFixed(0)}%` : '-'}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};

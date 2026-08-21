@@ -1,0 +1,27 @@
+{
+  "translation": {
+    "welcome": "Budget PRO Family-ға хош келдиңиз!",
+    "onboarding_title": "Шаңарақлық бюджетиңизди қурың",
+    "family_name": "Шаңарақ аты",
+    "your_name": "Сиздиң атыңыз",
+    "start": "Баслаў",
+    "dashboard": "Басбет",
+    "budget": "Бюджет",
+    "transactions": "Шығынлар",
+    "total_balance": "Барлық ақша",
+    "monthly_income": "Айлық кирис",
+    "spent_this_month": "Жумсалған",
+    "remaining_budget": "Қалған бюджет",
+    "add_expense": "Шығын қосыў",
+    "add_income": "Кирис қосыў",
+    "amount": "Сумма",
+    "category": "Категория",
+    "save": "Сақлаў",
+    "cancel": "Бекарлаў",
+    "warning_overbudget": "⚠️ БЮДЖЕТ ЛИМИТИНЕН АСЫП КЕТЕДИ",
+    "warning_overbudget_desc": "Бул шығын категория лимитинен артық. Бәрбир қосасыз ба?",
+    "add_anyway": "Бәрбир қосыў",
+    "budget_allocated": "Барлық ақшаңызға мақсет берилди ✓",
+    "unallocated": "Бөлинбеген ақша"
+  }
+}

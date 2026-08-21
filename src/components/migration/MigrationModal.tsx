@@ -1,0 +1,175 @@
+import React, { useEffect } from 'react';
+import { useMigrationStore } from '../../store/useMigrationStore';
+import { useAuthStore } from '../../store/useAuthStore';
+import { useFamilyStore } from '../../store/useFamilyStore';
+import { useFinanceStore } from '../../store/useFinanceStore';
+import { AlertCircle, CheckCircle, Database, Lock, Play, RefreshCw, Server, Shield } from 'lucide-react';
+
+export const MigrationModal = () => {
+  const { isCloudPrimary, isAuthenticated, isSupabaseMode } = useAuthStore();
+  const { currentFamilyId, family: cloudFamily } = useFamilyStore();
+  const { isOpen, step, progressMsg, discrepancies, totalCounts, openMigration, analyze, resolveMismatch, startUpload } = useMigrationStore();
+
+  useEffect(() => {
+    // Show modal if logged in but migration not yet completed (and we are in Supabase mode)
+    if (isSupabaseMode && isAuthenticated && !isCloudPrimary && currentFamilyId && cloudFamily) {
+      if (cloudFamily.migration_status === 'completed') {
+        useAuthStore.getState().completeMigration();
+      } else {
+        openMigration();
+        analyze();
+      }
+    }
+  }, [isSupabaseMode, isAuthenticated, isCloudPrimary, currentFamilyId, cloudFamily, openMigration, analyze]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-[100] p-4 backdrop-blur-sm">
+      <div className="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden flex flex-col">
+        <div className="bg-primary-600 p-6 text-white flex flex-col items-center">
+          <Database size={48} className="mb-4 opacity-90" />
+          <h2 className="text-2xl font-bold">Cloud Migration</h2>
+          <p className="text-primary-100 text-center mt-2 text-sm">
+            Локал мағлыўматларыңызды қәўипсиз түрде Бултқа көшириў
+          </p>
+        </div>
+
+        <div className="p-8">
+          {step === 'detect' && (
+            <div className="flex flex-col items-center text-center py-8">
+              <RefreshCw className="animate-spin text-primary-500 mb-4" size={32} />
+              <p className="text-gray-600 font-medium">Мағлыўматлар тексерилмекте...</p>
+            </div>
+          )}
+
+          {step === 'mismatch' && (
+            <div className="flex flex-col">
+              <div className="flex items-center gap-3 text-red-600 mb-4 bg-red-50 p-4 rounded-xl">
+                <AlertCircle className="flex-shrink-0" />
+                <p className="text-sm font-semibold">Баланслар ҳәм транзакциялар арасында айырмашылық табылды!</p>
+              </div>
+              <p className="text-sm text-gray-600 mb-4">
+                Көшириўди даўам етиў ушын транзакция тарийхы балансқа сәйкес келиўи шәрт.
+              </p>
+              <div className="bg-gray-50 border rounded-xl overflow-hidden mb-6">
+                {discrepancies.map(d => (
+                  <div key={d.accountId} className="p-3 border-b last:border-b-0 flex justify-between items-center text-sm">
+                    <span className="font-medium text-gray-800">{d.name}</span>
+                    <span className="text-red-600 font-bold">{d.diff > 0 ? '+' : ''}{d.diff}</span>
+                  </div>
+                ))}
+              </div>
+              <button 
+                onClick={resolveMismatch}
+                className="w-full py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-medium transition-colors"
+              >
+                Басланғыш баланс транзакцияларын қосыў
+              </button>
+            </div>
+          )}
+
+          {step === 'confirm' && (
+            <div className="flex flex-col">
+              <div className="bg-green-50 text-green-700 p-4 rounded-xl flex gap-3 mb-6 items-start">
+                <CheckCircle className="flex-shrink-0 mt-0.5" />
+                <p className="text-sm font-medium">Барлық мағлыўматлар теңсерилди ҳәм бултқа көшириўге таяр.</p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                <div className="bg-gray-50 p-4 rounded-xl text-center border">
+                  <p className="text-2xl font-bold text-gray-800">{totalCounts.accounts}</p>
+                  <p className="text-xs text-gray-500 font-medium uppercase mt-1">Аккаунтлар</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-xl text-center border">
+                  <p className="text-2xl font-bold text-gray-800">{totalCounts.txs}</p>
+                  <p className="text-xs text-gray-500 font-medium uppercase mt-1">Транзакциялар</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-xl text-center border">
+                  <p className="text-2xl font-bold text-gray-800">{totalCounts.funds}</p>
+                  <p className="text-xs text-gray-500 font-medium uppercase mt-1">Қорлар</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-xl text-center border">
+                  <p className="text-2xl font-bold text-gray-800">{totalCounts.debts}</p>
+                  <p className="text-xs text-gray-500 font-medium uppercase mt-1">Қарызлар</p>
+                </div>
+              </div>
+
+              <button 
+                onClick={startUpload}
+                className="w-full py-3.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-semibold flex items-center justify-center gap-2 shadow-lg shadow-primary-600/30 transition-colors"
+              >
+                <Server size={18} />
+                Бултқа Көшириўди Баслаў
+              </button>
+            </div>
+          )}
+
+          {step === 'locked' && (
+            <div className="flex flex-col items-center text-center py-6">
+              <div className="w-16 h-16 bg-orange-100 text-orange-600 flex items-center justify-center rounded-full mb-4">
+                <Lock size={32} />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Блокқа түсти</h3>
+              <p className="text-gray-600">
+                Басқа қурылмада көшириў процесси жүрип атыр. Процесс аяқланғанша күте турыңыз.
+              </p>
+            </div>
+          )}
+
+          {(step === 'uploading' || step === 'verifying') && (
+            <div className="flex flex-col items-center text-center py-8">
+              <div className="relative mb-6">
+                <div className="w-16 h-16 border-4 border-gray-100 rounded-full"></div>
+                <div className="w-16 h-16 border-4 border-primary-500 rounded-full border-t-transparent animate-spin absolute top-0 left-0"></div>
+                <Server className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-primary-600" size={24} />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                {step === 'uploading' ? 'Жүкленбекте...' : 'Тексерилмекте...'}
+              </h3>
+              <p className="text-sm font-medium text-primary-600 px-4 py-2 bg-primary-50 rounded-lg inline-block">
+                {progressMsg}
+              </p>
+            </div>
+          )}
+
+          {step === 'error' && (
+            <div className="flex flex-col items-center text-center py-6">
+              <div className="w-16 h-16 bg-red-100 text-red-600 flex items-center justify-center rounded-full mb-4">
+                <AlertCircle size={32} />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Қате жүз берди</h3>
+              <p className="text-red-600 text-sm font-medium p-4 bg-red-50 rounded-xl mb-6 border border-red-100">
+                {progressMsg}
+              </p>
+              <button 
+                onClick={analyze}
+                className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl font-medium transition-colors"
+              >
+                Қайтадан көриў
+              </button>
+            </div>
+          )}
+
+          {step === 'success' && (
+            <div className="flex flex-col items-center text-center py-6">
+              <div className="w-20 h-20 bg-green-100 text-green-600 flex items-center justify-center rounded-full mb-6">
+                <Shield size={40} />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Сәтті аяқланды!</h3>
+              <p className="text-gray-600 mb-8">
+                Мағлыўматларыңыз бултқа толық ҳәм қәўипсиз көширилди. Енди Cloud Primary режиминде ислеп атырсыз.
+              </p>
+              <button 
+                onClick={() => useAuthStore.getState().completeMigration()}
+                className="w-full py-3.5 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold shadow-lg shadow-green-600/30 transition-colors"
+              >
+                Даўам етиў
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
