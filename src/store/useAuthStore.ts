@@ -30,7 +30,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       return;
     }
     
-    const { data: { session } } = await supabase.auth.getSession();
+    let session = await supabase.auth.getSession();
+    // Handle both mock format (direct session/null) and standard Supabase format ({ data: { session } })
+    if (session && session.data !== undefined) {
+      session = session.data.session;
+    }
+    
     if (session) {
       set({ session, isAuthenticated: true, loading: false });
     } else {
