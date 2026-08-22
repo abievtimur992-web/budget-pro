@@ -694,19 +694,28 @@ export const useFinanceStore = create<FinanceState>()(
       },
       createAccount: async (acc) => {
         set(state => {
+          // In Supabase mode we use useFamilyStore, in local mode we use state.family
+          let fId = '';
           if (isSupabaseConfigured) {
-            const fId = useFamilyStore.getState().currentFamilyId;
-            const token = useAuthStore.getState().session?.access_token;
-            if (fId && token) {
-              const newAcc = { family_id: fId, name: acc.name, type: acc.type, balance: 0 };
-              supabase.from('accounts').insert(newAcc, token).then(res => {
-                if (res.data) get().fetchAccounts();
-              }).catch(console.error);
-            }
-            return state; // Cloud fetch updates it
+            fId = useFamilyStore.getState().currentFamilyId || '';
           } else {
-            return { accounts: [...state.accounts, { ...acc, id: uuid(), familyId: state.family!.id, balance: 0 }] };
+            fId = state.family?.id || '';
           }
+
+          if (!fId) return state;
+
+          const newAccountLocal = { ...acc, id: uuid(), familyId: fId, balance: 0 };
+          const updatedAccounts = [...state.accounts, newAccountLocal];
+
+          if (isSupabaseConfigured) {
+            const token = useAuthStore.getState().session?.access_token;
+            if (token) {
+              const newAccDb = { family_id: fId, name: acc.name, type: acc.type, balance: 0 };
+              supabase.from('accounts').insert(newAccDb, token).catch(console.error);
+            }
+          }
+
+          return { accounts: updatedAccounts };
         });
       },
       updateAccount: async (acc) => {
