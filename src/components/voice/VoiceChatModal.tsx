@@ -77,10 +77,31 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
     // Add user message
     const userMsg: Message = { id: Date.now().toString(), role: 'user', text };
     
-    // Parse
     let parsed = pendingTx ? { ...pendingTx } : parseFinancialText(text);
 
-    if (pendingTx) {
+    const isCorrection = text.includes('емес');
+    if (isCorrection && !pendingTx) {
+      const lastAsstMsg = messages.slice().reverse().find(m => m.role === 'assistant' && m.parsedData);
+      if (lastAsstMsg && lastAsstMsg.parsedData) {
+        parsed = { ...lastAsstMsg.parsedData };
+        // extract whatever is after "емес"
+        const afterEmes = text.substring(text.indexOf('емес') + 4);
+        const newParsed = parseFinancialText(afterEmes);
+        if (newParsed.amount) parsed.amount = newParsed.amount;
+        else {
+          const match = afterEmes.match(/\d+/);
+          if (match) parsed.amount = parseInt(match[0], 10);
+        }
+        if (newParsed.categoryId) {
+          parsed.categoryId = newParsed.categoryId;
+          parsed.categoryName = newParsed.categoryName;
+        }
+        parsed.missingFields = [];
+        parsed.isComplete = true;
+      }
+    }
+
+    if (pendingTx && !isCorrection) {
       const newParsed = parseFinancialText(text);
       
       if (pendingTx.missingFields.includes('amount')) {
