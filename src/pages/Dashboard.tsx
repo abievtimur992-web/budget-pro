@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useFinanceStore } from '../store/useFinanceStore';
 import { formatCurrency, getCurrentMonth } from '../utils/format';
 import { calculateTotalSpent, checkOverspending, getRemainingBudgetForCategory, getUnallocatedIncome, calculateSpentByCategory } from '../services/budgetEngine';
-import { ArrowUpCircle, ArrowDownCircle, AlertTriangle } from 'lucide-react';
+import { ArrowUpCircle, ArrowDownCircle, AlertTriangle, PlusCircle, ArrowDownRight } from 'lucide-react';
 import { ExpenseDonutChart } from '../components/analytics/ExpenseDonutChart';
 import { TrendBarChart } from '../components/analytics/TrendBarChart';
 
@@ -212,7 +212,7 @@ export const Dashboard = () => {
         <div className="space-y-4">
           <div className="flex justify-between text-sm">
             <span className="text-gray-500">{t('monthly_income')}</span>
-            <span className="font-medium">{formatCurrency(monthlyIncome)}</span>
+            <span className="font-medium">{formatCurrency(totalBudget)}</span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-gray-500">{t('spent_this_month')}</span>
