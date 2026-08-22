@@ -76,25 +76,34 @@ export const useFamilyStore = create<FamilyState>((set, get) => ({
     set({ loading: true, error: null });
     try {
       const session = useAuthStore.getState().session;
-      const token = session?.access_token;
-      
-      const { data, error } = await supabase.from('families').insert({ name }).select('*').single();
-      if (error) throw error;
-      
-      // Auto-insert member if not handled by trigger
       const user = useAuthStore.getState().user;
-      if (user && data) {
-        await supabase.from('family_members').insert({
+      if (!user) throw new Error("No user found");
+      
+      console.log("Creating family...", name);
+      const { data, error } = await supabase.from('families').insert({ name }).select('*').single();
+      if (error) {
+        console.error("Error creating family:", error);
+        throw error;
+      }
+      
+      console.log("Family created:", data);
+      
+      if (data) {
+        const { error: memberError } = await supabase.from('family_members').insert({
           family_id: data.id,
           user_id: user.id,
           email: user.email,
           role: 'admin',
           status: 'active'
         });
+        if (memberError) {
+          console.error("Error adding admin member:", memberError);
+        }
       }
       
       await get().fetchFamily();
     } catch (err: any) {
+      console.error("createFamily caught error:", err);
       set({ error: err.message, loading: false });
     }
   },

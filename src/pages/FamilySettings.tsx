@@ -6,8 +6,8 @@ import { Users, UserPlus, Settings, AlertCircle, CheckCircle } from 'lucide-reac
 
 export const FamilySettings = () => {
   const { t } = useTranslation();
-  const { isSupabaseMode } = useAuthStore();
-  const { currentFamilyId, family, members, fetchFamily, createFamily, inviteMember, loading } = useFamilyStore();
+  const { isSupabaseMode, isAuthenticated } = useAuthStore();
+  const { currentFamilyId, family, members, fetchFamily, createFamily, inviteMember, loading, error: storeError } = useFamilyStore();
   
   const [familyName, setFamilyName] = useState(t('family.myFamily'));
   const [inviteEmail, setInviteEmail] = useState('');
@@ -15,10 +15,16 @@ export const FamilySettings = () => {
   const [statusMsg, setStatusMsg] = useState({ type: '', text: '' });
 
   useEffect(() => {
-    if (isSupabaseMode) {
+    if (isSupabaseMode && isAuthenticated) {
       fetchFamily();
     }
-  }, [isSupabaseMode, fetchFamily]);
+  }, [isSupabaseMode, isAuthenticated, fetchFamily]);
+
+  useEffect(() => {
+    if (storeError) {
+      setStatusMsg({ type: 'error', text: storeError });
+    }
+  }, [storeError]);
 
   if (!isSupabaseMode) {
     return (
@@ -34,13 +40,17 @@ export const FamilySettings = () => {
 
   const handleCreateFamily = async (e: React.FormEvent) => {
     e.preventDefault();
+    setStatusMsg({ type: '', text: '' });
     await createFamily(familyName);
-    setStatusMsg({ type: 'success', text: t('family.successCreated') });
+    if (!useFamilyStore.getState().error) {
+      setStatusMsg({ type: 'success', text: t('family.successCreated') });
+    }
   };
 
   const handleInvite = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inviteEmail) return;
+    setStatusMsg({ type: '', text: '' });
     await inviteMember(inviteEmail, inviteRole);
     setInviteEmail('');
     setStatusMsg({ type: 'success', text: t('family.successInvited') });
