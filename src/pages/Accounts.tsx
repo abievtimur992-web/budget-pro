@@ -25,7 +25,8 @@ export const Accounts = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editingId) {
-      await updateAccount({ id: editingId, name, type, balance: 0, familyId: '' });
+      const existing = accounts.find(a => a.id === editingId);
+      await updateAccount({ id: editingId, name, type, balance: existing?.balance || 0, familyId: existing?.familyId || '' });
       setEditingId(null);
     } else {
       await createAccount({ name, type });

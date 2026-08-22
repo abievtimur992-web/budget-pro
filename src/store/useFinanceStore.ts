@@ -721,7 +721,7 @@ export const useFinanceStore = create<FinanceState>()(
             }
             return state;
           } else {
-            return { accounts: state.accounts.map(a => a.id === acc.id ? acc : a) };
+            return { accounts: state.accounts.map(a => a.id === acc.id ? { ...a, name: acc.name, type: acc.type } : a) };
           }
         });
       },
