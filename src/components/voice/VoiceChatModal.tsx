@@ -40,7 +40,10 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
     recognition.onstart = () => setIsListening(true);
     recognition.onresult = (e: any) => {
       let transcript = e.results[0][0].transcript;
-      transcript = transcript.replace(/\bсоң\b/gi, 'сум').replace(/\bсом\b/gi, 'сум');
+      transcript = transcript.replace(/\bсоң\b/gi, 'сум')
+                             .replace(/\bсом\b/gi, 'сум')
+                             .replace(/\bсоңында\b/gi, 'сум')
+                             .replace(/\bсоңғы\b/gi, 'сум');
       setInput(prev => (prev + ' ' + transcript).trim());
     };
     recognition.onerror = () => setIsListening(false);
@@ -77,15 +80,27 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
     // Parse
     let parsed = pendingTx ? { ...pendingTx } : parseFinancialText(text);
 
-    // If we were waiting for an amount
-    if (pendingTx && pendingTx.missingFields.includes('amount')) {
-      const match = text.match(/\d+/);
-      if (match) {
-        parsed.amount = parseInt(match[0], 10);
-        // remove amount from missing
-        parsed.missingFields = parsed.missingFields.filter(f => f !== 'amount');
-        parsed.isComplete = parsed.missingFields.length === 0;
+    if (pendingTx) {
+      const newParsed = parseFinancialText(text);
+      
+      if (pendingTx.missingFields.includes('amount')) {
+        if (newParsed.amount) {
+          parsed.amount = newParsed.amount;
+        } else {
+          const match = text.match(/\d+/);
+          if (match) parsed.amount = parseInt(match[0], 10);
+        }
       }
+      
+      if (pendingTx.missingFields.includes('category') && newParsed.categoryId) {
+        parsed.categoryId = newParsed.categoryId;
+        parsed.categoryName = newParsed.categoryName;
+      }
+
+      parsed.missingFields = [];
+      if (!parsed.amount && parsed.type !== 'query_balance' && parsed.type !== 'query_expense') parsed.missingFields.push('amount');
+      if (!parsed.categoryId && parsed.type === 'expense') parsed.missingFields.push('category');
+      parsed.isComplete = parsed.missingFields.length === 0;
     }
 
     const newMsgs = [...messages, userMsg];
