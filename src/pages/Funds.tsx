@@ -7,7 +7,7 @@ import { Plus, Shield, TrendingUp, ChevronRight, ArrowUpCircle, ArrowDownCircle,
 import { FundMilestones } from '../components/funds/FundMilestones';
 
 export const Funds = () => {
-  const { funds, debts, addFund, updateFund, deleteFund, addFundContribution, addFundWithdrawal, accounts } = useFinanceStore();
+  const { funds, debts, addFund, updateFund, deleteFund, addFundContribution, addFundWithdrawal, addDebtPayment, accounts } = useFinanceStore();
   const [surplus, setSurplus] = useState(1500000);
 
   // Modals
@@ -28,6 +28,45 @@ export const Funds = () => {
   const [txAccount, setTxAccount] = useState('');
 
   const recommendations = generateSmartRecommendations(surplus, debts, funds);
+
+  const applyRecommendation = (rec: any) => {
+    let remainingFund = rec.fundAllocation;
+    let remainingDebt = rec.debtAllocation;
+    
+    // Distribute to funds (priority 1 first, then 2, etc.)
+    const sortedFunds = [...funds].sort((a, b) => a.priority - b.priority);
+    for (const f of sortedFunds) {
+      if (remainingFund <= 0) break;
+      const shortfall = f.targetAmount - f.currentAmount;
+      if (shortfall > 0) {
+        const toAdd = Math.min(shortfall, remainingFund);
+        if (toAdd > 0) {
+          addFundContribution(f.id, toAdd, accounts[0]?.id || '', new Date().toISOString());
+          remainingFund -= toAdd;
+        }
+      }
+    }
+    // If there's still fund money left, put it in the highest priority fund
+    if (remainingFund > 0 && sortedFunds.length > 0) {
+      addFundContribution(sortedFunds[0].id, remainingFund, accounts[0]?.id || '', new Date().toISOString());
+    }
+
+    // Distribute to debts (highest interest first)
+    const sortedDebts = [...debts].sort((a, b) => b.interestRate - a.interestRate);
+    for (const d of sortedDebts) {
+      if (remainingDebt <= 0) break;
+      if (d.remainingAmount > 0) {
+        const toPay = Math.min(d.remainingAmount, remainingDebt);
+        if (toPay > 0) {
+          addDebtPayment(d.id, toPay, accounts[0]?.id || '', new Date().toISOString());
+          remainingDebt -= toPay;
+        }
+      }
+    }
+    
+    setSurplus(prev => Math.max(0, prev - rec.fundAllocation - rec.debtAllocation));
+    alert('Реже сәтті қолданылды! Ақша қорлар мен қарыздарға бөлінді.');
+  };
 
   const handleAddFund = (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,7 +158,10 @@ export const Funds = () => {
                     <h4 className="font-bold text-gray-800 mb-1">{rec.title}</h4>
                     <p className="text-xs text-gray-600 font-medium mb-2">{rec.description}</p>
                     <p className="text-sm text-gray-500">{rec.reason}</p>
-                    <button className="mt-3 w-full bg-yellow-100 text-yellow-800 py-1.5 rounded-lg text-sm font-medium hover:bg-yellow-200">
+                    <button 
+                      onClick={() => applyRecommendation(rec)}
+                      className="mt-3 w-full bg-yellow-100 text-yellow-800 py-1.5 rounded-lg text-sm font-medium hover:bg-yellow-200"
+                    >
                       Усы режени қолланыў
                     </button>
                   </div>
