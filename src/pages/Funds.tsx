@@ -3,18 +3,19 @@ import { useFinanceStore } from '../store/useFinanceStore';
 import { formatCurrency } from '../utils/format';
 import { calculateFundProgress, getFundTargetDate } from '../services/fundEngine';
 import { generateSmartRecommendations } from '../services/decisionEngine';
-import { Plus, Shield, TrendingUp, ChevronRight, ArrowUpCircle, ArrowDownCircle, Target, AlertTriangle } from 'lucide-react';
+import { Plus, Shield, TrendingUp, ChevronRight, ArrowUpCircle, ArrowDownCircle, Target, AlertTriangle, Edit2, Trash2 } from 'lucide-react';
 import { FundMilestones } from '../components/funds/FundMilestones';
 
 export const Funds = () => {
-  const { funds, debts, accounts, addFund, addFundContribution, addFundWithdrawal } = useFinanceStore();
+  const { funds, debts, addFund, updateFund, deleteFund, addFundContribution, addFundWithdrawal, accounts } = useFinanceStore();
   const [surplus, setSurplus] = useState(1500000);
 
   // Modals
   const [showAddModal, setShowAddModal] = useState(false);
   const [showTxModal, setShowTxModal] = useState(false);
+  const [editingFundId, setEditingFundId] = useState<string | null>(null);
   
-  // Add Fund Form
+  // Add/Edit Fund Form
   const [fName, setFName] = useState('');
   const [fTarget, setFTarget] = useState('');
   const [fMonthly, setFMonthly] = useState('');
@@ -31,16 +32,39 @@ export const Funds = () => {
   const handleAddFund = (e: React.FormEvent) => {
     e.preventDefault();
     if (fName && fTarget && fMonthly) {
-      addFund({
-        name: fName,
-        targetAmount: Number(fTarget),
-        monthlyContribution: Number(fMonthly),
-        priority: Number(fPriority) as any,
-        icon: 'shield', color: 'bg-blue-500'
-      });
+      if (editingFundId) {
+        const existing = funds.find(f => f.id === editingFundId);
+        if (existing) {
+          updateFund({
+            ...existing,
+            name: fName,
+            targetAmount: Number(fTarget),
+            monthlyContribution: Number(fMonthly),
+            priority: Number(fPriority) as any,
+          });
+        }
+      } else {
+        addFund({
+          name: fName,
+          targetAmount: Number(fTarget),
+          monthlyContribution: Number(fMonthly),
+          priority: Number(fPriority) as any,
+          icon: 'shield', color: 'bg-blue-500'
+        });
+      }
       setShowAddModal(false);
+      setEditingFundId(null);
       setFName(''); setFTarget(''); setFMonthly('');
     }
+  };
+
+  const handleEditFund = (fund: any) => {
+    setEditingFundId(fund.id);
+    setFName(fund.name);
+    setFTarget(fund.targetAmount.toString());
+    setFMonthly(fund.monthlyContribution.toString());
+    setFPriority(fund.priority.toString());
+    setShowAddModal(true);
   };
 
   const handleTx = (e: React.FormEvent) => {
@@ -111,11 +135,15 @@ export const Funds = () => {
         {funds.map(fund => {
           const progress = calculateFundProgress(fund);
           return (
-            <div key={fund.id} className="bg-white rounded-2xl p-5 shadow-sm border">
-              <div className="flex justify-between items-start mb-4">
+            <div key={fund.id} className="bg-white rounded-2xl p-5 shadow-sm border relative">
+              <div className="absolute top-4 right-4 flex gap-2">
+                <button onClick={() => handleEditFund(fund)} className="text-gray-400 hover:text-blue-500"><Edit2 size={16} /></button>
+                <button onClick={() => deleteFund(fund.id)} className="text-gray-400 hover:text-red-500"><Trash2 size={16} /></button>
+              </div>
+              <div className="flex justify-between items-start mb-4 pr-16">
                 <div>
                   <h3 className="font-bold text-lg">{fund.name}</h3>
-                  <p className="text-xs text-gray-500">Мақсет датасы: {getFundTargetDate(fund)}</p>
+                  <p className="text-xs text-gray-500">Мақсат: {getFundTargetDate(fund)}</p>
                 </div>
                 <span className="text-xs font-bold px-2 py-1 bg-gray-100 rounded-lg text-gray-600">
                   Priority {fund.priority}
@@ -156,7 +184,7 @@ export const Funds = () => {
       {showAddModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-6 w-full max-w-sm">
-            <h3 className="text-xl font-bold mb-4">Жаңа қор ашыў</h3>
+            <h3 className="text-xl font-bold mb-4">{editingFundId ? 'Қорды өзгерту' : 'Жаңа қор қосу'}</h3>
             <form onSubmit={handleAddFund} className="space-y-3">
               <input required placeholder="Қор аты (мысалы: Саяхат)" className="w-full border rounded-lg p-2" value={fName} onChange={e => setFName(e.target.value)} />
               <input required type="number" placeholder="Мақсет сумма (Сум)" className="w-full border rounded-lg p-2" value={fTarget} onChange={e => setFTarget(e.target.value)} />
@@ -168,8 +196,8 @@ export const Funds = () => {
                 <option value="4">4 - Төмен</option>
               </select>
               <div className="flex space-x-3 pt-4">
-                <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Бекарлаў</button>
-                <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">Ашыў</button>
+                <button type="button" onClick={() => { setShowAddModal(false); setEditingFundId(null); setFName(''); setFTarget(''); setFMonthly(''); }} className="flex-1 py-2 bg-gray-100 rounded-lg">Бекарлау</button>
+                <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">Сақлау</button>
               </div>
             </form>
           </div>
