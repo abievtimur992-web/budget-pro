@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Home, PieChart, CreditCard, Shield, TrendingDown, Globe, LogOut, Settings, Moon, Sun } from 'lucide-react';
+import { Home, PieChart, CreditCard, Shield, TrendingDown, Globe, LogOut, Settings, Moon, Sun, Menu, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { VoiceAssistantFab } from '../voice/VoiceAssistantFab';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -16,6 +16,7 @@ export const AppLayout = () => {
   const { isSupabaseMode, logout } = useAuthStore();
   const { syncStatus, conflictOperation, resolveConflict } = useFinanceStore();
   const { theme, toggleTheme } = useThemeStore();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   const handleLogout = async () => {
     await logout();
@@ -134,24 +135,75 @@ export const AppLayout = () => {
       </main>
 
       {/* Mobile Bottom Nav */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t dark:border-gray-700 flex overflow-x-auto px-2 py-2 pb-safe z-30 hide-scrollbar scroll-smooth">
-        {navItems.map((item) => {
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t dark:border-gray-700 flex justify-around p-2 pb-safe z-30">
+        {navItems.slice(0, 4).map((item) => {
           const Icon = item.icon;
           const isActive = location.pathname === item.path;
           return (
             <Link
               key={item.path}
               to={item.path}
-              className={`flex flex-col items-center flex-shrink-0 min-w-[72px] p-2 ${
+              className={`flex flex-col items-center flex-1 p-2 ${
                 isActive ? 'text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-400'
               }`}
             >
               <Icon size={24} />
-              <span className="text-xs mt-1 truncate w-full text-center">{item.label}</span>
+              <span className="text-[10px] mt-1 truncate w-full text-center">{item.label}</span>
             </Link>
           );
         })}
+        <button
+          onClick={() => setIsMobileMenuOpen(true)}
+          className="flex flex-col items-center flex-1 p-2 text-gray-500 dark:text-gray-400"
+        >
+          <Menu size={24} />
+          <span className="text-[10px] mt-1 truncate w-full text-center">Меню</span>
+        </button>
       </nav>
+
+      {/* Mobile Full Screen Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 bg-white dark:bg-gray-900 z-50 flex flex-col">
+          <div className="flex justify-between items-center p-4 border-b dark:border-gray-700">
+            <h2 className="text-xl font-bold">Меню</h2>
+            <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 bg-gray-100 dark:bg-gray-800 rounded-full">
+              <X size={24} />
+            </button>
+          </div>
+          <div className="flex-1 overflow-auto p-4 space-y-2">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`flex items-center space-x-4 p-4 rounded-xl ${
+                    isActive ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400' : 'hover:bg-gray-50 dark:hover:bg-gray-800'
+                  }`}
+                >
+                  <Icon size={24} />
+                  <span className="font-medium text-lg">{item.label}</span>
+                </Link>
+              );
+            })}
+            
+            {isSupabaseMode && (
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  handleLogout();
+                }}
+                className="flex items-center space-x-4 p-4 rounded-xl text-red-600 dark:text-red-400 w-full hover:bg-red-50 dark:hover:bg-red-900/20"
+              >
+                <LogOut size={24} />
+                <span className="font-medium text-lg">{t('auth.logout') || 'Шығу'}</span>
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
       <VoiceAssistantFab />
       
