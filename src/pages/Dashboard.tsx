@@ -16,6 +16,7 @@ export const Dashboard = () => {
   
   // Modals state
   const [amount, setAmount] = useState('');
+  const [incomeComment, setIncomeComment] = useState('');
   const [categoryId, setCategoryId] = useState('');
   const [showWarning, setShowWarning] = useState(false);
 
@@ -70,9 +71,10 @@ export const Dashboard = () => {
   const handleAddIncome = (e: React.FormEvent) => {
     e.preventDefault();
     if (amount && accounts.length > 0) {
-      addIncome(Number(amount), accounts[0].id);
+      addIncome(Number(amount), accounts[0].id, incomeComment);
       setShowIncomeModal(false);
       setAmount('');
+      setIncomeComment('');
     }
   };
 
@@ -251,7 +253,7 @@ export const Dashboard = () => {
 
       {showIncomeModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm border dark:border-gray-700">
             <h3 className="text-xl font-bold mb-4">{t('add_income')}</h3>
             <form onSubmit={handleAddIncome} className="space-y-4">
               <div>
@@ -261,7 +263,17 @@ export const Dashboard = () => {
                   required
                   value={amount}
                   onChange={e => setAmount(e.target.value)}
-                  className="w-full border rounded-lg p-2"
+                  className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Қайдан келди? (Кирис дереги)</label>
+                <input 
+                  type="text" 
+                  value={incomeComment}
+                  onChange={e => setIncomeComment(e.target.value)}
+                  placeholder="Мысалы: Айлық, Бизнес, Сыйлық..."
+                  className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
                 />
               </div>
               <div className="flex space-x-3 pt-4">
@@ -275,7 +287,7 @@ export const Dashboard = () => {
 
       {showExpenseModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm border dark:border-gray-700">
             <h3 className="text-xl font-bold mb-4">{t('add_expense')}</h3>
             
             {showWarning ? (
@@ -299,7 +311,7 @@ export const Dashboard = () => {
                     required
                     value={amount}
                     onChange={e => setAmount(e.target.value)}
-                    className="w-full border rounded-lg p-2"
+                    className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
                   />
                 </div>
                 <div>
@@ -308,7 +320,7 @@ export const Dashboard = () => {
                     required
                     value={categoryId}
                     onChange={e => setCategoryId(e.target.value)}
-                    className="w-full border rounded-lg p-2"
+                    className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
                   >
                     <option value="">Таңлаң...</option>
                     {categories.map(c => (

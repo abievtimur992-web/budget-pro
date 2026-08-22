@@ -29,7 +29,7 @@ interface FinanceState {
   initFamily: (familyName: string, userName: string) => void;
   addTransaction: (transaction: Omit<Transaction, 'id' | 'createdAt'>) => void;
   updateBudget: (budget: Budget) => void;
-  addIncome: (amount: number, accountId: string) => void;
+  addIncome: (amount: number, accountId: string, comment?: string) => void;
   
   // Phase 2 Budget Actions
   createBudgetForMonth: (month: string, copyFromMonth?: string) => void;
@@ -499,7 +499,7 @@ export const useFinanceStore = create<FinanceState>()(
         });
       },
       
-      addIncome: (amount, accountId) => {
+      addIncome: (amount, accountId, comment) => {
         const state = get();
         if (!state.family || !state.currentUser) return;
         
@@ -510,7 +510,7 @@ export const useFinanceStore = create<FinanceState>()(
           type: 'income',
           amount,
           accountId,
-          comment: 'Айлық кирис'
+          comment: comment || 'Айлық кирис'
         });
         
         const currentMonth = getCurrentMonth();
