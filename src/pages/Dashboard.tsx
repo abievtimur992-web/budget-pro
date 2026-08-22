@@ -270,11 +270,22 @@ export const Dashboard = () => {
                 <label className="block text-sm font-medium mb-1">Қайдан келди? (Кирис дереги)</label>
                 <input 
                   type="text" 
+                  list="income-sources"
                   value={incomeComment}
                   onChange={e => setIncomeComment(e.target.value)}
                   placeholder="Мысалы: Айлық, Бизнес, Сыйлық..."
                   className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
                 />
+                <datalist id="income-sources">
+                  <option value="Айлық (Зарплата)" />
+                  <option value="Айлық ТМВ" />
+                  <option value="Пассив дәрамат" />
+                  <option value="Бизнес" />
+                  <option value="Сыйлық" />
+                  {Array.from(new Set(transactions.filter(t => t.type === 'income').map(t => t.comment).filter(Boolean))).map((src, idx) => (
+                    <option key={`src-${idx}`} value={src} />
+                  ))}
+                </datalist>
               </div>
               <div className="flex space-x-3 pt-4">
                 <button type="button" onClick={() => setShowIncomeModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">{t('cancel')}</button>
