@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useFinanceStore } from '../store/useFinanceStore';
 import { formatCurrency, getCurrentMonth } from '../utils/format';
 import { calculateTotalSpent, checkOverspending, getRemainingBudgetForCategory, getUnallocatedIncome, calculateSpentByCategory } from '../services/budgetEngine';
-import { ArrowUpCircle, ArrowDownCircle, AlertTriangle, PlusCircle, ArrowDownRight } from 'lucide-react';
+import { ArrowUpCircle, ArrowDownCircle, AlertTriangle, PlusCircle, ArrowDownRight, ArrowRightLeft } from 'lucide-react';
 import { ExpenseDonutChart } from '../components/analytics/ExpenseDonutChart';
 import { TrendBarChart } from '../components/analytics/TrendBarChart';
 
@@ -13,12 +13,18 @@ export const Dashboard = () => {
   
   const [showIncomeModal, setShowIncomeModal] = useState(false);
   const [showExpenseModal, setShowExpenseModal] = useState(false);
+  const [showTransferModal, setShowTransferModal] = useState(false);
   
   // Modals state
   const [amount, setAmount] = useState('');
-  const [incomeComment, setIncomeComment] = useState('');
-  const [expenseComment, setExpenseComment] = useState('');
   const [categoryId, setCategoryId] = useState('');
+  const [expenseComment, setExpenseComment] = useState('');
+  
+  const [incomeComment, setIncomeComment] = useState('');
+  
+  const [transferAmount, setTransferAmount] = useState('');
+  const [transferFrom, setTransferFrom] = useState('');
+  const [transferTo, setTransferTo] = useState('');
   const [showWarning, setShowWarning] = useState(false);
 
   const currentMonth = getCurrentMonth();
@@ -118,6 +124,26 @@ export const Dashboard = () => {
     submitExpense(false);
   };
 
+  const handleTransfer = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (transferAmount && transferFrom && transferTo && transferFrom !== transferTo) {
+      addTransaction({
+        familyId: accounts[0]?.familyId || 'local',
+        userId: 'current-user',
+        date: new Date().toISOString(),
+        type: 'transfer',
+        amount: Number(transferAmount),
+        accountId: transferFrom,
+        targetAccountId: transferTo,
+        comment: 'Ауыстыру (Перевод)'
+      });
+      setShowTransferModal(false);
+      setTransferAmount('');
+      setTransferFrom('');
+      setTransferTo('');
+    }
+  };
+
   return (
     <div className="space-y-6 max-w-4xl mx-auto pb-20">
       <div className="flex justify-between items-center">
@@ -143,20 +169,27 @@ export const Dashboard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         <button 
           onClick={() => setShowIncomeModal(true)}
           className="bg-primary-600 text-white p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-primary-700 transition-colors"
         >
           <PlusCircle size={24} />
-          <span className="font-medium">Кирис қосыў</span>
+          <span className="font-medium text-sm text-center">Кіріс</span>
         </button>
         <button 
           onClick={() => setShowExpenseModal(true)}
           className="bg-red-500 text-white p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-red-600 transition-colors"
         >
           <ArrowDownRight size={24} />
-          <span className="font-medium">Шығыс қосыў</span>
+          <span className="font-medium text-sm text-center">Шығыс</span>
+        </button>
+        <button 
+          onClick={() => setShowTransferModal(true)}
+          className="bg-blue-500 text-white p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-blue-600 transition-colors"
+        >
+          <ArrowRightLeft size={24} />
+          <span className="font-medium text-sm text-center">Ауыстыру</span>
         </button>
       </div>
 
@@ -362,6 +395,58 @@ export const Dashboard = () => {
                 </div>
               </form>
             )}
+          </div>
+        </div>
+      )}
+
+      {showTransferModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm border dark:border-gray-700">
+            <h3 className="text-xl font-bold mb-4">Ақша ауыстыру (Перевод)</h3>
+            <form onSubmit={handleTransfer} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Сумма</label>
+                <input 
+                  type="number" 
+                  required
+                  value={transferAmount}
+                  onChange={e => setTransferAmount(e.target.value)}
+                  className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Қайдан жібересіз?</label>
+                <select 
+                  required
+                  value={transferFrom}
+                  onChange={e => setTransferFrom(e.target.value)}
+                  className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                >
+                  <option value="">Таңдаңыз...</option>
+                  {accounts.map(a => (
+                    <option key={a.id} value={a.id}>{a.name} ({formatCurrency(a.balance)})</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Қайда жібересіз?</label>
+                <select 
+                  required
+                  value={transferTo}
+                  onChange={e => setTransferTo(e.target.value)}
+                  className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                >
+                  <option value="">Таңдаңыз...</option>
+                  {accounts.map(a => (
+                    <option key={a.id} value={a.id}>{a.name} ({formatCurrency(a.balance)})</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex space-x-3 pt-4">
+                <button type="button" onClick={() => setShowTransferModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Бекарлау</button>
+                <button type="submit" className="flex-1 py-2 bg-blue-500 text-white rounded-lg">Жіберу</button>
+              </div>
+            </form>
           </div>
         </div>
       )}
