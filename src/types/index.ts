@@ -26,6 +26,7 @@ export interface Category {
   familyId: string;
   name: string;
   icon?: string;
+  type?: 'income' | 'expense';
 }
 
 export interface Budget {

@@ -22,6 +22,7 @@ export const Budget = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [newCatName, setNewCatName] = useState('');
   const [newCatLimit, setNewCatLimit] = useState('');
+  const [newCatType, setNewCatType] = useState<'income' | 'expense'>('expense');
 
   // Transfer Modal
   const [transferFrom, setTransferFrom] = useState('');
@@ -36,8 +37,14 @@ export const Budget = () => {
     .reduce((sum, t) => sum + t.amount, 0);
 
   // Computed Values
-  const monthlyIncome = currentBudget?.totalIncome || 0;
-  const allocatedBudget = (currentBudget?.categories.reduce((sum, c) => sum + c.limit, 0) || 0) + totalDebtMinLimit;
+  const incomeCategories = currentBudget?.categories.filter(cb => categories.find(c => c.id === cb.categoryId)?.type === 'income') || [];
+  const expenseCategories = currentBudget?.categories.filter(cb => categories.find(c => c.id === cb.categoryId)?.type !== 'income') || [];
+
+  const monthlyIncome = incomeCategories.length > 0 
+    ? incomeCategories.reduce((sum, cb) => sum + cb.limit, 0) 
+    : (currentBudget?.totalIncome || 0);
+
+  const allocatedBudget = expenseCategories.reduce((sum, c) => sum + c.limit, 0) + totalDebtMinLimit;
   const unallocated = monthlyIncome - allocatedBudget;
   const totalSpent = calculateTotalSpent(transactions, selectedMonth);
   const remainingTotal = monthlyIncome - totalSpent;
@@ -62,10 +69,11 @@ export const Budget = () => {
   const handleAddCategory = (e: React.FormEvent) => {
     e.preventDefault();
     if (newCatName) {
-      addCategory(newCatName, 'tag', Number(newCatLimit) || 0, selectedMonth);
+      addCategory(newCatName, 'tag', Number(newCatLimit) || 0, selectedMonth, newCatType);
       setShowAddModal(false);
       setNewCatName('');
       setNewCatLimit('');
+      setNewCatType('expense');
     }
   };
 
@@ -210,7 +218,62 @@ export const Budget = () => {
           </div>
         )}
 
-        {currentBudget.categories.map(cb => {
+        <h4 className="font-bold text-green-700 mt-6">Кирис жоспары (План)</h4>
+        {currentBudget.categories.filter(cb => categories.find(c => c.id === cb.categoryId)?.type === 'income').map(cb => {
+          const cat = categories.find(c => c.id === cb.categoryId);
+          if (!cat) return null;
+          
+          const spent = calculateSpentByCategory(transactions, cb.categoryId, selectedMonth);
+          const remaining = cb.limit - spent;
+          const percent = cb.limit > 0 ? (spent / cb.limit) * 100 : (spent > 0 ? 100 : 0);
+          
+          let statusColor = 'bg-blue-500';
+          let statusText = 'Күтілуде';
+          if (percent >= 100) {
+            statusColor = 'bg-green-500';
+            statusText = 'План орындалды! 🟢';
+          }
+
+          return (
+            <div key={cb.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 border-l-4 border-l-green-500">
+              <div className="flex justify-between items-start mb-2">
+                <div>
+                  <h4 className="font-bold">{cat.name}</h4>
+                  <p className="text-xs text-gray-500">{statusText}</p>
+                </div>
+                <div className="flex space-x-2">
+                  <button onClick={() => { setEditingCatId(cb.categoryId); setEditLimit(cb.limit.toString()); }} className="text-gray-400 hover:text-blue-500"><Edit2 size={16} /></button>
+                  <button onClick={() => handleDelete(cb.categoryId)} className="text-gray-400 hover:text-red-500"><Trash2 size={16} /></button>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-3 gap-2 text-sm mb-3">
+                <div>
+                  <p className="text-gray-500 text-xs">План:</p>
+                  <p className="font-medium">{formatCurrency(cb.limit)}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs">Түскені:</p>
+                  <p className="font-medium text-green-600">{formatCurrency(spent)}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs">Қалғаны:</p>
+                  <p className="font-medium">{formatCurrency(remaining)}</p>
+                </div>
+              </div>
+
+              <div className="w-full bg-gray-100 rounded-full h-2">
+                <div 
+                  className={`h-2 rounded-full ${statusColor}`}
+                  style={{ width: `${Math.min(percent, 100)}%` }}
+                ></div>
+              </div>
+            </div>
+          );
+        })}
+
+        <h4 className="font-bold text-red-700 mt-6">Шығыс жоспары (Бюджет)</h4>
+        {currentBudget.categories.filter(cb => categories.find(c => c.id === cb.categoryId)?.type !== 'income').map(cb => {
           const cat = categories.find(c => c.id === cb.categoryId);
           if (!cat) return null;
           
@@ -299,6 +362,13 @@ export const Budget = () => {
           <div className="bg-white rounded-2xl p-6 w-full max-w-sm">
             <h3 className="text-xl font-bold mb-4">Категория қосыў</h3>
             <form onSubmit={handleAddCategory} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Түрі</label>
+                <select value={newCatType} onChange={e => setNewCatType(e.target.value as any)} className="w-full border rounded-lg p-2 dark:bg-gray-800">
+                  <option value="expense">Шығыс (Категория)</option>
+                  <option value="income">Кирис (Табыс көзі)</option>
+                </select>
+              </div>
               <div>
                 <label className="block text-sm font-medium mb-1">Категория аты</label>
                 <input required type="text" value={newCatName} onChange={e => setNewCatName(e.target.value)} className="w-full border rounded-lg p-2" />

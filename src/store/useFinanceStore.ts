@@ -29,15 +29,15 @@ interface FinanceState {
   initFamily: (familyName: string, userName: string) => void;
   addTransaction: (transaction: Omit<Transaction, 'id' | 'createdAt'>) => void;
   updateBudget: (budget: Budget) => void;
-  addIncome: (amount: number, accountId: string, comment?: string) => void;
+  addIncome: (amount: number, accountId: string, comment?: string, categoryId?: string) => void;
   
   // Phase 2 Budget Actions
   createBudgetForMonth: (month: string, copyFromMonth?: string) => void;
   updateCategoryLimit: (month: string, categoryId: string, limit: number) => void;
   transferCategoryLimit: (month: string, fromId: string, toId: string, amount: number) => void;
-  addCategory: (name: string, icon: string, initialLimit: number, currentMonth: string) => void;
+  addCategory: (name: string, icon: string, initialLimit: number, currentMonth: string, type?: 'income' | 'expense') => void;
   deleteCategory: (categoryId: string, reassignToId: string | null) => void;
-  // Phase 3 Transaction Actions
+// Phase 3 Transaction Actions
   updateTransaction: (tx: Transaction) => void;
   deleteTransaction: (id: string) => void;
 
@@ -89,10 +89,12 @@ export const useFinanceStore = create<FinanceState>()(
       accounts: [],
       transactions: [],
       categories: [
-        { id: 'cat-1', familyId: '', name: 'Азық-түлик', icon: 'shopping-cart' },
-        { id: 'cat-2', familyId: '', name: 'Транспорт', icon: 'car' },
-        { id: 'cat-3', familyId: '', name: 'Балалар', icon: 'users' },
-        { id: 'cat-4', familyId: '', name: 'Жинақ', icon: 'piggy-bank' },
+        { id: 'cat-1', familyId: '', name: 'Азық-түлик', icon: 'shopping-cart', type: 'expense' },
+        { id: 'cat-2', familyId: '', name: 'Транспорт', icon: 'car', type: 'expense' },
+        { id: 'cat-3', familyId: '', name: 'Балалар', icon: 'users', type: 'expense' },
+        { id: 'cat-4', familyId: '', name: 'Жинақ', icon: 'piggy-bank', type: 'expense' },
+        { id: 'cat-inc-1', familyId: '', name: 'Айлық ТМВ', icon: 'briefcase', type: 'income' },
+        { id: 'cat-inc-2', familyId: '', name: 'Бизнес', icon: 'trending-up', type: 'income' },
       ],
       budgets: [],
       funds: [],
@@ -129,6 +131,8 @@ export const useFinanceStore = create<FinanceState>()(
             { id: uuid(), categoryId: updatedCategories[1].id, limit: 1000000 },
             { id: uuid(), categoryId: updatedCategories[2].id, limit: 2000000 },
             { id: uuid(), categoryId: updatedCategories[3].id, limit: 4000000 },
+            { id: uuid(), categoryId: updatedCategories[4].id, limit: 15000000 },
+            { id: uuid(), categoryId: updatedCategories[5].id, limit: 10000000 },
           ]
         };
 
@@ -499,7 +503,7 @@ export const useFinanceStore = create<FinanceState>()(
         });
       },
       
-      addIncome: (amount, accountId, comment) => {
+      addIncome: (amount, accountId, comment, categoryId) => {
         const state = get();
         if (!state.family || !state.currentUser) return;
         
@@ -510,7 +514,8 @@ export const useFinanceStore = create<FinanceState>()(
           type: 'income',
           amount,
           accountId,
-          comment: comment || 'Айлық кирис'
+          categoryId,
+          comment: comment || ''
         });
       },
 
@@ -612,10 +617,10 @@ export const useFinanceStore = create<FinanceState>()(
         }));
       },
 
-      addCategory: (name, icon, initialLimit, currentMonth) => {
+      addCategory: (name, icon, initialLimit, currentMonth, type) => {
         set(state => {
           const familyId = state.family?.id || '';
-          const newCat = { id: uuid(), familyId, name, icon };
+          const newCat = { id: uuid(), familyId, name, icon, type: type || 'expense' };
           
           // Add to categories array
           const categories = [...state.categories, newCat];

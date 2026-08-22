@@ -7,7 +7,7 @@ export const calculateSpentByCategory = (
 ): number => {
   return transactions
     .filter(t => 
-      t.type === 'expense' && 
+      (t.type === 'expense' || t.type === 'income') && 
       t.categoryId === categoryId && 
       t.date.startsWith(month)
     )

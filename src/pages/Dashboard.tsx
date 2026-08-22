@@ -71,10 +71,11 @@ export const Dashboard = () => {
   const handleAddIncome = (e: React.FormEvent) => {
     e.preventDefault();
     if (amount && accounts.length > 0) {
-      addIncome(Number(amount), accounts[0].id, incomeComment);
+      addIncome(Number(amount), accounts[0].id, incomeComment, categoryId);
       setShowIncomeModal(false);
       setAmount('');
       setIncomeComment('');
+      setCategoryId('');
     }
   };
 
@@ -267,25 +268,28 @@ export const Dashboard = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Қайдан келди? (Кирис дереги)</label>
+                <label className="block text-sm font-medium mb-1">Категория (Дерек)</label>
+                <select 
+                  required
+                  value={categoryId}
+                  onChange={e => setCategoryId(e.target.value)}
+                  className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                >
+                  <option value="">Таңлаң...</option>
+                  {categories.filter(c => c.type === 'income').map(c => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Комментарий (Қайдан келди?)</label>
                 <input 
                   type="text" 
-                  list="income-sources"
                   value={incomeComment}
                   onChange={e => setIncomeComment(e.target.value)}
-                  placeholder="Мысалы: Айлық, Бизнес, Сыйлық..."
+                  placeholder="Қосымша түсініктеме..."
                   className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
                 />
-                <datalist id="income-sources">
-                  <option value="Айлық (Зарплата)" />
-                  <option value="Айлық ТМВ" />
-                  <option value="Пассив дәрамат" />
-                  <option value="Бизнес" />
-                  <option value="Сыйлық" />
-                  {Array.from(new Set(transactions.filter(t => t.type === 'income').map(t => t.comment).filter(Boolean))).map((src, idx) => (
-                    <option key={`src-${idx}`} value={src} />
-                  ))}
-                </datalist>
               </div>
               <div className="flex space-x-3 pt-4">
                 <button type="button" onClick={() => setShowIncomeModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">{t('cancel')}</button>
