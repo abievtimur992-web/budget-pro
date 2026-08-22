@@ -694,13 +694,8 @@ export const useFinanceStore = create<FinanceState>()(
       },
       createAccount: async (acc) => {
         set(state => {
-          // In Supabase mode we use useFamilyStore, in local mode we use state.family
-          let fId = '';
-          if (isSupabaseConfigured) {
-            fId = useFamilyStore.getState().currentFamilyId || '';
-          } else {
-            fId = state.family?.id || '';
-          }
+          const isCloud = isSupabaseConfigured && useAuthStore.getState().isCloudPrimary;
+          const fId = isCloud ? (useFamilyStore.getState().currentFamilyId || '') : (state.family?.id || '');
 
           if (!fId) return state;
 
@@ -725,7 +720,8 @@ export const useFinanceStore = create<FinanceState>()(
             a.id === acc.id ? { ...a, name: acc.name, type: acc.type } : a
           );
 
-          if (isSupabaseConfigured) {
+          const isCloud = isSupabaseConfigured && useAuthStore.getState().isCloudPrimary;
+          if (isCloud) {
             const token = useAuthStore.getState().session?.access_token;
             if (token) {
               const payload = { name: acc.name, type: acc.type }; 
@@ -738,17 +734,17 @@ export const useFinanceStore = create<FinanceState>()(
       },
       deleteAccount: async (id) => {
         set(state => {
-          if (isSupabaseConfigured) {
+          const updatedAccounts = state.accounts.filter(a => a.id !== id);
+
+          const isCloud = isSupabaseConfigured && useAuthStore.getState().isCloudPrimary;
+          if (isCloud) {
             const token = useAuthStore.getState().session?.access_token;
             if (token) {
-              supabase.from('accounts').delete({}, token, 'id=eq.' + id).then(() => {
-                get().fetchAccounts();
-              }).catch(console.error);
+              supabase.from('accounts').delete({}, token, 'id=eq.' + id).catch(console.error);
             }
-            return state;
-          } else {
-            return { accounts: state.accounts.filter(a => a.id !== id) };
           }
+          
+          return { accounts: updatedAccounts };
         });
       },
       // Phase 6.5 Transactions Fetch
