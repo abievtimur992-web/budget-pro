@@ -38,7 +38,11 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
     recognition.lang = 'kk-KZ';
     recognition.interimResults = false;
     recognition.onstart = () => setIsListening(true);
-    recognition.onresult = (e: any) => setInput(prev => (prev + ' ' + e.results[0][0].transcript).trim());
+    recognition.onresult = (e: any) => {
+      let transcript = e.results[0][0].transcript;
+      transcript = transcript.replace(/\bсоң\b/gi, 'сум').replace(/\bсом\b/gi, 'сум');
+      setInput(prev => (prev + ' ' + transcript).trim());
+    };
     recognition.onerror = () => setIsListening(false);
     recognition.onend = () => setIsListening(false);
     recognition.start();

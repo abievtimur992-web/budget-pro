@@ -19,18 +19,56 @@ const CATEGORY_MAP: Record<string, string[]> = {
 };
 
 const parseAmount = (text: string): number | undefined => {
-  // Replace words with numbers
-  let processed = text.toLowerCase()
+  let lower = text.toLowerCase()
+    .replace(/\bсоң\b/g, 'сум')
+    .replace(/\bсом\b/g, 'сум');
+
+  const wordToNum: Record<string, number> = {
+    'бір': 1, 'екі': 2, 'үш': 3, 'төрт': 4, 'бес': 5, 
+    'алты': 6, 'жеті': 7, 'сегіз': 8, 'тоғыз': 9,
+    'он': 10, 'жиырма': 20, 'отыз': 30, 'қырық': 40, 'елу': 50,
+    'алпыс': 60, 'жетпіс': 70, 'сексен': 80, 'тоқсан': 90,
+    'жүз': 100, 'мың': 1000, 'миллион': 1000000,
+    'бир': 1, 'еки': 2, 'уш': 3, 'торт': 4, 'жети': 7, 'сегиз': 8, 'тогыз': 9,
+    'жуз': 100, 'мын': 1000
+  };
+
+  const words = lower.split(/[\s,.-]+/);
+  let totalAmount = 0;
+  let currentGroup = 0;
+  let foundAny = false;
+
+  for (const w of words) {
+    if (wordToNum[w] !== undefined) {
+      foundAny = true;
+      const val = wordToNum[w];
+      if (val === 100) {
+        currentGroup = currentGroup === 0 ? 100 : currentGroup * 100;
+      } else if (val === 1000 || val === 1000000) {
+        currentGroup = currentGroup === 0 ? val : currentGroup * val;
+        totalAmount += currentGroup;
+        currentGroup = 0;
+      } else {
+        currentGroup += val;
+      }
+    } else {
+      const parsed = parseInt(w, 10);
+      if (!isNaN(parsed) && w === parsed.toString()) {
+        foundAny = true;
+        currentGroup += parsed;
+      }
+    }
+  }
+  
+  totalAmount += currentGroup;
+  
+  if (foundAny && totalAmount > 0) return totalAmount;
+  
+  let processed = lower
     .replace(/мың/g, '000')
-    .replace(/миллион|млн/g, '000000')
+    .replace(/миллион/g, '000000')
     .replace(/ /g, '')
     .replace(/,/g, '.');
-
-  // Regex to find a number (e.g. 200000, 1.5000000 -> wait, 1.5 million is 1500000)
-  // Let's do a simple approach: find the first number.
-  // Real NLP would handle "1,5 миллион" accurately. Mock version:
-  if (text.includes('1,5 миллион') || text.includes('1.5 миллион') || text.includes('1.5 млн')) return 1500000;
-  if (text.includes('2 млн 300 мың')) return 2300000;
 
   const matches = processed.match(/\d+/);
   if (matches) {
