@@ -172,24 +172,24 @@ export const Dashboard = () => {
       <div className="grid grid-cols-3 gap-4">
         <button 
           onClick={() => setShowIncomeModal(true)}
-          className="bg-primary-600 text-white p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-primary-700 transition-colors"
+          className="bg-primary-600 text-white p-2 md:p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-primary-700 transition-colors"
         >
           <PlusCircle size={24} />
-          <span className="font-medium text-sm text-center">Кіріс</span>
+          <span className="font-medium text-[11px] md:text-sm text-center">Кіріс</span>
         </button>
         <button 
           onClick={() => setShowExpenseModal(true)}
-          className="bg-red-500 text-white p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-red-600 transition-colors"
+          className="bg-red-500 text-white p-2 md:p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-red-600 transition-colors"
         >
           <ArrowDownRight size={24} />
-          <span className="font-medium text-sm text-center">Шығыс</span>
+          <span className="font-medium text-[11px] md:text-sm text-center">Шығыс</span>
         </button>
         <button 
           onClick={() => setShowTransferModal(true)}
-          className="bg-blue-500 text-white p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-blue-600 transition-colors"
+          className="bg-blue-500 text-white p-2 md:p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-blue-600 transition-colors"
         >
           <ArrowRightLeft size={24} />
-          <span className="font-medium text-sm text-center">Ауыстыру</span>
+          <span className="font-medium text-[11px] md:text-sm text-center">Ауыстыру</span>
         </button>
       </div>
 
