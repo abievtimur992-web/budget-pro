@@ -78,15 +78,16 @@ const parseAmount = (text: string): number | undefined => {
   return undefined;
 };
 
-const guessCategory = (text: string): { id: string; name: string } | undefined => {
+const guessCategory = (text: string): { id: string; name: string; keyword: string } | undefined => {
   const lowerText = text.toLowerCase();
   for (const [id, keywords] of Object.entries(CATEGORY_MAP)) {
-    if (keywords.some(kw => lowerText.includes(kw))) {
-      // Find the name based on id
-      const name = id === 'cat-1' ? 'Азық-түлик' : 
-                   id === 'cat-2' ? 'Транспорт' : 
-                   id === 'cat-3' ? 'Балалар' : 'Жинақ';
-      return { id, name };
+    for (const kw of keywords) {
+      if (lowerText.includes(kw)) {
+        const name = id === 'cat-1' ? 'Азық-түлік' : 
+                     id === 'cat-2' ? 'Транспорт' : 
+                     id === 'cat-3' ? 'Балалар' : 'Жинақ';
+        return { id, name, keyword: kw };
+      }
     }
   }
   return undefined;
@@ -154,12 +155,17 @@ export const parseFinancialText = (text: string): ParsedTransaction => {
     if (type === 'expense' && !categoryId) missingFields.push('category');
   }
 
+  let finalDescription = text.length <= 15 ? text : '';
+  if (catMatch?.keyword) {
+    finalDescription = catMatch.keyword.charAt(0).toUpperCase() + catMatch.keyword.slice(1);
+  }
+
   return {
     type,
     amount,
     categoryId,
     categoryName,
-    description: text,
+    description: finalDescription,
     date,
     isComplete: missingFields.length === 0,
     missingFields
