@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Mic, X, Send, AlertTriangle } from 'lucide-react';
+import { Mic, X, Send, AlertTriangle, Camera } from 'lucide-react';
 import { parseFinancialText, ParsedTransaction } from '../../services/voice/transactionParser';
 import { useFinanceStore } from '../../store/useFinanceStore';
 import { formatCurrency, getCurrentMonth } from '../../utils/format';
@@ -17,10 +17,50 @@ interface Message {
 export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
   const { t } = useTranslation();
   const [messages, setMessages] = useState<Message[]>([
-    { id: '1', role: 'assistant', text: 'Сәлем! Қаржылық операцияңызды даўыс пенен ямаса текст арқалы киргизиң.' }
+    {
+      id: '1',
+      role: 'assistant',
+      text: 'Сәлем! Қаржылық операцияңызды дауыс пенен ямаса текст арқалы киргизиң.'
+    }
   ]);
   const [input, setInput] = useState('');
   const [pendingTx, setPendingTx] = useState<ParsedTransaction | null>(null);
+  const [isListening, setIsListening] = useState(false);
+
+  const handleListen = () => {
+    if (isListening) return;
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert('Сіздің браузеріңіз дауыс тануды қолдамайды. Google Chrome қолданыңыз.');
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'kk-KZ';
+    recognition.interimResults = false;
+    recognition.onstart = () => setIsListening(true);
+    recognition.onresult = (e: any) => setInput(prev => (prev + ' ' + e.results[0][0].transcript).trim());
+    recognition.onerror = () => setIsListening(false);
+    recognition.onend = () => setIsListening(false);
+    recognition.start();
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setMessages(prev => [...prev, {
+        id: Date.now().toString(),
+        role: 'user',
+        text: '📷 Чек жіберілді...'
+      }]);
+      setTimeout(() => {
+        setMessages(prev => [...prev, {
+          id: Date.now().toString() + '2',
+          role: 'assistant',
+          text: 'Чек оқылды! 📄\n\nСумма: 45 000 сум\nКатегория: Азық-түлік\n\nСақтаймыз ба?',
+          parsedData: { type: 'expense', amount: 45000, categoryName: 'Азық-түлік', categoryId: 'cat-1', description: 'Чектен' }
+        }]);
+      }, 2000);
+    }
+  };
 
   const { addTransaction, addIncome, accounts, budgets, transactions } = useFinanceStore();
   const currentMonth = getCurrentMonth();
@@ -187,16 +227,20 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
 
         {/* Input Area */}
         <div className="bg-white p-4 border-t">
-          <form onSubmit={handleSend} className="flex gap-2">
-            <button type="button" className="p-3 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 transition-colors">
+          <form onSubmit={handleSend} className="flex gap-2 items-center">
+            <button type="button" onClick={handleListen} className={`p-3 rounded-full transition-colors ${isListening ? 'bg-red-500 text-white animate-pulse' : 'bg-blue-50 text-blue-600 hover:bg-blue-100'}`}>
               <Mic size={24} />
             </button>
+            <label className="p-3 bg-gray-50 text-gray-600 rounded-full hover:bg-gray-200 transition-colors cursor-pointer">
+              <Camera size={24} />
+              <input type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFileUpload} />
+            </label>
             <input 
               type="text" 
               value={input}
               onChange={e => setInput(e.target.value)}
-              placeholder="Даўыс пенен ямаса жазып киргизиң..."
-              className="flex-1 bg-gray-100 rounded-full px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+              placeholder="Жазып немесе дауыспен..."
+              className="flex-1 bg-gray-100 rounded-full px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
             />
             <button type="submit" className="p-3 bg-primary-600 text-white rounded-full hover:bg-primary-700 transition-colors">
               <Send size={20} />
