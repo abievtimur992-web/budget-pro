@@ -17,6 +17,7 @@ export const Dashboard = () => {
   // Modals state
   const [amount, setAmount] = useState('');
   const [incomeComment, setIncomeComment] = useState('');
+  const [expenseComment, setExpenseComment] = useState('');
   const [categoryId, setCategoryId] = useState('');
   const [showWarning, setShowWarning] = useState(false);
 
@@ -101,6 +102,7 @@ export const Dashboard = () => {
       amount: numAmount,
       accountId: accounts[0].id,
       categoryId,
+      comment: expenseComment,
       isOverBudget: force
     });
     
@@ -108,6 +110,7 @@ export const Dashboard = () => {
     setShowWarning(false);
     setAmount('');
     setCategoryId('');
+    setExpenseComment('');
   };
 
   const handleAddExpense = (e: React.FormEvent) => {
@@ -342,6 +345,16 @@ export const Dashboard = () => {
                       <option key={c.id} value={c.id}>{c.name}</option>
                     ))}
                   </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Комментарий (Не үшін?)</label>
+                  <input 
+                    type="text" 
+                    value={expenseComment}
+                    onChange={e => setExpenseComment(e.target.value)}
+                    placeholder="Мысалы: супермаркеттен азық-түлік..."
+                    className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                  />
                 </div>
                 <div className="flex space-x-3 pt-4">
                   <button type="button" onClick={() => { setShowExpenseModal(false); setShowWarning(false); }} className="flex-1 py-2 bg-gray-100 rounded-lg">{t('cancel')}</button>
