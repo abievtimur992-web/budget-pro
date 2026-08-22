@@ -73,12 +73,22 @@ export const useFamilyStore = create<FamilyState>((set, get) => ({
       const session = useAuthStore.getState().session;
       const token = session?.access_token;
       
-      const { data } = await supabase.from('families').insert({ name }, token);
-      if (data && data.length > 0) {
-        // The trigger or RLS might auto-insert the admin member, or we do it explicitly if needed.
-        // Assuming Postgres function/trigger creates the member for 'created_by' as admin active.
-        await get().fetchFamily();
+      const { data, error } = await supabase.from('families').insert({ name }).select('*').single();
+      if (error) throw error;
+      
+      // Auto-insert member if not handled by trigger
+      const user = useAuthStore.getState().user;
+      if (user && data) {
+        await supabase.from('family_members').insert({
+          family_id: data.id,
+          user_id: user.id,
+          email: user.email,
+          role: 'admin',
+          status: 'active'
+        });
       }
+      
+      await get().fetchFamily();
     } catch (err: any) {
       set({ error: err.message, loading: false });
     }
