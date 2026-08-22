@@ -33,7 +33,8 @@ export const useFamilyStore = create<FamilyState>((set, get) => ({
 
   fetchFamily: async () => {
     if (!isSupabaseConfigured) return;
-    const user = useAuthStore.getState().user;
+    const session = useAuthStore.getState().session;
+    const user = session?.user;
     if (!user) return;
     
     set({ loading: true, error: null });
@@ -76,8 +77,8 @@ export const useFamilyStore = create<FamilyState>((set, get) => ({
     set({ loading: true, error: null });
     try {
       const session = useAuthStore.getState().session;
-      const user = useAuthStore.getState().user;
-      if (!user) throw new Error("No user found");
+      const user = session?.user;
+      if (!user) throw new Error("No user found in session");
       
       console.log("Creating family...", name);
       const { data, error } = await supabase.from('families').insert({ name }).select('*').single();
