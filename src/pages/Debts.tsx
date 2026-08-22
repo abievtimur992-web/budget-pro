@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useFinanceStore } from '../store/useFinanceStore';
 import { formatCurrency } from '../utils/format';
 import { compareStrategies, calculateDebtFreeDate } from '../services/debtEngine';
-import { Plus, CreditCard, ChevronRight, TrendingDown } from 'lucide-react';
+import { Plus, CreditCard, ChevronRight, TrendingDown, Trash2 } from 'lucide-react';
 
 export const Debts = () => {
-  const { debts, debtStrategy, setDebtStrategy, accounts, addDebtPayment, addDebt } = useFinanceStore();
+  const { debts, debtStrategy, setDebtStrategy, accounts, addDebtPayment, addDebt, deleteDebt } = useFinanceStore();
   const [extraPayment, setExtraPayment] = useState(0);
 
   // Modals
@@ -129,18 +129,25 @@ export const Debts = () => {
       <div className="space-y-4">
         {sortedDebts.map(debt => (
           <div key={debt.id} className="bg-white rounded-2xl p-5 shadow-sm border flex flex-col md:flex-row justify-between gap-4">
-            <div>
-              <h3 className="font-bold text-lg">{debt.name} ({debt.creditor})</h3>
+            <div className="flex-1">
+              <div className="flex justify-between items-start">
+                <h3 className="font-bold text-lg">{debt.name} ({debt.creditor})</h3>
+                <button onClick={() => deleteDebt(debt.id)} className="text-gray-400 hover:text-red-500 p-1">
+                  <Trash2 size={18} />
+                </button>
+              </div>
               <p className="text-sm text-gray-500">Пайыз: {debt.interestRate}% | Минимал төлем: {formatCurrency(debt.minimumPayment)}</p>
             </div>
-            <div className="flex flex-col items-end">
-              <p className="text-xs text-gray-500">Қалды:</p>
-              <p className="font-bold text-xl text-red-500">{formatCurrency(debt.remainingAmount)}</p>
+            <div className="flex flex-col items-end justify-between">
+              <div className="text-right">
+                <p className="text-xs text-gray-500">Қалды:</p>
+                <p className="font-bold text-xl text-red-500">{formatCurrency(debt.remainingAmount)}</p>
+              </div>
               <button 
                 onClick={() => { setSelectedDebtId(debt.id); setShowPayModal(true); }}
-                className="mt-2 text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg flex items-center gap-1"
+                className="mt-2 text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg flex items-center gap-1 whitespace-nowrap"
               >
-                Төлем жасаў <ChevronRight size={14} />
+                Төлем жасау <ChevronRight size={14} />
               </button>
             </div>
           </div>
