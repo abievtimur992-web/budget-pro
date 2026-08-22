@@ -119,29 +119,29 @@ export const Budget = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-20">
       {/* Month Selector */}
-      <div className="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm">
-        <button onClick={() => setSelectedMonth(getPreviousMonth(selectedMonth))} className="p-2"><ChevronLeft /></button>
+      <div className="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">
+        <button onClick={() => setSelectedMonth(getPreviousMonth(selectedMonth))} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><ChevronLeft /></button>
         <h2 className="text-xl font-bold">{formatMonthName(selectedMonth)}</h2>
-        <button onClick={() => setSelectedMonth(getNextMonth(selectedMonth))} className="p-2"><ChevronRight /></button>
+        <button onClick={() => setSelectedMonth(getNextMonth(selectedMonth))} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><ChevronRight /></button>
       </div>
 
       {/* Summary Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-xl shadow-sm border">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">
           <p className="text-xs text-gray-500">Айлық кирис</p>
           <p className="font-bold">{formatCurrency(monthlyIncome)}</p>
         </div>
-        <div className="bg-white p-4 rounded-xl shadow-sm border">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">
           <p className="text-xs text-gray-500">Жалпы бюджет</p>
           <p className="font-bold">{formatCurrency(allocatedBudget)}</p>
         </div>
-        <div className="bg-white p-4 rounded-xl shadow-sm border">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">
           <p className="text-xs text-gray-500">Жумсалғаны</p>
-          <p className="font-bold text-red-600">{formatCurrency(totalSpent)}</p>
+          <p className="font-bold text-red-500">{formatCurrency(totalSpent)}</p>
         </div>
-        <div className="bg-white p-4 rounded-xl shadow-sm border">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">
           <p className="text-xs text-gray-500">Қалған бюджет</p>
-          <p className="font-bold text-green-600">{formatCurrency(remainingTotal)}</p>
+          <p className="font-bold text-green-500">{formatCurrency(remainingTotal)}</p>
         </div>
       </div>
 
@@ -172,11 +172,11 @@ export const Budget = () => {
 
         {/* Debt Virtual Category */}
         {debts.length > 0 && (
-          <div className="bg-red-50 p-4 rounded-xl shadow-sm border border-red-100">
+          <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-xl shadow-sm border border-red-100 dark:border-red-900/50">
             <div className="flex justify-between items-start mb-2">
               <div>
-                <h4 className="font-bold text-red-800">Қарыз төлемлери (Мәжбүрий)</h4>
-                <p className="text-xs text-red-600">{totalDebtSpent >= totalDebtMinLimit ? '🟢 Нормада (Жабылды)' : '🟡 Төлеў керек'}</p>
+                <h4 className="font-bold text-red-800 dark:text-red-300">Қарыз төлемлери (Мәжбүрий)</h4>
+                <p className="text-xs text-red-600 dark:text-red-400">{totalDebtSpent >= totalDebtMinLimit ? '🟢 Нормада (Жабылды)' : '🟡 Төлеў керек'}</p>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-2 text-sm mb-3">
@@ -221,7 +221,7 @@ export const Budget = () => {
           }
 
           return (
-            <div key={cb.id} className="bg-white p-4 rounded-xl shadow-sm border">
+            <div key={cb.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">
               <div className="flex justify-between items-start mb-2">
                 <div>
                   <h4 className="font-bold">{cat.name}</h4>
