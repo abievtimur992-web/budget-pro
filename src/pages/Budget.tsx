@@ -127,8 +127,16 @@ export const Budget = () => {
 
       {/* Summary Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">
-          <p className="text-xs text-gray-500">Айлық кирис</p>
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 relative">
+          <p className="text-xs text-gray-500 flex justify-between">
+            Жоспарланған кирис (План)
+            <button onClick={() => {
+              const newIncome = prompt('Усы айға жоспарланған киристи (План) жазың:', monthlyIncome.toString());
+              if (newIncome && !isNaN(Number(newIncome)) && currentBudget) {
+                updateBudget({ ...currentBudget, totalIncome: Number(newIncome) });
+              }
+            }} className="text-primary-600 hover:text-primary-800"><Edit2 size={14}/></button>
+          </p>
           <p className="font-bold">{formatCurrency(monthlyIncome)}</p>
         </div>
         <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">

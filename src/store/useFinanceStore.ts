@@ -512,15 +512,6 @@ export const useFinanceStore = create<FinanceState>()(
           accountId,
           comment: comment || 'Айлық кирис'
         });
-        
-        const currentMonth = getCurrentMonth();
-        const budget = state.budgets.find(b => b.month === currentMonth);
-        if (budget) {
-          state.updateBudget({
-            ...budget,
-            totalIncome: budget.totalIncome + amount
-          });
-        }
       },
 
       // Phase 2 actions
