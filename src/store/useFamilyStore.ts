@@ -41,16 +41,21 @@ export const useFamilyStore = create<FamilyState>((set, get) => ({
       const session = useAuthStore.getState().session;
       const token = session?.access_token;
       
-      // Get user's active family (Assuming logic defaults to the first active family for now)
-      const memRes = await supabase.from('family_members').select('family_id', token, '&user_id=eq.' + user.id + '&status=eq.active&limit=1');
+      // Get user's active family
+      const memRes = await supabase.from('family_members')
+        .select('family_id')
+        .eq('user_id', user.id)
+        .eq('status', 'active')
+        .limit(1);
+
       if (memRes.data && memRes.data.length > 0) {
         const fId = memRes.data[0].family_id;
         
         // Fetch family details
-        const fRes = await supabase.from('families').select('*', token, '&id=eq.' + fId);
+        const fRes = await supabase.from('families').select('*').eq('id', fId);
         
         // Fetch members
-        const mRes = await supabase.from('family_members').select('*,user_profiles(display_name,email)', token, '&family_id=eq.' + fId);
+        const mRes = await supabase.from('family_members').select('*,user_profiles(display_name,email)').eq('family_id', fId);
         
         set({
           currentFamilyId: fId,
@@ -112,7 +117,7 @@ export const useFamilyStore = create<FamilyState>((set, get) => ({
         email,
         role,
         expires_at: expiresAt.toISOString()
-      }, token);
+      });
       
       set({ loading: false });
     } catch (err: any) {
