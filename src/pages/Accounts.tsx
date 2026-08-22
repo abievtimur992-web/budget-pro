@@ -28,6 +28,7 @@ export const Accounts = () => {
       const existing = accounts.find(a => a.id === editingId);
       await updateAccount({ id: editingId, name, type, balance: existing?.balance || 0, familyId: existing?.familyId || '' });
       setEditingId(null);
+      setIsAdding(false);
     } else {
       await createAccount({ name, type });
       setIsAdding(false);

@@ -711,18 +711,20 @@ export const useFinanceStore = create<FinanceState>()(
       },
       updateAccount: async (acc) => {
         set(state => {
+          // Optimistically update the local state first so UI changes instantly
+          const updatedAccounts = state.accounts.map(a => 
+            a.id === acc.id ? { ...a, name: acc.name, type: acc.type } : a
+          );
+
           if (isSupabaseConfigured) {
             const token = useAuthStore.getState().session?.access_token;
             if (token) {
-              const payload = { name: acc.name, type: acc.type }; // balance is derived in DB, don't update directly
-              supabase.from('accounts').update(payload, token, 'id=eq.' + acc.id).then(() => {
-                get().fetchAccounts();
-              }).catch(console.error);
+              const payload = { name: acc.name, type: acc.type }; 
+              supabase.from('accounts').update(payload, token, 'id=eq.' + acc.id).catch(console.error);
             }
-            return state;
-          } else {
-            return { accounts: state.accounts.map(a => a.id === acc.id ? { ...a, name: acc.name, type: acc.type } : a) };
           }
+          
+          return { accounts: updatedAccounts };
         });
       },
       deleteAccount: async (id) => {
