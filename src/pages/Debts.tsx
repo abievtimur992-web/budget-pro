@@ -23,8 +23,21 @@ export const Debts = () => {
   const [selectedDebtId, setSelectedDebtId] = useState('');
   const [payAmount, setPayAmount] = useState('');
   const [payAccount, setPayAccount] = useState('');
+  const [payDate, setPayDate] = useState(new Date().toISOString().slice(0, 10));
 
   const strategies = compareStrategies(debts, extraPayment);
+
+  const sortedDebts = [...debts].sort((a, b) => {
+    if (debtStrategy === 'avalanche') {
+      return b.interestRate - a.interestRate;
+    } else if (debtStrategy === 'snowball') {
+      return a.remainingAmount - b.remainingAmount;
+    } else {
+      if (a.interestRate > 15 && b.interestRate <= 15) return -1;
+      if (b.interestRate > 15 && a.interestRate <= 15) return 1;
+      return a.remainingAmount - b.remainingAmount;
+    }
+  });
 
   const handleAddDebt = (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,8 +56,9 @@ export const Debts = () => {
 
   const handlePayment = (e: React.FormEvent) => {
     e.preventDefault();
-    if (selectedDebtId && payAmount && payAccount) {
-      addDebtPayment(selectedDebtId, Number(payAmount), payAccount, new Date().toISOString());
+    if (selectedDebtId && payAmount && payAccount && payDate) {
+      const dateString = new Date(payDate).toISOString();
+      addDebtPayment(selectedDebtId, Number(payAmount), payAccount, dateString);
       setShowPayModal(false);
       setPayAmount('');
     }
@@ -113,7 +127,7 @@ export const Debts = () => {
 
       <h2 className="text-xl font-bold mb-4">Менің қарыздарым</h2>
       <div className="space-y-4">
-        {debts.map(debt => (
+        {sortedDebts.map(debt => (
           <div key={debt.id} className="bg-white rounded-2xl p-5 shadow-sm border flex flex-col md:flex-row justify-between gap-4">
             <div>
               <h3 className="font-bold text-lg">{debt.name} ({debt.creditor})</h3>
@@ -161,7 +175,8 @@ export const Debts = () => {
                 <option value="">Қайсы есаптан алынады?</option>
                 {accounts.map(a => <option key={a.id} value={a.id}>{a.name} ({formatCurrency(a.balance)})</option>)}
               </select>
-              <input required type="number" placeholder="Төлем суммасы" className="w-full border rounded-lg p-2" value={payAmount} onChange={e => setPayAmount(e.target.value)} />
+              <input required type="number" placeholder="Төлем сомасы" className="w-full border rounded-lg p-2" value={payAmount} onChange={e => setPayAmount(e.target.value)} />
+              <input required type="date" className="w-full border rounded-lg p-2" value={payDate} onChange={e => setPayDate(e.target.value)} />
               <div className="flex space-x-3 pt-4">
                 <button type="button" onClick={() => setShowPayModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Бекарлаў</button>
                 <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">Төлеў</button>
