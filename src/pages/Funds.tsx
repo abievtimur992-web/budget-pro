@@ -144,7 +144,7 @@ export const Funds = () => {
       </div>
 
       {recommendations.length > 0 && (
-        <div className="bg-yellow-50 border dark:border-gray-700 border-yellow-200 rounded-2xl p-5 mb-6">
+        <div className="bg-yellow-50 border dark:border-gray-700 border-yellow-200 rounded-2xl p-5 mb-6 dark:bg-gray-800 dark:text-white">
           <div className="flex items-start gap-3">
             <TrendingUp className="text-yellow-600 mt-1" />
             <div className="w-full">
@@ -154,7 +154,7 @@ export const Funds = () => {
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {recommendations.map((rec, i) => (
-                  <div key={i} className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border dark:border-gray-700 border-yellow-100">
+                  <div key={i} className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border dark:border-gray-700 border-yellow-100 dark:text-white">
                     <h4 className="font-bold text-gray-800 dark:text-white mb-1">{rec.title}</h4>
                     <p className="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2">{rec.description}</p>
                     <p className="text-sm text-gray-500 dark:text-gray-400">{rec.reason}</p>
@@ -177,7 +177,7 @@ export const Funds = () => {
         {funds.map(fund => {
           const progress = calculateFundProgress(fund);
           return (
-            <div key={fund.id} className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border dark:border-gray-700 relative">
+            <div key={fund.id} className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border dark:border-gray-700 relative dark:text-white">
               <div className="absolute top-4 right-4 flex gap-2">
                 <button onClick={() => handleEditFund(fund)} className="text-gray-400 hover:text-blue-500"><Edit2 size={16} /></button>
                 <button onClick={() => deleteFund(fund.id)} className="text-gray-400 hover:text-red-500"><Trash2 size={16} /></button>
@@ -213,7 +213,7 @@ export const Funds = () => {
                 </button>
                 <button 
                   onClick={() => { setSelectedFundId(fund.id); setTxType('withdraw'); setShowTxModal(true); }}
-                  className="flex-1 bg-gray-50 text-gray-600 dark:text-gray-400 py-2 rounded-lg text-sm font-medium hover:bg-gray-100"
+                  className="flex-1 bg-gray-50 dark:bg-gray-700 dark:text-white text-gray-600 dark:text-gray-400 py-2 rounded-lg text-sm font-medium hover:bg-gray-100"
                 >
                   Алыў
                 </button>
@@ -228,10 +228,10 @@ export const Funds = () => {
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm">
             <h3 className="text-xl font-bold mb-4 dark:text-white">{editingFundId ? 'Қорды өзгерту' : 'Жаңа қор қосу'}</h3>
             <form onSubmit={handleAddFund} className="space-y-3">
-              <input required placeholder="Қор аты (мысалы: Саяхат)" className="w-full border dark:border-gray-700 rounded-lg p-2" value={fName} onChange={e => setFName(e.target.value)} />
-              <input required type="number" placeholder="Мақсет сумма (Сум)" className="w-full border dark:border-gray-700 rounded-lg p-2" value={fTarget} onChange={e => setFTarget(e.target.value)} />
-              <input required type="number" placeholder="Ай сайын қосып барыў" className="w-full border dark:border-gray-700 rounded-lg p-2" value={fMonthly} onChange={e => setFMonthly(e.target.value)} />
-              <select className="w-full border dark:border-gray-700 rounded-lg p-2" value={fPriority} onChange={e => setFPriority(e.target.value)}>
+              <input required placeholder="Қор аты (мысалы: Саяхат)" className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white" value={fName} onChange={e => setFName(e.target.value)} />
+              <input required type="number" placeholder="Мақсет сумма (Сум)" className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white" value={fTarget} onChange={e => setFTarget(e.target.value)} />
+              <input required type="number" placeholder="Ай сайын қосып барыў" className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white" value={fMonthly} onChange={e => setFMonthly(e.target.value)} />
+              <select className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white" value={fPriority} onChange={e => setFPriority(e.target.value)}>
                 <option value="1">1 - Өте маңызлы (Emergency)</option>
                 <option value="2">2 - Маңызлы (Үй/Машина)</option>
                 <option value="3">3 - Орташа (Саяхат)</option>
@@ -253,11 +253,11 @@ export const Funds = () => {
               {txType === 'contribute' ? 'Қорға ақша қосыў' : 'Қордан ақша алыў'}
             </h3>
             <form onSubmit={handleTx} className="space-y-3">
-              <select required className="w-full border dark:border-gray-700 rounded-lg p-2" value={txAccount} onChange={e => setTxAccount(e.target.value)}>
+              <select required className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white" value={txAccount} onChange={e => setTxAccount(e.target.value)}>
                 <option value="">Қайсы есаптан?</option>
                 {accounts.map(a => <option key={a.id} value={a.id}>{a.name} ({formatCurrency(a.balance)})</option>)}
               </select>
-              <input required type="number" placeholder="Сумма" className="w-full border dark:border-gray-700 rounded-lg p-2" value={txAmount} onChange={e => setTxAmount(e.target.value)} />
+              <input required type="number" placeholder="Сумма" className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white" value={txAmount} onChange={e => setTxAmount(e.target.value)} />
               <div className="flex space-x-3 pt-4">
                 <button type="button" onClick={() => setShowTxModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Бекарлаў</button>
                 <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">Сақлаў</button>
@@ -269,6 +269,7 @@ export const Funds = () => {
     </div>
   );
 };
+
 
 
 

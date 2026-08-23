@@ -60,14 +60,14 @@ export const Accounts = () => {
       </div>
 
       {isAdding && (
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 flex flex-wrap gap-4 items-end">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 flex flex-wrap gap-4 items-end dark:text-white">
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('accounts.name') || 'Аты'}</label>
-            <input required type="text" value={name} onChange={e => setName(e.target.value)} className="w-full px-4 py-2 border dark:border-gray-700 rounded-xl" />
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('accounts.name') || 'Аты'}</label>
+            <input required type="text" value={name} onChange={e => setName(e.target.value)} className="w-full px-4 py-2 border dark:border-gray-700 rounded-xl dark:bg-gray-800 dark:text-white" />
           </div>
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('accounts.type') || 'Түри'}</label>
-            <select value={type} onChange={e => setType(e.target.value)} className="w-full px-4 py-2 border dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('accounts.type') || 'Түри'}</label>
+            <select value={type} onChange={e => setType(e.target.value)} className="w-full px-4 py-2 border dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 dark:text-white">
               <option value="bank">{t('accounts.bank') || 'Банк картасы'}</option>
               <option value="cash">{t('accounts.cash') || 'Наличка'}</option>
               <option value="savings">{t('accounts.savings') || 'Жинақ'}</option>
@@ -81,7 +81,7 @@ export const Accounts = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {accounts.map(acc => (
-          <div key={acc.id} className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 relative">
+          <div key={acc.id} className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 relative dark:text-white">
             <div className="absolute top-4 right-4 flex gap-2">
               <button onClick={() => handleEdit(acc)} className="text-gray-400 hover:text-blue-500"><Edit2 size={16} /></button>
               <button onClick={() => deleteAccount(acc.id)} className="text-gray-400 hover:text-red-500"><Trash2 size={16} /></button>
@@ -95,6 +95,7 @@ export const Accounts = () => {
     </div>
   );
 };
+
 
 
 

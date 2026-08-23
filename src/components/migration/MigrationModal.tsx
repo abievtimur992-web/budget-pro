@@ -52,7 +52,7 @@ export const MigrationModal = () => {
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 Көшириўди даўам етиў ушын транзакция тарийхы балансқа сәйкес келиўи шәрт.
               </p>
-              <div className="bg-gray-50 border dark:border-gray-700 rounded-xl overflow-hidden mb-6">
+              <div className="bg-gray-50 dark:bg-gray-700 dark:text-white border dark:border-gray-700 rounded-xl overflow-hidden mb-6">
                 {discrepancies.map(d => (
                   <div key={d.accountId} className="p-3 border-b last:border-b-0 flex justify-between items-center text-sm">
                     <span className="font-medium text-gray-800 dark:text-white">{d.name}</span>
@@ -77,19 +77,19 @@ export const MigrationModal = () => {
               </div>
 
               <div className="grid grid-cols-2 gap-4 mb-8">
-                <div className="bg-gray-50 p-4 rounded-xl text-center border dark:border-gray-700">
+                <div className="bg-gray-50 dark:bg-gray-700 dark:text-white p-4 rounded-xl text-center border dark:border-gray-700">
                   <p className="text-2xl font-bold text-gray-800 dark:text-white dark:text-white">{totalCounts.accounts}</p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase mt-1">Аккаунтлар</p>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-xl text-center border dark:border-gray-700">
+                <div className="bg-gray-50 dark:bg-gray-700 dark:text-white p-4 rounded-xl text-center border dark:border-gray-700">
                   <p className="text-2xl font-bold text-gray-800 dark:text-white dark:text-white">{totalCounts.txs}</p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase mt-1">Транзакциялар</p>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-xl text-center border dark:border-gray-700">
+                <div className="bg-gray-50 dark:bg-gray-700 dark:text-white p-4 rounded-xl text-center border dark:border-gray-700">
                   <p className="text-2xl font-bold text-gray-800 dark:text-white dark:text-white">{totalCounts.funds}</p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase mt-1">Қорлар</p>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-xl text-center border dark:border-gray-700">
+                <div className="bg-gray-50 dark:bg-gray-700 dark:text-white p-4 rounded-xl text-center border dark:border-gray-700">
                   <p className="text-2xl font-bold text-gray-800 dark:text-white dark:text-white">{totalCounts.debts}</p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase mt-1">Қарызлар</p>
                 </div>
@@ -139,7 +139,7 @@ export const MigrationModal = () => {
                 <AlertCircle size={32} />
               </div>
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Қате жүз берди</h3>
-              <p className="text-red-600 text-sm font-medium p-4 bg-red-50 rounded-xl mb-6 border dark:border-gray-700 border-red-100">
+              <p className="text-red-600 text-sm font-medium p-4 bg-red-50 rounded-xl mb-6 border dark:border-gray-700 border-red-100 dark:bg-gray-800 dark:text-white">
                 {progressMsg}
               </p>
               <button 
@@ -173,6 +173,7 @@ export const MigrationModal = () => {
     </div>
   );
 };
+
 
 
 

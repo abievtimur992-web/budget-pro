@@ -120,7 +120,7 @@ export const Transactions = () => {
       </div>
 
       {/* Advanced Filters */}
-      <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 space-y-4">
+      <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 space-y-4 dark:text-white">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
           <input
@@ -128,19 +128,19 @@ export const Transactions = () => {
             placeholder="Излеў (категория, комментарий, сумма)..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-gray-50"
+            className="w-full pl-10 pr-4 py-2 border dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-gray-50 dark:bg-gray-700 dark:text-white"
           />
         </div>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-          <select value={typeFilter} onChange={e => setTypeFilter(e.target.value as any)} className="border rounded-lg p-2 text-sm bg-gray-50">
+          <select value={typeFilter} onChange={e => setTypeFilter(e.target.value as any)} className="border rounded-lg p-2 text-sm bg-gray-50 dark:bg-gray-700 dark:text-white">
             <option value="all">Барлық типлер</option>
             <option value="income">Кирис 🟢</option>
             <option value="expense">Шығыс 🔴</option>
             <option value="transfer">Трансфер 🔵</option>
           </select>
 
-          <select value={dateFilter} onChange={e => setDateFilter(e.target.value as any)} className="border rounded-lg p-2 text-sm bg-gray-50">
+          <select value={dateFilter} onChange={e => setDateFilter(e.target.value as any)} className="border rounded-lg p-2 text-sm bg-gray-50 dark:bg-gray-700 dark:text-white">
             <option value="all">Бәрше ўақыт</option>
             <option value="today">Бүгин</option>
             <option value="yesterday">Кеше</option>
@@ -149,12 +149,12 @@ export const Transactions = () => {
             <option value="last_month">Өткен ай</option>
           </select>
 
-          <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="border rounded-lg p-2 text-sm bg-gray-50">
+          <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="border rounded-lg p-2 text-sm bg-gray-50 dark:bg-gray-700 dark:text-white">
             <option value="all">Барлық категориялар</option>
             {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
 
-          <select value={accountFilter} onChange={e => setAccountFilter(e.target.value)} className="border rounded-lg p-2 text-sm bg-gray-50">
+          <select value={accountFilter} onChange={e => setAccountFilter(e.target.value)} className="border rounded-lg p-2 text-sm bg-gray-50 dark:bg-gray-700 dark:text-white">
             <option value="all">Барлық есаплар</option>
             {accounts.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
           </select>
@@ -175,9 +175,9 @@ export const Transactions = () => {
             const userName = currentUser?.id === tx.userId ? currentUser.name : 'Басқа ағза';
             
             return (
-              <div key={tx.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 flex flex-col sm:flex-row justify-between gap-4 group hover:shadow-md transition-shadow">
+              <div key={tx.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 flex flex-col sm:flex-row justify-between gap-4 group hover:shadow-md transition-shadow dark:text-white">
                 <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-full bg-gray-50 flex-shrink-0 mt-1">
+                  <div className="p-3 rounded-full bg-gray-50 dark:bg-gray-700 dark:text-white flex-shrink-0 mt-1">
                     {getTypeIcon(tx.type)}
                   </div>
                   <div>
@@ -246,12 +246,12 @@ export const Transactions = () => {
                   type="number" 
                   value={editAmount}
                   onChange={e => setEditAmount(e.target.value)}
-                  className="w-full border dark:border-gray-700 rounded-lg p-2 bg-gray-50"
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 bg-gray-50 dark:bg-gray-700 dark:text-white"
                   required
                 />
               </div>
               <div className="flex space-x-3 pt-4">
-                <button type="button" onClick={() => setEditingTx(null)} className="flex-1 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium">Бекарлаў</button>
+                <button type="button" onClick={() => setEditingTx(null)} className="flex-1 py-2 bg-gray-100 text-gray-700 dark:text-gray-300 rounded-lg font-medium">Бекарлаў</button>
                 <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg font-medium">Сақлаў</button>
               </div>
             </form>
@@ -261,6 +261,7 @@ export const Transactions = () => {
     </div>
   );
 };
+
 
 
 

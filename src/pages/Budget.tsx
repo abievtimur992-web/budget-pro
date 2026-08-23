@@ -127,7 +127,7 @@ export const Budget = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-20">
       {/* Month Selector */}
-      <div className="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">
+      <div className="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 dark:text-white">
         <button onClick={() => setSelectedMonth(getPreviousMonth(selectedMonth))} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><ChevronLeft /></button>
         <h2 className="text-xl font-bold dark:text-white">{formatMonthName(selectedMonth)}</h2>
         <button onClick={() => setSelectedMonth(getNextMonth(selectedMonth))} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><ChevronRight /></button>
@@ -135,7 +135,7 @@ export const Budget = () => {
 
       {/* Summary Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 relative">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 relative dark:text-white">
           <p className="text-xs text-gray-500 dark:text-gray-400 flex justify-between">
             Жоспарланған кирис (План)
             <button onClick={() => {
@@ -147,15 +147,15 @@ export const Budget = () => {
           </p>
           <p className="font-bold dark:text-white">{formatCurrency(monthlyIncome)}</p>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 dark:text-white">
           <p className="text-xs text-gray-500 dark:text-gray-400">Жалпы бюджет</p>
           <p className="font-bold dark:text-white">{formatCurrency(allocatedBudget)}</p>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 dark:text-white">
           <p className="text-xs text-gray-500 dark:text-gray-400">Жумсалғаны</p>
           <p className="font-bold text-red-500">{formatCurrency(totalSpent)}</p>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 dark:text-white">
           <p className="text-xs text-gray-500 dark:text-gray-400">Қалған бюджет</p>
           <p className="font-bold text-green-500">{formatCurrency(remainingTotal)}</p>
         </div>
@@ -188,7 +188,7 @@ export const Budget = () => {
 
         {/* Debt Virtual Category */}
         {debts.length > 0 && (
-          <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-xl shadow-sm border dark:border-gray-700 border-red-100 dark:border-red-900/50">
+          <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-xl shadow-sm border dark:border-gray-700 border-red-100 dark:border-red-900/50 dark:text-white">
             <div className="flex justify-between items-start mb-2">
               <div>
                 <h4 className="font-bold text-red-800 dark:text-red-300">Қарыз төлемлери (Мәжбүрий)</h4>
@@ -235,7 +235,7 @@ export const Budget = () => {
           }
 
           return (
-            <div key={cb.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 border-l-4 border-l-green-500">
+            <div key={cb.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 border-l-4 border-l-green-500 dark:text-white">
               <div className="flex justify-between items-start mb-2">
                 <div>
                   <h4 className="font-bold dark:text-white">{cat.name}</h4>
@@ -292,7 +292,7 @@ export const Budget = () => {
           }
 
           return (
-            <div key={cb.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">
+            <div key={cb.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 dark:text-white">
               <div className="flex justify-between items-start mb-2">
                 <div>
                   <h4 className="font-bold dark:text-white">{cat.name}</h4>
@@ -345,7 +345,7 @@ export const Budget = () => {
                   type="number" 
                   value={editLimit}
                   onChange={e => setEditLimit(e.target.value)}
-                  className="w-full border dark:border-gray-700 rounded-lg p-2"
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white"
                 />
               </div>
               <div className="flex space-x-3 pt-4">
@@ -364,18 +364,18 @@ export const Budget = () => {
             <form onSubmit={handleAddCategory} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Түрі</label>
-                <select value={newCatType} onChange={e => setNewCatType(e.target.value as any)} className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800">
+                <select value={newCatType} onChange={e => setNewCatType(e.target.value as any)} className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white">
                   <option value="expense">Шығыс (Категория)</option>
                   <option value="income">Кирис (Табыс көзі)</option>
                 </select>
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">Категория аты</label>
-                <input required type="text" value={newCatName} onChange={e => setNewCatName(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2" />
+                <input required type="text" value={newCatName} onChange={e => setNewCatName(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white" />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">Айлық лимит</label>
-                <input required type="number" value={newCatLimit} onChange={e => setNewCatLimit(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2" />
+                <input required type="number" value={newCatLimit} onChange={e => setNewCatLimit(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white" />
               </div>
               <div className="flex space-x-3 pt-4">
                 <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Бекарлаў</button>
@@ -393,7 +393,7 @@ export const Budget = () => {
             <form onSubmit={handleTransfer} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Қайсы категориядан алынады?</label>
-                <select required value={transferFrom} onChange={e => setTransferFrom(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2">
+                <select required value={transferFrom} onChange={e => setTransferFrom(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white">
                   <option value="">Таңлаң...</option>
                   {currentBudget.categories.map(cb => {
                     const c = categories.find(cat => cat.id === cb.categoryId);
@@ -403,7 +403,7 @@ export const Budget = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">Қайсы категорияға қосылады?</label>
-                <select required value={transferTo} onChange={e => setTransferTo(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2">
+                <select required value={transferTo} onChange={e => setTransferTo(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white">
                   <option value="">Таңлаң...</option>
                   {currentBudget.categories.map(cb => {
                     const c = categories.find(cat => cat.id === cb.categoryId);
@@ -413,7 +413,7 @@ export const Budget = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">Сумма</label>
-                <input required type="number" value={transferAmount} onChange={e => setTransferAmount(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2" />
+                <input required type="number" value={transferAmount} onChange={e => setTransferAmount(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white" />
               </div>
               <div className="flex space-x-3 pt-4">
                 <button type="button" onClick={() => setShowTransferModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Бекарлаў</button>
@@ -426,6 +426,7 @@ export const Budget = () => {
     </div>
   );
 };
+
 
 
 

@@ -29,7 +29,7 @@ export const FamilySettings = () => {
   if (!isSupabaseMode) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-center bg-yellow-50 p-6 rounded-xl border dark:border-gray-700 border-yellow-200">
+        <div className="text-center bg-yellow-50 p-6 rounded-xl border dark:border-gray-700 border-yellow-200 dark:bg-gray-800 dark:text-white">
           <AlertCircle className="mx-auto text-yellow-500 mb-4" size={48} />
           <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-2 dark:text-white">Local Mode</h2>
           <p className="text-gray-600 dark:text-gray-400">{t('family.noCloudMode')}</p>
@@ -58,7 +58,7 @@ export const FamilySettings = () => {
 
   if (!currentFamilyId) {
     return (
-      <div className="max-w-md mx-auto mt-10 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700">
+      <div className="max-w-md mx-auto mt-10 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
         <div className="text-center mb-6">
           <Users className="mx-auto text-primary-500 mb-2" size={48} />
           <h2 className="text-xl font-bold dark:text-white">{t('family.createFamily')}</h2>
@@ -73,13 +73,13 @@ export const FamilySettings = () => {
 
         <form onSubmit={handleCreateFamily} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('family.familyName')}</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('family.familyName')}</label>
             <input
               type="text"
               required
               value={familyName}
               onChange={e => setFamilyName(e.target.value)}
-              className="w-full px-4 py-2 border dark:border-gray-700 rounded-xl"
+              className="w-full px-4 py-2 border dark:border-gray-700 rounded-xl dark:bg-gray-800 dark:text-white"
             />
           </div>
           <button disabled={loading} type="submit" className="w-full bg-primary-600 text-white py-2 rounded-xl">
@@ -101,14 +101,14 @@ export const FamilySettings = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 space-y-6">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 dark:text-white">
             <h2 className="text-lg font-bold mb-4 flex items-center gap-2 dark:text-white">
               <Users className="text-blue-500" />
               {family?.name || t('family.myFamily')} - {t('family.members')}
             </h2>
             <div className="space-y-4">
               {members.map(member => (
-                <div key={member.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border dark:border-gray-700">
+                <div key={member.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-xl border dark:border-gray-700">
                   <div>
                     <div className="font-medium text-gray-900 dark:text-white">{member.user_profiles?.display_name || 'User'}</div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">{member.user_profiles?.email || 'N/A'}</div>
@@ -125,7 +125,7 @@ export const FamilySettings = () => {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 h-fit">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 h-fit dark:text-white">
           <h2 className="text-lg font-bold mb-4 flex items-center gap-2 dark:text-white">
             <UserPlus className="text-green-500" />
             {t('family.addMember')}
@@ -140,22 +140,22 @@ export const FamilySettings = () => {
 
           <form onSubmit={handleInvite} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('family.email')}</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('family.email')}</label>
               <input
                 type="email"
                 required
                 value={inviteEmail}
                 onChange={e => setInviteEmail(e.target.value)}
-                className="w-full px-4 py-2 border dark:border-gray-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500"
+                className="w-full px-4 py-2 border dark:border-gray-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white"
                 placeholder="email@example.com"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('family.role')}</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('family.role')}</label>
               <select
                 value={inviteRole}
                 onChange={e => setInviteRole(e.target.value)}
-                className="w-full px-4 py-2 border dark:border-gray-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-800"
+                className="w-full px-4 py-2 border dark:border-gray-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-800 dark:text-white"
               >
                 <option value="adult">{t('family.adult')}</option>
                 <option value="child">{t('family.child')}</option>
@@ -170,6 +170,7 @@ export const FamilySettings = () => {
     </div>
   );
 };
+
 
 
 

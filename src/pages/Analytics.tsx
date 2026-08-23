@@ -55,7 +55,7 @@ export const Analytics = () => {
           <select 
             value={periodType} 
             onChange={(e) => setPeriodType(e.target.value)}
-            className="bg-gray-50 border dark:border-gray-700 border-gray-200 dark:border-gray-700 rounded-lg p-2 font-medium"
+            className="bg-gray-50 dark:bg-gray-700 dark:text-white border dark:border-gray-700 border-gray-200 dark:border-gray-700 rounded-lg p-2 font-medium"
           >
             <option value="current_month">Бул ай</option>
             <option value="last_month">Өткен ай</option>
@@ -66,8 +66,8 @@ export const Analytics = () => {
           </select>
           {periodType === 'custom' && (
             <div className="flex gap-2">
-              <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)} className="border rounded-lg p-2 text-sm" />
-              <input type="date" value={customEnd} onChange={e => setCustomEnd(e.target.value)} className="border rounded-lg p-2 text-sm" />
+              <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)} className="border rounded-lg p-2 text-sm dark:bg-gray-800 dark:text-white" />
+              <input type="date" value={customEnd} onChange={e => setCustomEnd(e.target.value)} className="border rounded-lg p-2 text-sm dark:bg-gray-800 dark:text-white" />
             </div>
           )}
         </div>
@@ -87,7 +87,7 @@ export const Analytics = () => {
               <div className="text-lg font-bold bg-white dark:bg-gray-800/20 px-4 py-1 rounded-full dark:text-white">{health.label}</div>
             </div>
             
-            <div className="md:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700">
+            <div className="md:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 dark:text-white">
               <h3 className="font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2"><Lightbulb className="text-yellow-500" size={20}/> Ақыллы Мәсләҳәт (Smart Insights)</h3>
               <div className="space-y-3">
                 {insights.map((ins, i) => (
@@ -95,7 +95,7 @@ export const Analytics = () => {
                     {ins.type === 'positive' ? <CheckCircle className="text-green-500 shrink-0" size={18}/> : 
                      ins.type === 'warning' ? <AlertCircle className="text-yellow-500 shrink-0" size={18}/> : 
                      <AlertCircle className="text-red-500 shrink-0" size={18}/>}
-                    <p className="text-sm text-gray-700">{ins.text}</p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300">{ins.text}</p>
                   </div>
                 ))}
               </div>
@@ -104,22 +104,22 @@ export const Analytics = () => {
 
           {/* 2. Financial Summary KPI */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Жалпы кирис</p>
               <p className="font-bold text-xl text-gray-900 dark:text-white mb-2">{formatCurrency(summary.income)}</p>
               {renderChange(m2m.incomeChange)}
             </div>
-            <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Жалпы шығыс (P&L)</p>
               <p className="font-bold text-xl text-red-600 mb-2">{formatCurrency(summary.expense)}</p>
               {renderChange(m2m.expenseChange)}
             </div>
-            <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Жинақ (Savings Rate: {summary.savingsRate.toFixed(1)}%)</p>
               <p className="font-bold text-xl text-green-600 mb-2">{formatCurrency(summary.savings)}</p>
               {renderChange(m2m.savingsChange)}
             </div>
-            <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Қарыз төлемлери</p>
               <p className="font-bold text-xl text-orange-600 mb-1 dark:text-white">{formatCurrency(summary.debtPaymentTotal)}</p>
               <div className="text-[10px] text-gray-400 flex justify-between">
@@ -131,7 +131,7 @@ export const Analytics = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Cash Flow */}
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
               <h3 className="font-bold text-lg mb-4 dark:text-white">Cash Flow</h3>
               <div className="space-y-4">
                 {cashFlow.slice(-4).map((cf) => (
@@ -155,13 +155,13 @@ export const Analytics = () => {
             </div>
 
             {/* Expense Breakdown (Top 5) */}
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
               <h3 className="font-bold text-lg mb-4 dark:text-white">Top 5 Шығын (Expense Breakdown)</h3>
               <div className="space-y-4">
                 {budgetActuals.slice(0, 5).map(cat => (
                   <div key={cat.categoryId}>
                     <div className="flex justify-between text-sm mb-1">
-                      <span className="font-medium text-gray-700">{cat.categoryName}</span>
+                      <span className="font-medium text-gray-700 dark:text-gray-300">{cat.categoryName}</span>
                       <span className="text-gray-900 dark:text-white font-bold">{formatCurrency(cat.actualAmount)} ({(cat.actualAmount / (summary.expense || 1) * 100).toFixed(1)}%)</span>
                     </div>
                     <div className="w-full bg-gray-100 rounded-full h-2">
@@ -175,7 +175,7 @@ export const Analytics = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Funds Progress */}
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
               <h3 className="font-bold text-lg mb-4 text-blue-900 dark:text-white">Қорлар Аналитикасы</h3>
               <div className="flex justify-between mb-2">
                 <span className="text-gray-500 dark:text-gray-400 text-sm">Жалпы баланс</span>
@@ -199,7 +199,7 @@ export const Analytics = () => {
             </div>
 
             {/* Debts Progress */}
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
               <h3 className="font-bold text-lg mb-4 text-orange-900 dark:text-white">Қарыз Аналитикасы</h3>
               <div className="flex justify-between mb-2">
                 <span className="text-gray-500 dark:text-gray-400 text-sm">Жалпы қарыз қалдығы</span>
@@ -222,11 +222,11 @@ export const Analytics = () => {
           </div>
           
           {/* Budget vs Actual */}
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
             <h3 className="font-bold text-lg mb-4 dark:text-white">Бюджет Орынланыўы (Budget vs Actual)</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {budgetActuals.map(cat => (
-                <div key={cat.categoryId} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                <div key={cat.categoryId} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-xl">
                   <div className="flex-1">
                     <p className="font-medium text-sm mb-1">{cat.categoryName}</p>
                     <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
@@ -254,6 +254,7 @@ export const Analytics = () => {
     </div>
   );
 };
+
 
 
 

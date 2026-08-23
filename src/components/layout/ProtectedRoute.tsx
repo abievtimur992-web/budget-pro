@@ -54,7 +54,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   }, [isCloudPrimary, isSupabaseMode, isAuthenticated, currentFamilyId, session?.access_token, fetchAccounts, fetchTransactions, fetchBudgets, fetchFunds, fetchDebts, handleRealtimeEvent, setSyncStatus, processSyncQueue]);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center bg-gray-50">Loading...</div>;
+    return <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-700 dark:text-white">Loading...</div>;
   }
 
   // Fallback to LocalStorage mode if no Supabase config exists OR migration not yet completed
@@ -69,6 +69,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   return <>{children}</>;
 };
+
 
 
 

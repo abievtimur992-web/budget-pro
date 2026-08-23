@@ -43,9 +43,9 @@ export const Debts = () => {
   const debtors = funds.filter(f => f.name.startsWith('DEBTOR:'));
 
   const getStrategyName = (key: string) => {
-    if (key === 'avalanche') return 'Avalanche (Жо?ары пайыз бірінші)';
-    if (key === 'snowball') return 'Snowball (Кіші сумма бірінші)';
-    return 'Hybrid (А?ылды / Те?герімді)';
+    if (key === 'avalanche') return 'Avalanche (Р–РѕТ“Р°СЂС‹ РїР°Р№С‹Р· Р±С–СЂС–РЅС€С–)';
+    if (key === 'snowball') return 'Snowball (РљС–С€С– СЃСѓРјРјР° Р±С–СЂС–РЅС€С–)';
+    return 'Hybrid (РђТ›С‹Р»РґС‹ / РўРµТЈРіРµСЂС–РјРґС–)';
   };
 
   const handleAddSubmit = async (e: React.FormEvent) => {
@@ -107,69 +107,69 @@ export const Debts = () => {
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold flex items-center gap-2 dark:text-white">
           {activeTab === 'debts' ? <CreditCard /> : <Users />} 
-          ?арыздар
+          ТљР°СЂС‹Р·РґР°СЂ
         </h1>
         <button onClick={openAddModal} className="bg-primary-600 text-white p-2 rounded-full hover:bg-primary-700">
           <Plus size={24} />
         </button>
       </div>
 
-      <div className="flex space-x-2 bg-gray-100 p-1 rounded-xl">
+      <div className="flex space-x-2 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl">
         <button 
           onClick={() => setActiveTab('debts')} 
-          className={`flex-1 py-2 rounded-lg font-medium transition-colors ${activeTab === 'debts' ? 'bg-white dark:bg-gray-800 shadow-sm text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'}`}
+          className={`flex-1 py-2 rounded-lg font-medium transition-colors ${activeTab === 'debts' ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-300'}`}
         >
-          Мені? ?арыздарым (Банктер)
+          РњРµРЅС–ТЈ Т›Р°СЂС‹Р·РґР°СЂС‹Рј (Р‘Р°РЅРєС‚РµСЂ)
         </button>
         <button 
           onClick={() => setActiveTab('debtors')} 
-          className={`flex-1 py-2 rounded-lg font-medium transition-colors ${activeTab === 'debtors' ? 'bg-white dark:bg-gray-800 shadow-sm text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'}`}
+          className={`flex-1 py-2 rounded-lg font-medium transition-colors ${activeTab === 'debtors' ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-300'}`}
         >
-          Ма?ан ?арыздар (Дебиторка)
+          РњР°Т“Р°РЅ Т›Р°СЂС‹Р·РґР°СЂ (Р”РµР±РёС‚РѕСЂРєР°)
         </button>
       </div>
 
       {activeTab === 'debts' ? (
         <>
-          <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700">
-            <h2 className="text-xl font-bold mb-4 dark:text-white">Жалпы статус</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+            <h2 className="text-xl font-bold mb-4 dark:text-white">Р–Р°Р»РїС‹ СЃС‚Р°С‚СѓСЃ</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Жалпы ?арыз</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Р–Р°Р»РїС‹ Т›Р°СЂС‹Р·</p>
                 <p className="font-bold text-xl dark:text-white">{formatCurrency(debts.reduce((a, b) => a + b.remainingAmount, 0))}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Айлы? минимал т?лем</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">РђР№Р»С‹Т› РјРёРЅРёРјР°Р» С‚У©Р»РµРј</p>
                 <p className="font-bold text-xl text-red-500">{formatCurrency(debts.reduce((a, b) => a + b.minimumPayment, 0))}</p>
               </div>
               <div className="col-span-2">
-                <p className="text-sm text-gray-500 dark:text-gray-400">?осымша айлы? т?лем</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">ТљРѕСЃС‹РјС€Р° Р°Р№Р»С‹Т› С‚У©Р»РµРј</p>
                 <input 
                   type="number" 
                   value={extraPayment || ''} 
                   onChange={e => setExtraPayment(Number(e.target.value))}
-                  placeholder="0 сум"
-                  className="w-full border-b focus:outline-none focus:border-primary-500 font-bold text-xl text-green-600"
+                  placeholder="0 СЃСѓРј"
+                  className="w-full border-b dark:border-gray-700 focus:outline-none focus:border-primary-500 font-bold text-xl text-green-600 dark:bg-gray-800 dark:text-white"
                 />
               </div>
             </div>
           </div>
 
-          <h2 className="text-xl font-bold mb-2 dark:text-white">Стратегияны та?лау</h2>
+          <h2 className="text-xl font-bold mb-2 dark:text-white">РЎС‚СЂР°С‚РµРіРёСЏРЅС‹ С‚Р°ТЈР»Р°Сѓ</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             {(Object.entries(strategies) as [keyof typeof strategies, any][]).map(([key, result]) => (
               <div 
                 key={key} 
                 onClick={() => setDebtStrategy(key as any)}
-                className={`cursor-pointer rounded-2xl p-4 border-2 transition-all ${debtStrategy === key ? 'border-primary-600 bg-primary-50' : 'border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-200 dark:border-gray-700'}`}
+                className={`cursor-pointer rounded-2xl p-4 border-2 transition-all ${debtStrategy === key ? 'border-primary-600 bg-primary-50 dark:bg-primary-900/20' : 'border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-200 dark:hover:border-gray-600'}`}
               >
                 <h3 className="font-bold text-lg mb-2 dark:text-white">{getStrategyName(key)}</h3>
                 <div className="space-y-1">
-                  <p className="text-sm text-gray-600 dark:text-gray-400 flex justify-between"><span>Мерзімі:</span> <span className="font-medium text-gray-900 dark:text-white">{calculateDebtFreeDate(result.overallMonthsToPayoff)}</span></p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 flex justify-between"><span>Пайыз (зияны):</span> <span className="font-medium text-red-500">{formatCurrency(result.totalInterestPaid)}</span></p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 flex justify-between"><span>РњРµСЂР·С–РјС–:</span> <span className="font-medium text-gray-900 dark:text-white">{calculateDebtFreeDate(result.overallMonthsToPayoff)}</span></p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 flex justify-between"><span>РџР°Р№С‹Р· (Р·РёСЏРЅС‹):</span> <span className="font-medium text-red-500">{formatCurrency(result.totalInterestPaid)}</span></p>
                 </div>
                 {debtStrategy === key && (
-                  <div className="mt-3 text-xs text-primary-600 font-medium flex items-center justify-center">Та?ланды</div>
+                  <div className="mt-3 text-xs text-primary-600 dark:text-primary-400 font-medium flex items-center justify-center">РўР°ТЈР»Р°РЅРґС‹</div>
                 )}
               </div>
             ))}
@@ -183,14 +183,14 @@ export const Debts = () => {
                     <h3 className="font-bold text-lg dark:text-white">{debt.name} ({debt.creditor})</h3>
                     <button onClick={() => deleteDebt(debt.id)} className="text-gray-400 hover:text-red-500 p-1"><Trash2 size={18} /></button>
                   </div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Пайыз: {debt.interestRate}% | Минимал т?лем: {formatCurrency(debt.minimumPayment)}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">РџР°Р№С‹Р·: {debt.interestRate}% | РњРёРЅРёРјР°Р» С‚У©Р»РµРј: {formatCurrency(debt.minimumPayment)}</p>
                 </div>
                 <div className="flex flex-col items-end justify-between">
                   <div className="text-right">
-                    <p className="text-xs text-gray-500 dark:text-gray-400">?алды:</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">ТљР°Р»РґС‹:</p>
                     <p className="font-bold text-xl text-red-500">{formatCurrency(debt.remainingAmount)}</p>
                   </div>
-                  <button onClick={() => openPayModal(debt.id)} className="mt-2 text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg flex items-center gap-1">Т?лем жасау <ChevronRight size={14} /></button>
+                  <button onClick={() => openPayModal(debt.id)} className="mt-2 text-sm bg-gray-100 dark:bg-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1.5 rounded-lg flex items-center gap-1">РўУ©Р»РµРј Р¶Р°СЃР°Сѓ <ChevronRight size={14} /></button>
                 </div>
               </div>
             ))}
@@ -198,11 +198,11 @@ export const Debts = () => {
         </>
       ) : (
         <>
-          <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 mb-6">
-            <h2 className="text-xl font-bold mb-4 dark:text-white">Жалпы Дебиторлы? ?арыз</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 mb-6">
+            <h2 className="text-xl font-bold mb-4 dark:text-white">Р–Р°Р»РїС‹ Р”РµР±РёС‚РѕСЂР»С‹Т› ТљР°СЂС‹Р·</h2>
             <div className="grid grid-cols-1">
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Достарда?ы а?ша (Сыртта?ы а?ша)</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Р”РѕСЃС‚Р°СЂРґР°Т“С‹ Р°Т›С€Р° (РЎС‹СЂС‚С‚Р°Т“С‹ Р°Т›С€Р°)</p>
                 <p className="font-bold text-3xl text-green-600">{formatCurrency(debtors.reduce((a, b) => a + b.currentAmount, 0))}</p>
               </div>
             </div>
@@ -210,7 +210,7 @@ export const Debts = () => {
 
           <div className="space-y-4">
             {debtors.length === 0 ? (
-              <p className="text-gray-500 dark:text-gray-400 text-center py-10">?зірге ешкімге ?арыз бермегенсіз.</p>
+              <p className="text-gray-500 dark:text-gray-400 text-center py-10">УР·С–СЂРіРµ РµС€РєС–РјРіРµ Т›Р°СЂС‹Р· Р±РµСЂРјРµРіРµРЅСЃС–Р·.</p>
             ) : (
               debtors.map(fund => (
                 <div key={fund.id} className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border dark:border-gray-700 flex flex-col md:flex-row justify-between gap-4">
@@ -219,14 +219,14 @@ export const Debts = () => {
                       <h3 className="font-bold text-lg dark:text-white">{fund.name.replace('DEBTOR:', '')}</h3>
                       <button onClick={() => deleteFund(fund.id)} className="text-gray-400 hover:text-red-500 p-1"><Trash2 size={18} /></button>
                     </div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Берілген ?арыз: {formatCurrency(fund.targetAmount)}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Р‘РµСЂС–Р»РіРµРЅ Т›Р°СЂС‹Р·: {formatCurrency(fund.targetAmount)}</p>
                   </div>
                   <div className="flex flex-col items-end justify-between">
                     <div className="text-right">
-                      <p className="text-xs text-gray-500 dark:text-gray-400">?айтару керек (?алды):</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">ТљР°Р№С‚Р°СЂСѓ РєРµСЂРµРє (ТљР°Р»РґС‹):</p>
                       <p className="font-bold text-xl text-green-600">{formatCurrency(fund.currentAmount)}</p>
                     </div>
-                    <button onClick={() => openPayModal(fund.id)} className="mt-2 text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg flex items-center gap-1">?айтарды <ChevronRight size={14} /></button>
+                    <button onClick={() => openPayModal(fund.id)} className="mt-2 text-sm bg-gray-100 dark:bg-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1.5 rounded-lg flex items-center gap-1">ТљР°Р№С‚Р°СЂРґС‹ <ChevronRight size={14} /></button>
                   </div>
                 </div>
               ))
@@ -238,29 +238,29 @@ export const Debts = () => {
       {showAddModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm">
-            <h3 className="text-xl font-bold mb-4 dark:text-white">{activeTab === 'debts' ? 'Жа?а ?арыз ?осу' : 'Кімге ?арыз берді?із?'}</h3>
+            <h3 className="text-xl font-bold mb-4 dark:text-white">{activeTab === 'debts' ? 'Р–Р°ТЈР° ТљР°СЂС‹Р· ТљРѕСЃСѓ' : 'РљС–РјРіРµ Т›Р°СЂС‹Р· Р±РµСЂРґС–ТЈС–Р·?'}</h3>
             <form onSubmit={handleAddSubmit} className="space-y-3">
               {activeTab === 'debts' ? (
                 <>
-                  <input required placeholder="?арыз аты (Мысалы: Автокредит)" className="w-full border dark:border-gray-700 rounded-lg p-2" value={dName} onChange={e => setDName(e.target.value)} />
-                  <input required placeholder="Кімге? (Мысалы: Халы? банк)" className="w-full border dark:border-gray-700 rounded-lg p-2" value={dCreditor} onChange={e => setDCreditor(e.target.value)} />
-                  <input required type="number" placeholder="?ал?ан сома (?алды?)" className="w-full border dark:border-gray-700 rounded-lg p-2" value={dAmount} onChange={e => setDAmount(e.target.value)} />
-                  <input required type="number" placeholder="Пайыз (Мысалы: 24)" className="w-full border dark:border-gray-700 rounded-lg p-2" value={dRate} onChange={e => setDRate(e.target.value)} />
-                  <input required type="number" placeholder="Минимал т?лем сомасы" className="w-full border dark:border-gray-700 rounded-lg p-2" value={dMin} onChange={e => setDMin(e.target.value)} />
+                  <input required placeholder="ТљР°СЂС‹Р· Р°С‚С‹ (РњС‹СЃР°Р»С‹: РђРІС‚РѕРєСЂРµРґРёС‚)" className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-700 dark:text-white" value={dName} onChange={e => setDName(e.target.value)} />
+                  <input required placeholder="РљС–РјРіРµ? (РњС‹СЃР°Р»С‹: РҐР°Р»С‹Т› Р±Р°РЅРє)" className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-700 dark:text-white" value={dCreditor} onChange={e => setDCreditor(e.target.value)} />
+                  <input required type="number" placeholder="ТљР°Р»Т“Р°РЅ СЃРѕРјР° (ТљР°Р»РґС‹Т›)" className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-700 dark:text-white" value={dAmount} onChange={e => setDAmount(e.target.value)} />
+                  <input required type="number" placeholder="РџР°Р№С‹Р· (РњС‹СЃР°Р»С‹: 24)" className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-700 dark:text-white" value={dRate} onChange={e => setDRate(e.target.value)} />
+                  <input required type="number" placeholder="РњРёРЅРёРјР°Р» С‚У©Р»РµРј СЃРѕРјР°СЃС‹" className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-700 dark:text-white" value={dMin} onChange={e => setDMin(e.target.value)} />
                 </>
               ) : (
                 <>
-                  <input required placeholder="Адамны? аты (Мысалы: Ислам)" className="w-full border dark:border-gray-700 rounded-lg p-2" value={dName} onChange={e => setDName(e.target.value)} />
-                  <input required type="number" placeholder="?анша берді?із?" className="w-full border dark:border-gray-700 rounded-lg p-2" value={dAmount} onChange={e => setDAmount(e.target.value)} />
-                  <select required className="w-full border dark:border-gray-700 rounded-lg p-2" value={dAccount} onChange={e => setDAccount(e.target.value)}>
-                    <option value="">А?ша ?ай шоттан кетті?</option>
+                  <input required placeholder="РђРґР°РјРЅС‹ТЈ Р°С‚С‹ (РњС‹СЃР°Р»С‹: РСЃР»Р°Рј)" className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-700 dark:text-white" value={dName} onChange={e => setDName(e.target.value)} />
+                  <input required type="number" placeholder="ТљР°РЅС€Р° Р±РµСЂРґС–ТЈС–Р·?" className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-700 dark:text-white" value={dAmount} onChange={e => setDAmount(e.target.value)} />
+                  <select required className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-700 dark:text-white" value={dAccount} onChange={e => setDAccount(e.target.value)}>
+                    <option value="">РђТ›С€Р° Т›Р°Р№ С€РѕС‚С‚Р°РЅ РєРµС‚С‚С–?</option>
                     {accounts.map(a => <option key={a.id} value={a.id}>{a.name} ({formatCurrency(a.balance)})</option>)}
                   </select>
                 </>
               )}
               <div className="flex space-x-3 pt-4">
-                <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Болдырмау</button>
-                <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">Са?тау</button>
+                <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 dark:text-white rounded-lg">Р‘РѕР»РґС‹СЂРјР°Сѓ</button>
+                <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">РЎР°Т›С‚Р°Сѓ</button>
               </div>
             </form>
           </div>
@@ -270,17 +270,17 @@ export const Debts = () => {
       {showPayModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm">
-            <h3 className="text-xl font-bold mb-4 dark:text-white">{activeTab === 'debts' ? 'Т?лем жасау' : 'А?шаны ?айтарып алу'}</h3>
+            <h3 className="text-xl font-bold mb-4 dark:text-white">{activeTab === 'debts' ? 'РўУ©Р»РµРј Р¶Р°СЃР°Сѓ' : 'РђТ›С€Р°РЅС‹ Т›Р°Р№С‚Р°СЂС‹Рї Р°Р»Сѓ'}</h3>
             <form onSubmit={handlePaymentSubmit} className="space-y-3">
-              <select required className="w-full border dark:border-gray-700 rounded-lg p-2" value={payAccount} onChange={e => setPayAccount(e.target.value)}>
-                <option value="">{activeTab === 'debts' ? 'А?ша ?ай шоттан кетеді?' : 'А?ша ?ай шот?а т?сті?'}</option>
+              <select required className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-700 dark:text-white" value={payAccount} onChange={e => setPayAccount(e.target.value)}>
+                <option value="">{activeTab === 'debts' ? 'РђТ›С€Р° Т›Р°Р№ С€РѕС‚С‚Р°РЅ РєРµС‚РµРґС–?' : 'РђТ›С€Р° Т›Р°Р№ С€РѕС‚Т›Р° С‚ТЇСЃС‚С–?'}</option>
                 {accounts.map(a => <option key={a.id} value={a.id}>{a.name} ({formatCurrency(a.balance)})</option>)}
               </select>
-              <input required type="number" placeholder="Сомасы" className="w-full border dark:border-gray-700 rounded-lg p-2" value={payAmount} onChange={e => setPayAmount(e.target.value)} />
-              <input required type="date" className="w-full border dark:border-gray-700 rounded-lg p-2" value={payDate} onChange={e => setPayDate(e.target.value)} />
+              <input required type="number" placeholder="РЎРѕРјР°СЃС‹" className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-700 dark:text-white" value={payAmount} onChange={e => setPayAmount(e.target.value)} />
+              <input required type="date" className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-700 dark:text-white" value={payDate} onChange={e => setPayDate(e.target.value)} />
               <div className="flex space-x-3 pt-4">
-                <button type="button" onClick={() => setShowPayModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Болдырмау</button>
-                <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">Са?тау</button>
+                <button type="button" onClick={() => setShowPayModal(false)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 dark:text-white rounded-lg">Р‘РѕР»РґС‹СЂРјР°Сѓ</button>
+                <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">РЎР°Т›С‚Р°Сѓ</button>
               </div>
             </form>
           </div>
@@ -289,6 +289,3 @@ export const Debts = () => {
     </div>
   );
 };
-
-
-

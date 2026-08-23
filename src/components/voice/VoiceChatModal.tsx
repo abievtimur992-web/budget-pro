@@ -223,7 +223,7 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-end sm:items-center justify-center z-50 p-0 sm:p-4">
-      <div className="bg-gray-50 w-full sm:max-w-md h-[80vh] sm:h-[600px] sm:rounded-3xl flex flex-col overflow-hidden shadow-2xl animate-in slide-in-from-bottom">
+      <div className="bg-gray-50 dark:bg-gray-700 dark:text-white w-full sm:max-w-md h-[80vh] sm:h-[600px] sm:rounded-3xl flex flex-col overflow-hidden shadow-2xl animate-in slide-in-from-bottom">
         {/* Header */}
         <div className="bg-white dark:bg-gray-800 px-4 py-4 flex justify-between items-center shadow-sm z-10">
           <div>
@@ -249,12 +249,12 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
                   <div className="mt-3 flex gap-2">
                     {msg.isWarning ? (
                       <>
-                        <button onClick={() => setMessages(prev => [...prev, {id: Date.now().toString(), role:'user', text:'Бекарлаў'}])} className="flex-1 bg-gray-100 py-2 rounded-xl text-sm font-medium text-gray-700">Бекарлаў</button>
+                        <button onClick={() => setMessages(prev => [...prev, {id: Date.now().toString(), role:'user', text:'Бекарлаў'}])} className="flex-1 bg-gray-100 py-2 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300">Бекарлаў</button>
                         <button onClick={() => handleSave(msg.parsedData!, true)} className="flex-1 bg-red-100 text-red-700 py-2 rounded-xl text-sm font-medium">Бәрбир қосыў</button>
                       </>
                     ) : (
                       <>
-                        <button onClick={() => setMessages(prev => [...prev, {id: Date.now().toString(), role:'user', text:'Бекарлаў'}])} className="flex-1 bg-gray-100 py-2 rounded-xl text-sm font-medium text-gray-700">Бекарлаў</button>
+                        <button onClick={() => setMessages(prev => [...prev, {id: Date.now().toString(), role:'user', text:'Бекарлаў'}])} className="flex-1 bg-gray-100 py-2 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300">Бекарлаў</button>
                         <button onClick={() => handleSave(msg.parsedData!)} className="flex-1 bg-green-500 text-white py-2 rounded-xl text-sm font-medium">Сақлаў</button>
                       </>
                     )}
@@ -271,7 +271,7 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
             <button type="button" onClick={handleListen} className={`p-3 rounded-full transition-colors ${isListening ? 'bg-red-500 text-white animate-pulse' : 'bg-blue-50 text-blue-600 hover:bg-blue-100'}`}>
               <Mic size={24} />
             </button>
-            <label className="p-3 bg-gray-50 text-gray-600 dark:text-gray-400 rounded-full hover:bg-gray-200 transition-colors cursor-pointer">
+            <label className="p-3 bg-gray-50 dark:bg-gray-700 dark:text-white text-gray-600 dark:text-gray-400 rounded-full hover:bg-gray-200 transition-colors cursor-pointer">
               <Camera size={24} />
               <input type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFileUpload} />
             </label>
@@ -291,6 +291,7 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
     </div>
   );
 };
+
 
 
 

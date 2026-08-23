@@ -42,3 +42,4 @@ export const TrendBarChart = ({ data }: { data: TrendData[] }) => {
 
 
 
+

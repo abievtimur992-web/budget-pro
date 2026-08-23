@@ -85,7 +85,7 @@ export const NotificationBell = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-xl shadow-xl border dark:border-gray-700 z-50 overflow-hidden">
+        <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-xl shadow-xl border dark:border-gray-700 z-50 overflow-hidden dark:text-white">
           <div className="p-3 border-b dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-900/50">
             <h3 className="font-semibold text-gray-800 dark:text-gray-200">Хабарландырыўлар</h3>
             {unreadCount > 0 && (
@@ -104,7 +104,7 @@ export const NotificationBell = () => {
               notifications.map(notification => (
                 <div 
                   key={notification.id} 
-                  className={`p-3 border-b dark:border-gray-700 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors flex gap-3 ${!notification.is_read ? 'bg-primary-50/50 dark:bg-primary-900/20' : ''}`}
+                  className={`p-3 border-b dark:border-gray-700 last:border-0 hover:bg-gray-50 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-700/50 transition-colors flex gap-3 ${!notification.is_read ? 'bg-primary-50/50 dark:bg-primary-900/20' : ''}`}
                 >
                   <div className="flex-1">
                     <p className="text-sm text-gray-800 dark:text-gray-200">{notification.message}</p>
@@ -129,6 +129,7 @@ export const NotificationBell = () => {
     </div>
   );
 };
+
 
 
 

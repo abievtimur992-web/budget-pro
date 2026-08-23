@@ -57,7 +57,7 @@ export const AppLayout = () => {
   const SyncIndicator = () => {
     if (!isSupabaseMode || !syncStatus) return null;
     return (
-      <div className="flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-full bg-gray-50 border dark:border-gray-700">
+      <div className="flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-full bg-gray-50 dark:bg-gray-700 dark:text-white border dark:border-gray-700">
         {syncStatus === 'online' && <><div className="w-2 h-2 rounded-full bg-green-500"></div> Онлайн</>}
         {syncStatus === 'syncing' && <><div className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></div> Синхронланбақта</>}
         {syncStatus === 'offline' && <><div className="w-2 h-2 rounded-full bg-red-500"></div> Офлайн</>}
@@ -92,7 +92,7 @@ export const AppLayout = () => {
                 key={item.path}
                 to={item.path}
                 className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
-                  isActive ? 'bg-primary-50 text-primary-600 dark:bg-primary-900/50 dark:text-primary-400' : 'text-gray-600 dark:text-gray-400 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                  isActive ? 'bg-primary-50 text-primary-600 dark:bg-primary-900/50 dark:text-primary-400' : 'text-gray-600 dark:text-gray-400 dark:text-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-700/50'
                 }`}
               >
                 <Icon size={20} />
@@ -180,7 +180,7 @@ export const AppLayout = () => {
                   to={item.path}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`flex items-center space-x-4 p-4 rounded-xl ${
-                    isActive ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400' : 'hover:bg-gray-50 dark:hover:bg-gray-800'
+                    isActive ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400' : 'hover:bg-gray-50 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-800'
                   }`}
                 >
                   <Icon size={24} />
@@ -220,7 +220,7 @@ export const AppLayout = () => {
             <div className="flex flex-col gap-3">
               <button 
                 onClick={() => resolveConflict('server')}
-                className="w-full py-2.5 px-4 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-xl font-medium transition-colors"
+                className="w-full py-2.5 px-4 bg-gray-100 text-gray-700 dark:text-gray-300 hover:bg-gray-200 rounded-xl font-medium transition-colors"
               >
                 Сервердегини қабыллаў
               </button>
@@ -237,6 +237,7 @@ export const AppLayout = () => {
     </div>
   );
 };
+
 
 
 

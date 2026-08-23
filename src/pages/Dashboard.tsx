@@ -155,20 +155,20 @@ export const Dashboard = () => {
         <h1 className="text-2xl font-bold dark:text-white">{t('dashboard')}</h1>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
         <p className="text-gray-500 dark:text-gray-400 text-sm">{t('total_balance')}</p>
         <h2 className="text-4xl font-bold mt-2 dark:text-white">{formatCurrency(totalBalance)}</h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Expense Donut Chart */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
           <h3 className="font-bold text-lg mb-4 dark:text-white">Бул айда қәрежетлер</h3>
           <ExpenseDonutChart data={donutData} />
         </div>
 
         {/* 6 Months Trend */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
           <h3 className="font-bold text-lg mb-4 dark:text-white">Дәрамат ҳәм қәрежет тренди</h3>
           <TrendBarChart data={generateTrendData()} />
         </div>
@@ -199,7 +199,7 @@ export const Dashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 flex flex-col">
+        <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 flex flex-col dark:text-white">
           <div className="flex justify-between items-center mb-4">
             <h3 className="font-bold text-gray-800 dark:text-white flex items-center gap-2">
               <span className="text-xl">🛡</span> ҚОРЛАР
@@ -221,7 +221,7 @@ export const Dashboard = () => {
           <p className="text-sm text-gray-500 dark:text-gray-400 font-bold text-right">{Math.round((totalFundCurrent/totalFundTarget)*100)}%</p>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 flex flex-col">
+        <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 flex flex-col dark:text-white">
           <div className="flex justify-between items-center mb-4">
             <h3 className="font-bold text-gray-800 dark:text-white flex items-center gap-2">
               <span className="text-xl">💳</span> ҚАРЫЗДАН ҚУТЫЛЫЎ
@@ -240,7 +240,7 @@ export const Dashboard = () => {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
         <h3 className="font-semibold mb-4 text-lg">{t('budget')} (Усы ай)</h3>
         
         {currentBudget && unallocated === 0 ? (
@@ -295,7 +295,7 @@ export const Dashboard = () => {
 
       {showIncomeModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm border dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm border dark:border-gray-700 dark:text-white">
             <h3 className="text-xl font-bold mb-4 dark:text-white">{t('add_income')}</h3>
             <form onSubmit={handleAddIncome} className="space-y-4">
               <div>
@@ -305,7 +305,7 @@ export const Dashboard = () => {
                   required
                   value={amount}
                   onChange={e => setAmount(e.target.value)}
-                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 />
               </div>
               <div>
@@ -314,7 +314,7 @@ export const Dashboard = () => {
                   required
                   value={categoryId}
                   onChange={e => setCategoryId(e.target.value)}
-                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 >
                   <option value="">Таңлаң...</option>
                   {categories.filter(c => c.type === 'income').map(c => (
@@ -329,7 +329,7 @@ export const Dashboard = () => {
                   value={incomeComment}
                   onChange={e => setIncomeComment(e.target.value)}
                   placeholder="Қосымша түсініктеме..."
-                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 />
               </div>
               <div className="flex space-x-3 pt-4">
@@ -343,7 +343,7 @@ export const Dashboard = () => {
 
       {showExpenseModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm border dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm border dark:border-gray-700 dark:text-white">
             <h3 className="text-xl font-bold mb-4 dark:text-white">{t('add_expense')}</h3>
             
             {showWarning ? (
@@ -354,7 +354,7 @@ export const Dashboard = () => {
                   <p className="text-sm text-red-600 mt-1">{t('warning_overbudget_desc')}</p>
                 </div>
                 <div className="flex space-x-3 pt-2">
-                  <button onClick={() => setShowWarning(false)} className="flex-1 py-2 bg-gray-100 rounded-lg text-gray-700">{t('cancel')}</button>
+                  <button onClick={() => setShowWarning(false)} className="flex-1 py-2 bg-gray-100 rounded-lg text-gray-700 dark:text-gray-300">{t('cancel')}</button>
                   <button onClick={() => submitExpense(true)} className="flex-1 py-2 bg-red-600 text-white rounded-lg font-medium">{t('add_anyway')}</button>
                 </div>
               </div>
@@ -367,7 +367,7 @@ export const Dashboard = () => {
                     required
                     value={amount}
                     onChange={e => setAmount(e.target.value)}
-                    className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                    className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                   />
                 </div>
                 <div>
@@ -376,7 +376,7 @@ export const Dashboard = () => {
                     required
                     value={categoryId}
                     onChange={e => setCategoryId(e.target.value)}
-                    className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                    className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                   >
                     <option value="">Таңлаң...</option>
                     {categories.map(c => (
@@ -391,7 +391,7 @@ export const Dashboard = () => {
                     value={expenseComment}
                     onChange={e => setExpenseComment(e.target.value)}
                     placeholder="Мысалы: супермаркеттен азық-түлік..."
-                    className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                    className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                   />
                 </div>
                 <div className="flex space-x-3 pt-4">
@@ -406,7 +406,7 @@ export const Dashboard = () => {
 
       {showTransferModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm border dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm border dark:border-gray-700 dark:text-white">
             <h3 className="text-xl font-bold mb-4 dark:text-white">Ақша ауыстыру (Перевод)</h3>
             <form onSubmit={handleTransfer} className="space-y-4">
               <div>
@@ -416,7 +416,7 @@ export const Dashboard = () => {
                   required
                   value={transferAmount}
                   onChange={e => setTransferAmount(e.target.value)}
-                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 />
               </div>
               <div>
@@ -425,7 +425,7 @@ export const Dashboard = () => {
                   required
                   value={transferFrom}
                   onChange={e => setTransferFrom(e.target.value)}
-                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 >
                   <option value="">Таңдаңыз...</option>
                   {accounts.map(a => (
@@ -439,7 +439,7 @@ export const Dashboard = () => {
                   required
                   value={transferTo}
                   onChange={e => setTransferTo(e.target.value)}
-                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 >
                   <option value="">Таңдаңыз...</option>
                   {accounts.map(a => (
@@ -458,6 +458,7 @@ export const Dashboard = () => {
     </div>
   );
 };
+
 
 
 

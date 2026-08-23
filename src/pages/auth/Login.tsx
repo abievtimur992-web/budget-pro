@@ -35,10 +35,10 @@ export const Login = () => {
 
   if (!isSupabaseMode) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-        <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border dark:border-gray-700 border-yellow-200 text-center max-w-md">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-700 dark:text-white p-4">
+        <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border dark:border-gray-700 border-yellow-200 text-center max-w-md dark:text-white">
           <AlertCircle className="mx-auto text-yellow-500 mb-4" size={48} />
-          <p className="text-gray-700">{t('auth.demoMode')}</p>
+          <p className="text-gray-700 dark:text-gray-300">{t('auth.demoMode')}</p>
           <button onClick={() => navigate('/')} className="mt-6 w-full bg-primary-600 text-white py-3 rounded-xl font-medium">Кіріў (Local Mode)</button>
         </div>
       </div>
@@ -46,8 +46,8 @@ export const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <div className="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-700 dark:text-white p-4">
+      <div className="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 w-full max-w-md dark:text-white">
         <div className="text-center mb-8">
           <div className="bg-primary-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 text-primary-600">
             <Shield size={32} />
@@ -64,7 +64,7 @@ export const Login = () => {
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('auth.email')}</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('auth.email')}</label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
               <input
@@ -72,7 +72,7 @@ export const Login = () => {
                 required
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-xl border dark:border-gray-700 border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full pl-10 pr-4 py-3 rounded-xl border dark:border-gray-700 border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white"
                 placeholder="name@example.com"
               />
             </div>
@@ -80,7 +80,7 @@ export const Login = () => {
           
           <div>
             <div className="flex justify-between mb-1">
-              <label className="block text-sm font-medium text-gray-700">{t('auth.password')}</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('auth.password')}</label>
               <Link to="/recovery" className="text-sm text-primary-600 hover:underline">{t('auth.forgotPassword')}</Link>
             </div>
             <div className="relative">
@@ -90,7 +90,7 @@ export const Login = () => {
                 required
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-xl border dark:border-gray-700 border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full pl-10 pr-4 py-3 rounded-xl border dark:border-gray-700 border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white"
                 placeholder="••••••••"
               />
             </div>
@@ -112,6 +112,7 @@ export const Login = () => {
     </div>
   );
 };
+
 
 
 
