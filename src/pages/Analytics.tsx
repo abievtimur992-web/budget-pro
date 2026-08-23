@@ -135,9 +135,9 @@ export const Analytics = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Cash Flow */}
+            {/* Ақша айналымы */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
-              <h3 className="font-bold text-lg mb-4 dark:text-white">Cash Flow</h3>
+              <h3 className="font-bold text-lg mb-4 dark:text-white">Ақша айналымы</h3>
               <div className="space-y-4">
                 {cashFlow.slice(-4).map((cf) => {
                   const total = cf.income + cf.expense + cf.savings + cf.debtorsLent + cf.debtPayment || 1;
@@ -264,6 +264,7 @@ export const Analytics = () => {
     </div>
   );
 };
+
 
 
 
