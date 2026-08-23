@@ -62,7 +62,7 @@ export const Analytics = () => {
             <option value="last_3_months">Соңғы 3 ай</option>
             <option value="last_6_months">Соңғы 6 ай</option>
             <option value="this_year">Бул жыл</option>
-            <option value="custom">Басқа ўақыт (Custom)</option>
+            <option value="custom">Басқа уақыт</option>
           </select>
           {periodType === 'custom' && (
             <div className="flex gap-2">
@@ -88,7 +88,7 @@ export const Analytics = () => {
             </div>
             
             <div className="md:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 dark:text-white">
-              <h3 className="font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2"><Lightbulb className="text-yellow-500" size={20}/> Ақыллы Мәсләҳәт (Smart Insights)</h3>
+              <h3 className="font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2"><Lightbulb className="text-yellow-500" size={20}/> Ақылды кеңестер (Жасанды Интеллект)</h3>
               <div className="space-y-3">
                 {insights.map((ins, i) => (
                   <div key={i} className="flex items-start gap-3">
@@ -110,12 +110,12 @@ export const Analytics = () => {
               {renderChange(m2m.incomeChange)}
             </div>
             <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Жалпы шығыс (P&L)</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Жалпы шығыс</p>
               <p className="font-bold text-xl text-red-600 mb-2">{formatCurrency(summary.expense)}</p>
               {renderChange(m2m.expenseChange)}
             </div>
             <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Жинақ (Savings Rate: {summary.savingsRate.toFixed(1)}%)</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Жинақ (Пайызы: {summary.savingsRate.toFixed(1)}%)</p>
               <p className="font-bold text-xl text-green-600 mb-2">{formatCurrency(summary.savings)}</p>
               {renderChange(m2m.savingsChange)}
             </div>
@@ -137,7 +137,7 @@ export const Analytics = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Cash Flow */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
-              <h3 className="font-bold text-lg mb-4 dark:text-white">Cash Flow</h3>
+              <h3 className="font-bold text-lg mb-4 dark:text-white">Ақша айналымы</h3>
               <div className="space-y-4">
                 {cashFlow.slice(-4).map((cf) => {
                   const total = cf.income + cf.expense + cf.savings + cf.debtorsLent + cf.debtPayment || 1;
@@ -166,19 +166,23 @@ export const Analytics = () => {
 
             {/* Expense Breakdown (Top 5) */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
-              <h3 className="font-bold text-lg mb-4 dark:text-white">Top 5 Шығын (Expense Breakdown)</h3>
+              <h3 className="font-bold text-lg mb-4 dark:text-white">Ең көп жұмсалған 5 шығын (Топ-5)</h3>
               <div className="space-y-4">
-                {budgetActuals.slice(0, 5).map(cat => (
-                  <div key={cat.categoryId}>
-                    <div className="flex justify-between text-sm mb-1">
-                      <span className="font-medium text-gray-700 dark:text-gray-300">{cat.categoryName}</span>
-                      <span className="text-gray-900 dark:text-white font-bold">{formatCurrency(cat.actualAmount)} ({(cat.actualAmount / (summary.expense || 1) * 100).toFixed(1)}%)</span>
+                {[...budgetActuals].sort((a, b) => b.actualAmount - a.actualAmount).slice(0, 5).map(cat => {
+                  const totalCategorySpent = budgetActuals.reduce((sum, c) => sum + c.actualAmount, 0);
+                  const percent = totalCategorySpent > 0 ? (cat.actualAmount / totalCategorySpent) * 100 : 0;
+                  return (
+                    <div key={cat.categoryId}>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="font-medium text-gray-700 dark:text-gray-300">{cat.categoryName}</span>
+                        <span className="text-gray-900 dark:text-white font-bold">{formatCurrency(cat.actualAmount)} ({percent.toFixed(1)}%)</span>
+                      </div>
+                      <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2">
+                        <div className="bg-red-700 h-2 rounded-full" style={{ width: `${Math.min(100, percent)}%` }}></div>
+                      </div>
                     </div>
-                    <div className="w-full bg-gray-100 rounded-full h-2">
-                      <div className="bg-red-400 h-2 rounded-full" style={{ width: `${Math.min(100, (cat.actualAmount / (summary.expense || 1) * 100))}%` }}></div>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -220,11 +224,11 @@ export const Analytics = () => {
               </div>
               <div className="grid grid-cols-2 gap-4 mt-6 border-t pt-4">
                 <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Төленген Principal (Таза қарыз)</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Негізгі қарыз</p>
                   <p className="font-bold text-green-600">{formatCurrency(debtAnalytics.principalPaid)}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Төленген Interest (Зыян)</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Пайыздық үстеме</p>
                   <p className="font-bold text-red-600">{formatCurrency(debtAnalytics.interestPaid)}</p>
                 </div>
               </div>
@@ -233,7 +237,7 @@ export const Analytics = () => {
           
           {/* Budget vs Actual */}
           <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
-            <h3 className="font-bold text-lg mb-4 dark:text-white">Бюджет Орынланыўы (Budget vs Actual)</h3>
+            <h3 className="font-bold text-lg mb-4 dark:text-white">Бюджеттің орындалуы</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {budgetActuals.map(cat => (
                 <div key={cat.categoryId} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-xl">
