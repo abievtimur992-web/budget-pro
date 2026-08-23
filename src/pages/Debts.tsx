@@ -2,171 +2,265 @@ import React, { useState } from 'react';
 import { useFinanceStore } from '../store/useFinanceStore';
 import { formatCurrency } from '../utils/format';
 import { compareStrategies, calculateDebtFreeDate } from '../services/debtEngine';
-import { Plus, CreditCard, ChevronRight, TrendingDown, Trash2 } from 'lucide-react';
+import { Plus, CreditCard, ChevronRight, Trash2, Users } from 'lucide-react';
 
 export const Debts = () => {
-  const { debts, debtStrategy, setDebtStrategy, accounts, addDebtPayment, addDebt, deleteDebt } = useFinanceStore();
+  const { 
+    debts, debtStrategy, setDebtStrategy, accounts, addDebtPayment, addDebt, deleteDebt,
+    funds, addFund, addFundContribution, addFundWithdrawal, deleteFund 
+  } = useFinanceStore();
+  
+  const [activeTab, setActiveTab] = useState<'debts' | 'debtors'>('debts');
   const [extraPayment, setExtraPayment] = useState(0);
 
   // Modals
   const [showAddModal, setShowAddModal] = useState(false);
   const [showPayModal, setShowPayModal] = useState(false);
   
-  // Add Debt Form
+  // Forms
   const [dName, setDName] = useState('');
   const [dCreditor, setDCreditor] = useState('');
   const [dAmount, setDAmount] = useState('');
   const [dRate, setDRate] = useState('');
   const [dMin, setDMin] = useState('');
+  const [dAccount, setDAccount] = useState(''); // For debtor lend account
 
-  // Pay Form
   const [selectedDebtId, setSelectedDebtId] = useState('');
   const [payAmount, setPayAmount] = useState('');
   const [payAccount, setPayAccount] = useState('');
   const [payDate, setPayDate] = useState(new Date().toISOString().slice(0, 10));
 
+  // Data processing
   const strategies = compareStrategies(debts, extraPayment);
-
   const sortedDebts = [...debts].sort((a, b) => {
-    if (debtStrategy === 'avalanche') {
-      return b.interestRate - a.interestRate;
-    } else if (debtStrategy === 'snowball') {
-      return a.remainingAmount - b.remainingAmount;
-    } else {
-      if (a.interestRate > 15 && b.interestRate <= 15) return -1;
-      if (b.interestRate > 15 && a.interestRate <= 15) return 1;
-      return a.remainingAmount - b.remainingAmount;
-    }
+    if (debtStrategy === 'avalanche') return b.interestRate - a.interestRate;
+    if (debtStrategy === 'snowball') return a.remainingAmount - b.remainingAmount;
+    if (a.interestRate > 15 && b.interestRate <= 15) return -1;
+    if (b.interestRate > 15 && a.interestRate <= 15) return 1;
+    return a.remainingAmount - b.remainingAmount;
   });
 
-  const handleAddDebt = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (dName && dCreditor && dAmount && dRate && dMin) {
-      addDebt({
-        name: dName, creditor: dCreditor,
-        originalAmount: Number(dAmount),
-        interestRate: Number(dRate),
-        minimumPayment: Number(dMin),
-        nextPaymentDate: new Date().toISOString()
-      });
-      setShowAddModal(false);
-      setDName(''); setDCreditor(''); setDAmount(''); setDRate(''); setDMin('');
-    }
-  };
-
-  const handlePayment = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (selectedDebtId && payAmount && payAccount && payDate) {
-      const dateString = new Date(payDate).toISOString();
-      addDebtPayment(selectedDebtId, Number(payAmount), payAccount, dateString);
-      setShowPayModal(false);
-      setPayAmount('');
-    }
-  };
+  const debtors = funds.filter(f => f.name.startsWith('DEBTOR:'));
 
   const getStrategyName = (key: string) => {
-    if (key === 'avalanche') return 'Avalanche (Р–РѕТ›Р°СЂС‹ РїР°Р№С‹Р· Р±РёСЂРёРЅС€Рё)';
-    if (key === 'snowball') return 'Snowball (РљРёС€Рё СЃСѓРјРјР° Р±РёСЂРёРЅС€Рё)';
-    return 'Hybrid (РђТ›С‹Р»Р»С‹/РўРµТЈРіРµСЂРёРјР»Рё)';
+    if (key === 'avalanche') return 'Avalanche (Жо?ары пайыз бірінші)';
+    if (key === 'snowball') return 'Snowball (Кіші сумма бірінші)';
+    return 'Hybrid (А?ылды / Те?герімді)';
+  };
+
+  const handleAddSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (activeTab === 'debts') {
+      if (dName && dCreditor && dAmount && dRate && dMin) {
+        addDebt({
+          name: dName, creditor: dCreditor,
+          originalAmount: Number(dAmount),
+          interestRate: Number(dRate),
+          minimumPayment: Number(dMin),
+          nextPaymentDate: new Date().toISOString()
+        });
+        setShowAddModal(false);
+      }
+    } else {
+      if (dName && dAmount && dAccount) {
+        const fundId = await addFund({
+          name: `DEBTOR:${dName}`,
+          targetAmount: Number(dAmount),
+          icon: 'users',
+          color: '#f59e0b'
+        });
+        if (fundId) {
+          addFundContribution(fundId, Number(dAmount), dAccount, new Date().toISOString());
+        }
+        setShowAddModal(false);
+      }
+    }
+  };
+
+  const handlePaymentSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (selectedDebtId && payAmount && payAccount && payDate) {
+      if (activeTab === 'debts') {
+        addDebtPayment(selectedDebtId, Number(payAmount), payAccount, new Date(payDate).toISOString());
+      } else {
+        // Receiving money from debtor means withdrawing from the fund to the account
+        addFundWithdrawal(selectedDebtId, Number(payAmount), payAccount, new Date(payDate).toISOString());
+      }
+      setShowPayModal(false);
+    }
+  };
+
+  const openAddModal = () => {
+    setDName(''); setDCreditor(''); setDAmount(''); setDRate(''); setDMin(''); setDAccount('');
+    setShowAddModal(true);
+  };
+
+  const openPayModal = (id: string) => {
+    setSelectedDebtId(id);
+    setPayAmount(''); setPayAccount('');
+    setPayDate(new Date().toISOString().slice(0, 10));
+    setShowPayModal(true);
   };
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-20">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold flex items-center gap-2"><CreditCard /> ТљР°СЂС‹Р·РґР°РЅ Т›СѓС‚С‹Р»С‹Сћ</h1>
-        <button onClick={() => setShowAddModal(true)} className="bg-primary-600 text-white p-2 rounded-full hover:bg-primary-700">
+        <h1 className="text-2xl font-bold flex items-center gap-2">
+          {activeTab === 'debts' ? <CreditCard /> : <Users />} 
+          ?арыздар
+        </h1>
+        <button onClick={openAddModal} className="bg-primary-600 text-white p-2 rounded-full hover:bg-primary-700">
           <Plus size={24} />
         </button>
       </div>
 
-      <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-6">
-        <h2 className="text-xl font-bold mb-4">Р–Р°Р»РїС‹ СЃС‚Р°С‚СѓСЃ</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-          <div>
-            <p className="text-sm text-gray-500">Р–Р°Р»РїС‹ Т›Р°СЂС‹Р·</p>
-            <p className="font-bold text-xl">{formatCurrency(debts.reduce((a, b) => a + b.remainingAmount, 0))}</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-500">РђР№Р»С‹Т› РјРёРЅРёРјР°Р» С‚У©Р»РµРј</p>
-            <p className="font-bold text-xl text-red-500">{formatCurrency(debts.reduce((a, b) => a + b.minimumPayment, 0))}</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-500">ТљРѕСЃС‹РјС€Р° Р°Р№Р»С‹Т› С‚У©Р»РµРј</p>
-            <input 
-              type="number" 
-              value={extraPayment || ''} 
-              onChange={e => setExtraPayment(Number(e.target.value))}
-              placeholder="0 СЃСѓРј"
-              className="w-full border-b focus:outline-none focus:border-primary-500 font-bold text-xl text-green-600"
-            />
-          </div>
-        </div>
+      <div className="flex space-x-2 bg-gray-100 p-1 rounded-xl">
+        <button 
+          onClick={() => setActiveTab('debts')} 
+          className={`flex-1 py-2 rounded-lg font-medium transition-colors ${activeTab === 'debts' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
+        >
+          Мені? ?арыздарым (Банктер)
+        </button>
+        <button 
+          onClick={() => setActiveTab('debtors')} 
+          className={`flex-1 py-2 rounded-lg font-medium transition-colors ${activeTab === 'debtors' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
+        >
+          Ма?ан ?арыздар (Дебиторка)
+        </button>
       </div>
 
-      <h2 className="text-xl font-bold mb-2">РЎС‚СЂР°С‚РµРіРёСЏРЅС‹ С‚Р°ТЈР»Р°Сћ</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        {(Object.entries(strategies) as [keyof typeof strategies, any][]).map(([key, result]) => (
-          <div 
-            key={key} 
-            onClick={() => setDebtStrategy(key as any)}
-            className={`cursor-pointer rounded-2xl p-4 border-2 transition-all ${debtStrategy === key ? 'border-primary-600 bg-primary-50' : 'border-gray-100 bg-white hover:border-gray-200'}`}
-          >
-            <h3 className="font-bold text-lg mb-2">{getStrategyName(key)}</h3>
-            <div className="space-y-1">
-              <p className="text-sm text-gray-600 flex justify-between"><span>РњРµСЂР·РёРјРё:</span> <span className="font-medium text-gray-900">{calculateDebtFreeDate(result.overallMonthsToPayoff)}</span></p>
-              <p className="text-sm text-gray-600 flex justify-between"><span>РџР°Р№С‹Р· (Р·РёСЏРЅС‹):</span> <span className="font-medium text-red-500">{formatCurrency(result.totalInterestPaid)}</span></p>
-            </div>
-            {debtStrategy === key && (
-              <div className="mt-3 text-xs text-primary-600 font-medium flex items-center justify-center">
-                РўР°ТЈР»Р°РЅРґС‹
+      {activeTab === 'debts' ? (
+        <>
+          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+            <h2 className="text-xl font-bold mb-4">Жалпы статус</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+              <div>
+                <p className="text-sm text-gray-500">Жалпы ?арыз</p>
+                <p className="font-bold text-xl">{formatCurrency(debts.reduce((a, b) => a + b.remainingAmount, 0))}</p>
               </div>
+              <div>
+                <p className="text-sm text-gray-500">Айлы? минимал т?лем</p>
+                <p className="font-bold text-xl text-red-500">{formatCurrency(debts.reduce((a, b) => a + b.minimumPayment, 0))}</p>
+              </div>
+              <div className="col-span-2">
+                <p className="text-sm text-gray-500">?осымша айлы? т?лем</p>
+                <input 
+                  type="number" 
+                  value={extraPayment || ''} 
+                  onChange={e => setExtraPayment(Number(e.target.value))}
+                  placeholder="0 сум"
+                  className="w-full border-b focus:outline-none focus:border-primary-500 font-bold text-xl text-green-600"
+                />
+              </div>
+            </div>
+          </div>
+
+          <h2 className="text-xl font-bold mb-2">Стратегияны та?лау</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            {(Object.entries(strategies) as [keyof typeof strategies, any][]).map(([key, result]) => (
+              <div 
+                key={key} 
+                onClick={() => setDebtStrategy(key as any)}
+                className={`cursor-pointer rounded-2xl p-4 border-2 transition-all ${debtStrategy === key ? 'border-primary-600 bg-primary-50' : 'border-gray-100 bg-white hover:border-gray-200'}`}
+              >
+                <h3 className="font-bold text-lg mb-2">{getStrategyName(key)}</h3>
+                <div className="space-y-1">
+                  <p className="text-sm text-gray-600 flex justify-between"><span>Мерзімі:</span> <span className="font-medium text-gray-900">{calculateDebtFreeDate(result.overallMonthsToPayoff)}</span></p>
+                  <p className="text-sm text-gray-600 flex justify-between"><span>Пайыз (зияны):</span> <span className="font-medium text-red-500">{formatCurrency(result.totalInterestPaid)}</span></p>
+                </div>
+                {debtStrategy === key && (
+                  <div className="mt-3 text-xs text-primary-600 font-medium flex items-center justify-center">Та?ланды</div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="space-y-4">
+            {sortedDebts.map(debt => (
+              <div key={debt.id} className="bg-white rounded-2xl p-5 shadow-sm border flex flex-col md:flex-row justify-between gap-4">
+                <div className="flex-1">
+                  <div className="flex justify-between items-start">
+                    <h3 className="font-bold text-lg">{debt.name} ({debt.creditor})</h3>
+                    <button onClick={() => deleteDebt(debt.id)} className="text-gray-400 hover:text-red-500 p-1"><Trash2 size={18} /></button>
+                  </div>
+                  <p className="text-sm text-gray-500">Пайыз: {debt.interestRate}% | Минимал т?лем: {formatCurrency(debt.minimumPayment)}</p>
+                </div>
+                <div className="flex flex-col items-end justify-between">
+                  <div className="text-right">
+                    <p className="text-xs text-gray-500">?алды:</p>
+                    <p className="font-bold text-xl text-red-500">{formatCurrency(debt.remainingAmount)}</p>
+                  </div>
+                  <button onClick={() => openPayModal(debt.id)} className="mt-2 text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg flex items-center gap-1">Т?лем жасау <ChevronRight size={14} /></button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-6">
+            <h2 className="text-xl font-bold mb-4">Жалпы Дебиторлы? ?арыз</h2>
+            <div className="grid grid-cols-1">
+              <div>
+                <p className="text-sm text-gray-500">Достарда?ы а?ша (Сыртта?ы а?ша)</p>
+                <p className="font-bold text-3xl text-green-600">{formatCurrency(debtors.reduce((a, b) => a + b.currentAmount, 0))}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {debtors.length === 0 ? (
+              <p className="text-gray-500 text-center py-10">?зірге ешкімге ?арыз бермегенсіз.</p>
+            ) : (
+              debtors.map(fund => (
+                <div key={fund.id} className="bg-white rounded-2xl p-5 shadow-sm border flex flex-col md:flex-row justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex justify-between items-start">
+                      <h3 className="font-bold text-lg">{fund.name.replace('DEBTOR:', '')}</h3>
+                      <button onClick={() => deleteFund(fund.id)} className="text-gray-400 hover:text-red-500 p-1"><Trash2 size={18} /></button>
+                    </div>
+                    <p className="text-sm text-gray-500">Берілген ?арыз: {formatCurrency(fund.targetAmount)}</p>
+                  </div>
+                  <div className="flex flex-col items-end justify-between">
+                    <div className="text-right">
+                      <p className="text-xs text-gray-500">?айтару керек (?алды):</p>
+                      <p className="font-bold text-xl text-green-600">{formatCurrency(fund.currentAmount)}</p>
+                    </div>
+                    <button onClick={() => openPayModal(fund.id)} className="mt-2 text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg flex items-center gap-1">?айтарды <ChevronRight size={14} /></button>
+                  </div>
+                </div>
+              ))
             )}
           </div>
-        ))}
-      </div>
-
-      <h2 className="text-xl font-bold mb-4">РњРµРЅС–ТЈ Т›Р°СЂС‹Р·РґР°СЂС‹Рј</h2>
-      <div className="space-y-4">
-        {sortedDebts.map(debt => (
-          <div key={debt.id} className="bg-white rounded-2xl p-5 shadow-sm border flex flex-col md:flex-row justify-between gap-4">
-            <div className="flex-1">
-              <div className="flex justify-between items-start">
-                <h3 className="font-bold text-lg">{debt.name} ({debt.creditor})</h3>
-                <button onClick={() => deleteDebt(debt.id)} className="text-gray-400 hover:text-red-500 p-1">
-                  <Trash2 size={18} />
-                </button>
-              </div>
-              <p className="text-sm text-gray-500">РџР°Р№С‹Р·: {debt.interestRate}% | РњРёРЅРёРјР°Р» С‚У©Р»РµРј: {formatCurrency(debt.minimumPayment)}</p>
-            </div>
-            <div className="flex flex-col items-end justify-between">
-              <div className="text-right">
-                <p className="text-xs text-gray-500">ТљР°Р»РґС‹:</p>
-                <p className="font-bold text-xl text-red-500">{formatCurrency(debt.remainingAmount)}</p>
-              </div>
-              <button 
-                onClick={() => { setSelectedDebtId(debt.id); setShowPayModal(true); }}
-                className="mt-2 text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg flex items-center gap-1 whitespace-nowrap"
-              >
-                РўУ©Р»РµРј Р¶Р°СЃР°Сѓ <ChevronRight size={14} />
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+        </>
+      )}
 
       {showAddModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-6 w-full max-w-sm">
-            <h3 className="text-xl font-bold mb-4">ТљР°СЂС‹Р· Т›РѕСЃС‹Сћ</h3>
-            <form onSubmit={handleAddDebt} className="space-y-3">
-              <input required placeholder="ТљР°СЂС‹Р· Р°С‚С‹ (РјС‹СЃР°Р»С‹: РњР°С€РёРЅР°)" className="w-full border rounded-lg p-2" value={dName} onChange={e => setDName(e.target.value)} />
-              <input required placeholder="РљРёРјРЅРµРЅ (РјС‹СЃР°Р»С‹: РҐР°Р»С‹Т› Р‘Р°РЅРє)" className="w-full border rounded-lg p-2" value={dCreditor} onChange={e => setDCreditor(e.target.value)} />
-              <input required type="number" placeholder="РЈР»С‹СћРјР° СЃСѓРјРјР° (ТљР°Р»Т“Р°РЅ)" className="w-full border rounded-lg p-2" value={dAmount} onChange={e => setDAmount(e.target.value)} />
-              <input required type="number" placeholder="Р–С‹Р»Р»С‹Т› РїР°Р№С‹Р· (РјС‹СЃР°Р»С‹: 24)" className="w-full border rounded-lg p-2" value={dRate} onChange={e => setDRate(e.target.value)} />
-              <input required type="number" placeholder="РњРёРЅРёРјР°Р» Р°Р№Р»С‹Т› С‚У©Р»РµРј" className="w-full border rounded-lg p-2" value={dMin} onChange={e => setDMin(e.target.value)} />
+            <h3 className="text-xl font-bold mb-4">{activeTab === 'debts' ? 'Жа?а ?арыз ?осу' : 'Кімге ?арыз берді?із?'}</h3>
+            <form onSubmit={handleAddSubmit} className="space-y-3">
+              {activeTab === 'debts' ? (
+                <>
+                  <input required placeholder="?арыз аты (Мысалы: Автокредит)" className="w-full border rounded-lg p-2" value={dName} onChange={e => setDName(e.target.value)} />
+                  <input required placeholder="Кімге? (Мысалы: Халы? банк)" className="w-full border rounded-lg p-2" value={dCreditor} onChange={e => setDCreditor(e.target.value)} />
+                  <input required type="number" placeholder="?ал?ан сома (?алды?)" className="w-full border rounded-lg p-2" value={dAmount} onChange={e => setDAmount(e.target.value)} />
+                  <input required type="number" placeholder="Пайыз (Мысалы: 24)" className="w-full border rounded-lg p-2" value={dRate} onChange={e => setDRate(e.target.value)} />
+                  <input required type="number" placeholder="Минимал т?лем сомасы" className="w-full border rounded-lg p-2" value={dMin} onChange={e => setDMin(e.target.value)} />
+                </>
+              ) : (
+                <>
+                  <input required placeholder="Адамны? аты (Мысалы: Ислам)" className="w-full border rounded-lg p-2" value={dName} onChange={e => setDName(e.target.value)} />
+                  <input required type="number" placeholder="?анша берді?із?" className="w-full border rounded-lg p-2" value={dAmount} onChange={e => setDAmount(e.target.value)} />
+                  <select required className="w-full border rounded-lg p-2" value={dAccount} onChange={e => setDAccount(e.target.value)}>
+                    <option value="">А?ша ?ай шоттан кетті?</option>
+                    {accounts.map(a => <option key={a.id} value={a.id}>{a.name} ({formatCurrency(a.balance)})</option>)}
+                  </select>
+                </>
+              )}
               <div className="flex space-x-3 pt-4">
-                <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Р‘РµРєР°СЂР»Р°Сћ</button>
-                <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">ТљРѕСЃС‹Сћ</button>
+                <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Болдырмау</button>
+                <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">Са?тау</button>
               </div>
             </form>
           </div>
@@ -176,17 +270,17 @@ export const Debts = () => {
       {showPayModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-6 w-full max-w-sm">
-            <h3 className="text-xl font-bold mb-4">ТљР°СЂС‹Р· С‚У©Р»РµРјРё</h3>
-            <form onSubmit={handlePayment} className="space-y-3">
+            <h3 className="text-xl font-bold mb-4">{activeTab === 'debts' ? 'Т?лем жасау' : 'А?шаны ?айтарып алу'}</h3>
+            <form onSubmit={handlePaymentSubmit} className="space-y-3">
               <select required className="w-full border rounded-lg p-2" value={payAccount} onChange={e => setPayAccount(e.target.value)}>
-                <option value="">ТљР°Р№СЃС‹ РµСЃР°РїС‚Р°РЅ Р°Р»С‹РЅР°РґС‹?</option>
+                <option value="">{activeTab === 'debts' ? 'А?ша ?ай шоттан кетеді?' : 'А?ша ?ай шот?а т?сті?'}</option>
                 {accounts.map(a => <option key={a.id} value={a.id}>{a.name} ({formatCurrency(a.balance)})</option>)}
               </select>
-              <input required type="number" placeholder="РўУ©Р»РµРј СЃРѕРјР°СЃС‹" className="w-full border rounded-lg p-2" value={payAmount} onChange={e => setPayAmount(e.target.value)} />
+              <input required type="number" placeholder="Сомасы" className="w-full border rounded-lg p-2" value={payAmount} onChange={e => setPayAmount(e.target.value)} />
               <input required type="date" className="w-full border rounded-lg p-2" value={payDate} onChange={e => setPayDate(e.target.value)} />
               <div className="flex space-x-3 pt-4">
-                <button type="button" onClick={() => setShowPayModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Р‘РµРєР°СЂР»Р°Сћ</button>
-                <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">РўУ©Р»РµСћ</button>
+                <button type="button" onClick={() => setShowPayModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Болдырмау</button>
+                <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">Са?тау</button>
               </div>
             </form>
           </div>

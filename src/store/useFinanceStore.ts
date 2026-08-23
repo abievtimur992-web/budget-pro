@@ -45,7 +45,7 @@ interface FinanceState {
   funds: Fund[];
   debts: Debt[];
   debtStrategy: DebtStrategy;
-  addFund: (fund: Omit<Fund, 'id' | 'familyId' | 'currentAmount'>) => void;
+  addFund: (fund: Omit<Fund, 'id' | 'familyId' | 'currentAmount'>) => Promise<string>;
   updateFund: (fund: Fund) => void;
   deleteFund: (id: string) => void;
   addFundContribution: (fundId: string, amount: number, accountId: string, date: string) => void;
@@ -353,10 +353,11 @@ export const useFinanceStore = create<FinanceState>()(
             await fundRepository.createFund(newFund, state.family!.id, useAuthStore.getState().session?.access_token);
           } catch (e) {
             console.error('Failed to create fund', e);
-            return;
+            return newFund.id;
           }
         }
         set(state => ({ funds: [...state.funds, newFund] }));
+        return newFund.id;
       },
       updateFund: async (fund) => {
         if (isSupabaseConfigured && useAuthStore.getState().isAuthenticated) {
