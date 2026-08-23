@@ -25,11 +25,11 @@ export const AppLayout = () => {
 
   const navItems = [
     { path: '/', label: 'Басбет', icon: Home },
-    { path: '/analytics', label: 'Аналитика', icon: PieChart },
-    { path: '/budget', label: 'Бюджет', icon: PieChart },
+    { path: '/analytics', label: 'Analitika', icon: PieChart },
+    { path: '/budget', label: 'Budjet', icon: PieChart },
     { path: '/accounts', label: 'Аккаунтлар', icon: CreditCard },
     { path: '/transactions', label: 'Операциялар', icon: CreditCard },
-    { path: '/funds', label: 'Қорлар', icon: Shield },
+    { path: '/funds', label: 'Qorlar', icon: Shield },
     { path: '/debts', label: 'Қарызлар', icon: TrendingDown },
     { path: '/family', label: 'Шаңарақ', icon: Settings },
   ];
@@ -198,7 +198,7 @@ export const AppLayout = () => {
                 className="flex items-center space-x-4 p-4 rounded-xl text-red-600 dark:text-red-400 w-full hover:bg-red-50 dark:hover:bg-red-900/20"
               >
                 <LogOut size={24} />
-                <span className="font-medium text-lg">{t('auth.logout') || 'Шығу'}</span>
+                <span className="font-medium text-lg">{t('auth.logout') || 'Shıǵıw'}</span>
               </button>
             )}
           </div>
