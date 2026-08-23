@@ -105,7 +105,7 @@ export const Debts = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-20">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold flex items-center gap-2">
+        <h1 className="text-2xl font-bold flex items-center gap-2 dark:text-white">
           {activeTab === 'debts' ? <CreditCard /> : <Users />} 
           ?арыздар
         </h1>
@@ -117,13 +117,13 @@ export const Debts = () => {
       <div className="flex space-x-2 bg-gray-100 p-1 rounded-xl">
         <button 
           onClick={() => setActiveTab('debts')} 
-          className={`flex-1 py-2 rounded-lg font-medium transition-colors ${activeTab === 'debts' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
+          className={`flex-1 py-2 rounded-lg font-medium transition-colors ${activeTab === 'debts' ? 'bg-white dark:bg-gray-800 shadow-sm text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'}`}
         >
           Мені? ?арыздарым (Банктер)
         </button>
         <button 
           onClick={() => setActiveTab('debtors')} 
-          className={`flex-1 py-2 rounded-lg font-medium transition-colors ${activeTab === 'debtors' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
+          className={`flex-1 py-2 rounded-lg font-medium transition-colors ${activeTab === 'debtors' ? 'bg-white dark:bg-gray-800 shadow-sm text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'}`}
         >
           Ма?ан ?арыздар (Дебиторка)
         </button>
@@ -131,19 +131,19 @@ export const Debts = () => {
 
       {activeTab === 'debts' ? (
         <>
-          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-            <h2 className="text-xl font-bold mb-4">Жалпы статус</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700">
+            <h2 className="text-xl font-bold mb-4 dark:text-white">Жалпы статус</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
               <div>
-                <p className="text-sm text-gray-500">Жалпы ?арыз</p>
-                <p className="font-bold text-xl">{formatCurrency(debts.reduce((a, b) => a + b.remainingAmount, 0))}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Жалпы ?арыз</p>
+                <p className="font-bold text-xl dark:text-white">{formatCurrency(debts.reduce((a, b) => a + b.remainingAmount, 0))}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-500">Айлы? минимал т?лем</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Айлы? минимал т?лем</p>
                 <p className="font-bold text-xl text-red-500">{formatCurrency(debts.reduce((a, b) => a + b.minimumPayment, 0))}</p>
               </div>
               <div className="col-span-2">
-                <p className="text-sm text-gray-500">?осымша айлы? т?лем</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">?осымша айлы? т?лем</p>
                 <input 
                   type="number" 
                   value={extraPayment || ''} 
@@ -155,18 +155,18 @@ export const Debts = () => {
             </div>
           </div>
 
-          <h2 className="text-xl font-bold mb-2">Стратегияны та?лау</h2>
+          <h2 className="text-xl font-bold mb-2 dark:text-white">Стратегияны та?лау</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             {(Object.entries(strategies) as [keyof typeof strategies, any][]).map(([key, result]) => (
               <div 
                 key={key} 
                 onClick={() => setDebtStrategy(key as any)}
-                className={`cursor-pointer rounded-2xl p-4 border-2 transition-all ${debtStrategy === key ? 'border-primary-600 bg-primary-50' : 'border-gray-100 bg-white hover:border-gray-200'}`}
+                className={`cursor-pointer rounded-2xl p-4 border-2 transition-all ${debtStrategy === key ? 'border-primary-600 bg-primary-50' : 'border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-200 dark:border-gray-700'}`}
               >
-                <h3 className="font-bold text-lg mb-2">{getStrategyName(key)}</h3>
+                <h3 className="font-bold text-lg mb-2 dark:text-white">{getStrategyName(key)}</h3>
                 <div className="space-y-1">
-                  <p className="text-sm text-gray-600 flex justify-between"><span>Мерзімі:</span> <span className="font-medium text-gray-900">{calculateDebtFreeDate(result.overallMonthsToPayoff)}</span></p>
-                  <p className="text-sm text-gray-600 flex justify-between"><span>Пайыз (зияны):</span> <span className="font-medium text-red-500">{formatCurrency(result.totalInterestPaid)}</span></p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 flex justify-between"><span>Мерзімі:</span> <span className="font-medium text-gray-900 dark:text-white">{calculateDebtFreeDate(result.overallMonthsToPayoff)}</span></p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 flex justify-between"><span>Пайыз (зияны):</span> <span className="font-medium text-red-500">{formatCurrency(result.totalInterestPaid)}</span></p>
                 </div>
                 {debtStrategy === key && (
                   <div className="mt-3 text-xs text-primary-600 font-medium flex items-center justify-center">Та?ланды</div>
@@ -177,17 +177,17 @@ export const Debts = () => {
 
           <div className="space-y-4">
             {sortedDebts.map(debt => (
-              <div key={debt.id} className="bg-white rounded-2xl p-5 shadow-sm border flex flex-col md:flex-row justify-between gap-4">
+              <div key={debt.id} className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border dark:border-gray-700 flex flex-col md:flex-row justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex justify-between items-start">
-                    <h3 className="font-bold text-lg">{debt.name} ({debt.creditor})</h3>
+                    <h3 className="font-bold text-lg dark:text-white">{debt.name} ({debt.creditor})</h3>
                     <button onClick={() => deleteDebt(debt.id)} className="text-gray-400 hover:text-red-500 p-1"><Trash2 size={18} /></button>
                   </div>
-                  <p className="text-sm text-gray-500">Пайыз: {debt.interestRate}% | Минимал т?лем: {formatCurrency(debt.minimumPayment)}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Пайыз: {debt.interestRate}% | Минимал т?лем: {formatCurrency(debt.minimumPayment)}</p>
                 </div>
                 <div className="flex flex-col items-end justify-between">
                   <div className="text-right">
-                    <p className="text-xs text-gray-500">?алды:</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">?алды:</p>
                     <p className="font-bold text-xl text-red-500">{formatCurrency(debt.remainingAmount)}</p>
                   </div>
                   <button onClick={() => openPayModal(debt.id)} className="mt-2 text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg flex items-center gap-1">Т?лем жасау <ChevronRight size={14} /></button>
@@ -198,11 +198,11 @@ export const Debts = () => {
         </>
       ) : (
         <>
-          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-6">
-            <h2 className="text-xl font-bold mb-4">Жалпы Дебиторлы? ?арыз</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 mb-6">
+            <h2 className="text-xl font-bold mb-4 dark:text-white">Жалпы Дебиторлы? ?арыз</h2>
             <div className="grid grid-cols-1">
               <div>
-                <p className="text-sm text-gray-500">Достарда?ы а?ша (Сыртта?ы а?ша)</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Достарда?ы а?ша (Сыртта?ы а?ша)</p>
                 <p className="font-bold text-3xl text-green-600">{formatCurrency(debtors.reduce((a, b) => a + b.currentAmount, 0))}</p>
               </div>
             </div>
@@ -210,20 +210,20 @@ export const Debts = () => {
 
           <div className="space-y-4">
             {debtors.length === 0 ? (
-              <p className="text-gray-500 text-center py-10">?зірге ешкімге ?арыз бермегенсіз.</p>
+              <p className="text-gray-500 dark:text-gray-400 text-center py-10">?зірге ешкімге ?арыз бермегенсіз.</p>
             ) : (
               debtors.map(fund => (
-                <div key={fund.id} className="bg-white rounded-2xl p-5 shadow-sm border flex flex-col md:flex-row justify-between gap-4">
+                <div key={fund.id} className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border dark:border-gray-700 flex flex-col md:flex-row justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex justify-between items-start">
-                      <h3 className="font-bold text-lg">{fund.name.replace('DEBTOR:', '')}</h3>
+                      <h3 className="font-bold text-lg dark:text-white">{fund.name.replace('DEBTOR:', '')}</h3>
                       <button onClick={() => deleteFund(fund.id)} className="text-gray-400 hover:text-red-500 p-1"><Trash2 size={18} /></button>
                     </div>
-                    <p className="text-sm text-gray-500">Берілген ?арыз: {formatCurrency(fund.targetAmount)}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Берілген ?арыз: {formatCurrency(fund.targetAmount)}</p>
                   </div>
                   <div className="flex flex-col items-end justify-between">
                     <div className="text-right">
-                      <p className="text-xs text-gray-500">?айтару керек (?алды):</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">?айтару керек (?алды):</p>
                       <p className="font-bold text-xl text-green-600">{formatCurrency(fund.currentAmount)}</p>
                     </div>
                     <button onClick={() => openPayModal(fund.id)} className="mt-2 text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg flex items-center gap-1">?айтарды <ChevronRight size={14} /></button>
@@ -237,22 +237,22 @@ export const Debts = () => {
 
       {showAddModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm">
-            <h3 className="text-xl font-bold mb-4">{activeTab === 'debts' ? 'Жа?а ?арыз ?осу' : 'Кімге ?арыз берді?із?'}</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm">
+            <h3 className="text-xl font-bold mb-4 dark:text-white">{activeTab === 'debts' ? 'Жа?а ?арыз ?осу' : 'Кімге ?арыз берді?із?'}</h3>
             <form onSubmit={handleAddSubmit} className="space-y-3">
               {activeTab === 'debts' ? (
                 <>
-                  <input required placeholder="?арыз аты (Мысалы: Автокредит)" className="w-full border rounded-lg p-2" value={dName} onChange={e => setDName(e.target.value)} />
-                  <input required placeholder="Кімге? (Мысалы: Халы? банк)" className="w-full border rounded-lg p-2" value={dCreditor} onChange={e => setDCreditor(e.target.value)} />
-                  <input required type="number" placeholder="?ал?ан сома (?алды?)" className="w-full border rounded-lg p-2" value={dAmount} onChange={e => setDAmount(e.target.value)} />
-                  <input required type="number" placeholder="Пайыз (Мысалы: 24)" className="w-full border rounded-lg p-2" value={dRate} onChange={e => setDRate(e.target.value)} />
-                  <input required type="number" placeholder="Минимал т?лем сомасы" className="w-full border rounded-lg p-2" value={dMin} onChange={e => setDMin(e.target.value)} />
+                  <input required placeholder="?арыз аты (Мысалы: Автокредит)" className="w-full border dark:border-gray-700 rounded-lg p-2" value={dName} onChange={e => setDName(e.target.value)} />
+                  <input required placeholder="Кімге? (Мысалы: Халы? банк)" className="w-full border dark:border-gray-700 rounded-lg p-2" value={dCreditor} onChange={e => setDCreditor(e.target.value)} />
+                  <input required type="number" placeholder="?ал?ан сома (?алды?)" className="w-full border dark:border-gray-700 rounded-lg p-2" value={dAmount} onChange={e => setDAmount(e.target.value)} />
+                  <input required type="number" placeholder="Пайыз (Мысалы: 24)" className="w-full border dark:border-gray-700 rounded-lg p-2" value={dRate} onChange={e => setDRate(e.target.value)} />
+                  <input required type="number" placeholder="Минимал т?лем сомасы" className="w-full border dark:border-gray-700 rounded-lg p-2" value={dMin} onChange={e => setDMin(e.target.value)} />
                 </>
               ) : (
                 <>
-                  <input required placeholder="Адамны? аты (Мысалы: Ислам)" className="w-full border rounded-lg p-2" value={dName} onChange={e => setDName(e.target.value)} />
-                  <input required type="number" placeholder="?анша берді?із?" className="w-full border rounded-lg p-2" value={dAmount} onChange={e => setDAmount(e.target.value)} />
-                  <select required className="w-full border rounded-lg p-2" value={dAccount} onChange={e => setDAccount(e.target.value)}>
+                  <input required placeholder="Адамны? аты (Мысалы: Ислам)" className="w-full border dark:border-gray-700 rounded-lg p-2" value={dName} onChange={e => setDName(e.target.value)} />
+                  <input required type="number" placeholder="?анша берді?із?" className="w-full border dark:border-gray-700 rounded-lg p-2" value={dAmount} onChange={e => setDAmount(e.target.value)} />
+                  <select required className="w-full border dark:border-gray-700 rounded-lg p-2" value={dAccount} onChange={e => setDAccount(e.target.value)}>
                     <option value="">А?ша ?ай шоттан кетті?</option>
                     {accounts.map(a => <option key={a.id} value={a.id}>{a.name} ({formatCurrency(a.balance)})</option>)}
                   </select>
@@ -269,15 +269,15 @@ export const Debts = () => {
 
       {showPayModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm">
-            <h3 className="text-xl font-bold mb-4">{activeTab === 'debts' ? 'Т?лем жасау' : 'А?шаны ?айтарып алу'}</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm">
+            <h3 className="text-xl font-bold mb-4 dark:text-white">{activeTab === 'debts' ? 'Т?лем жасау' : 'А?шаны ?айтарып алу'}</h3>
             <form onSubmit={handlePaymentSubmit} className="space-y-3">
-              <select required className="w-full border rounded-lg p-2" value={payAccount} onChange={e => setPayAccount(e.target.value)}>
+              <select required className="w-full border dark:border-gray-700 rounded-lg p-2" value={payAccount} onChange={e => setPayAccount(e.target.value)}>
                 <option value="">{activeTab === 'debts' ? 'А?ша ?ай шоттан кетеді?' : 'А?ша ?ай шот?а т?сті?'}</option>
                 {accounts.map(a => <option key={a.id} value={a.id}>{a.name} ({formatCurrency(a.balance)})</option>)}
               </select>
-              <input required type="number" placeholder="Сомасы" className="w-full border rounded-lg p-2" value={payAmount} onChange={e => setPayAmount(e.target.value)} />
-              <input required type="date" className="w-full border rounded-lg p-2" value={payDate} onChange={e => setPayDate(e.target.value)} />
+              <input required type="number" placeholder="Сомасы" className="w-full border dark:border-gray-700 rounded-lg p-2" value={payAmount} onChange={e => setPayAmount(e.target.value)} />
+              <input required type="date" className="w-full border dark:border-gray-700 rounded-lg p-2" value={payDate} onChange={e => setPayDate(e.target.value)} />
               <div className="flex space-x-3 pt-4">
                 <button type="button" onClick={() => setShowPayModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Болдырмау</button>
                 <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">Са?тау</button>
@@ -289,3 +289,6 @@ export const Debts = () => {
     </div>
   );
 };
+
+
+

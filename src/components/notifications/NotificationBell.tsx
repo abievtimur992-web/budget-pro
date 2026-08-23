@@ -74,7 +74,7 @@ export const NotificationBell = () => {
     <div className="relative" ref={dropdownRef}>
       <button 
         onClick={() => setIsOpen(!isOpen)} 
-        className="relative p-1.5 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+        className="relative p-1.5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
       >
         <Bell size={20} />
         {unreadCount > 0 && (
@@ -97,7 +97,7 @@ export const NotificationBell = () => {
           
           <div className="max-h-96 overflow-y-auto">
             {notifications.length === 0 ? (
-              <div className="p-8 text-center text-gray-500 text-sm">
+              <div className="p-8 text-center text-gray-500 dark:text-gray-400 text-sm">
                 Ҳәзирше жаңа хабарлар жоқ
               </div>
             ) : (
@@ -108,14 +108,14 @@ export const NotificationBell = () => {
                 >
                   <div className="flex-1">
                     <p className="text-sm text-gray-800 dark:text-gray-200">{notification.message}</p>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                       {new Date(notification.created_at).toLocaleString()}
                     </p>
                   </div>
                   {!notification.is_read && (
                     <button 
                       onClick={() => markAsRead(notification.id)}
-                      className="text-gray-400 hover:text-green-500 p-1 rounded-full hover:bg-white dark:hover:bg-gray-600"
+                      className="text-gray-400 hover:text-green-500 p-1 rounded-full hover:bg-white dark:bg-gray-800 dark:hover:bg-gray-600"
                     >
                       <Check size={16} />
                     </button>
@@ -129,3 +129,6 @@ export const NotificationBell = () => {
     </div>
   );
 };
+
+
+

@@ -225,15 +225,15 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
     <div className="fixed inset-0 bg-black/60 flex items-end sm:items-center justify-center z-50 p-0 sm:p-4">
       <div className="bg-gray-50 w-full sm:max-w-md h-[80vh] sm:h-[600px] sm:rounded-3xl flex flex-col overflow-hidden shadow-2xl animate-in slide-in-from-bottom">
         {/* Header */}
-        <div className="bg-white px-4 py-4 flex justify-between items-center shadow-sm z-10">
+        <div className="bg-white dark:bg-gray-800 px-4 py-4 flex justify-between items-center shadow-sm z-10">
           <div>
-            <h2 className="font-bold text-gray-800">Voice Assistant</h2>
+            <h2 className="font-bold text-gray-800 dark:text-white">Voice Assistant</h2>
             <p className="text-xs text-green-500 flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
               Online
             </p>
           </div>
-          <button onClick={onClose} className="p-2 bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200">
+          <button onClick={onClose} className="p-2 bg-gray-100 rounded-full text-gray-600 dark:text-gray-400 hover:bg-gray-200">
             <X size={20} />
           </button>
         </div>
@@ -242,7 +242,7 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.map((msg) => (
             <div key={msg.id} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
-              <div className={`max-w-[85%] rounded-2xl p-3 shadow-sm ${msg.role === 'user' ? 'bg-primary-600 text-white rounded-br-none' : 'bg-white text-gray-800 rounded-bl-none border border-gray-100'}`}>
+              <div className={`max-w-[85%] rounded-2xl p-3 shadow-sm ${msg.role === 'user' ? 'bg-primary-600 text-white rounded-br-none' : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-bl-none border dark:border-gray-700 border-gray-100 dark:border-gray-700'}`}>
                 <p className="whitespace-pre-line text-sm">{msg.text}</p>
                 
                 {msg.parsedData && msg.role === 'assistant' && !['query_balance', 'query_expense'].includes(msg.parsedData.type || '') && (
@@ -266,12 +266,12 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
         </div>
 
         {/* Input Area */}
-        <div className="bg-white p-4 border-t">
+        <div className="bg-white dark:bg-gray-800 p-4 border-t">
           <form onSubmit={handleSend} className="flex gap-2 items-center">
             <button type="button" onClick={handleListen} className={`p-3 rounded-full transition-colors ${isListening ? 'bg-red-500 text-white animate-pulse' : 'bg-blue-50 text-blue-600 hover:bg-blue-100'}`}>
               <Mic size={24} />
             </button>
-            <label className="p-3 bg-gray-50 text-gray-600 rounded-full hover:bg-gray-200 transition-colors cursor-pointer">
+            <label className="p-3 bg-gray-50 text-gray-600 dark:text-gray-400 rounded-full hover:bg-gray-200 transition-colors cursor-pointer">
               <Camera size={24} />
               <input type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFileUpload} />
             </label>
@@ -291,3 +291,6 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
     </div>
   );
 };
+
+
+

@@ -29,10 +29,10 @@ export const FamilySettings = () => {
   if (!isSupabaseMode) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-center bg-yellow-50 p-6 rounded-xl border border-yellow-200">
+        <div className="text-center bg-yellow-50 p-6 rounded-xl border dark:border-gray-700 border-yellow-200">
           <AlertCircle className="mx-auto text-yellow-500 mb-4" size={48} />
-          <h2 className="text-xl font-bold text-gray-800 mb-2">Local Mode</h2>
-          <p className="text-gray-600">{t('family.noCloudMode')}</p>
+          <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-2 dark:text-white">Local Mode</h2>
+          <p className="text-gray-600 dark:text-gray-400">{t('family.noCloudMode')}</p>
         </div>
       </div>
     );
@@ -58,11 +58,11 @@ export const FamilySettings = () => {
 
   if (!currentFamilyId) {
     return (
-      <div className="max-w-md mx-auto mt-10 bg-white p-6 rounded-2xl shadow-sm border">
+      <div className="max-w-md mx-auto mt-10 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700">
         <div className="text-center mb-6">
           <Users className="mx-auto text-primary-500 mb-2" size={48} />
-          <h2 className="text-xl font-bold">{t('family.createFamily')}</h2>
-          <p className="text-gray-500 text-sm mt-1">{t('family.errorNoFamily')}</p>
+          <h2 className="text-xl font-bold dark:text-white">{t('family.createFamily')}</h2>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">{t('family.errorNoFamily')}</p>
         </div>
         
         {statusMsg.text && (
@@ -79,7 +79,7 @@ export const FamilySettings = () => {
               required
               value={familyName}
               onChange={e => setFamilyName(e.target.value)}
-              className="w-full px-4 py-2 border rounded-xl"
+              className="w-full px-4 py-2 border dark:border-gray-700 rounded-xl"
             />
           </div>
           <button disabled={loading} type="submit" className="w-full bg-primary-600 text-white py-2 rounded-xl">
@@ -93,7 +93,7 @@ export const FamilySettings = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
           <Settings className="text-primary-600" />
           {t('family.settings')}
         </h1>
@@ -101,23 +101,23 @@ export const FamilySettings = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 space-y-6">
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700">
+            <h2 className="text-lg font-bold mb-4 flex items-center gap-2 dark:text-white">
               <Users className="text-blue-500" />
               {family?.name || t('family.myFamily')} - {t('family.members')}
             </h2>
             <div className="space-y-4">
               {members.map(member => (
-                <div key={member.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border">
+                <div key={member.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border dark:border-gray-700">
                   <div>
-                    <div className="font-medium text-gray-900">{member.user_profiles?.display_name || 'User'}</div>
-                    <div className="text-sm text-gray-500">{member.user_profiles?.email || 'N/A'}</div>
+                    <div className="font-medium text-gray-900 dark:text-white">{member.user_profiles?.display_name || 'User'}</div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">{member.user_profiles?.email || 'N/A'}</div>
                   </div>
                   <div className="text-right">
                     <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                       {t(`family.${member.role}`)}
                     </div>
-                    <div className="text-xs text-gray-500 mt-1">{t(`family.${member.status}`)}</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{t(`family.${member.status}`)}</div>
                   </div>
                 </div>
               ))}
@@ -125,8 +125,8 @@ export const FamilySettings = () => {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-fit">
-          <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 h-fit">
+          <h2 className="text-lg font-bold mb-4 flex items-center gap-2 dark:text-white">
             <UserPlus className="text-green-500" />
             {t('family.addMember')}
           </h2>
@@ -146,7 +146,7 @@ export const FamilySettings = () => {
                 required
                 value={inviteEmail}
                 onChange={e => setInviteEmail(e.target.value)}
-                className="w-full px-4 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-primary-500"
+                className="w-full px-4 py-2 border dark:border-gray-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500"
                 placeholder="email@example.com"
               />
             </div>
@@ -155,7 +155,7 @@ export const FamilySettings = () => {
               <select
                 value={inviteRole}
                 onChange={e => setInviteRole(e.target.value)}
-                className="w-full px-4 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-primary-500 bg-white"
+                className="w-full px-4 py-2 border dark:border-gray-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-800"
               >
                 <option value="adult">{t('family.adult')}</option>
                 <option value="child">{t('family.child')}</option>
@@ -170,3 +170,6 @@ export const FamilySettings = () => {
     </div>
   );
 };
+
+
+

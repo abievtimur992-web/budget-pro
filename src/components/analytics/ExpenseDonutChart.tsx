@@ -12,7 +12,7 @@ export const ExpenseDonutChart = ({ data }: { data: DataItem[] }) => {
   if (total === 0) {
     return (
       <div className="flex items-center justify-center h-48 bg-gray-50 dark:bg-gray-800 rounded-xl">
-        <p className="text-gray-400 dark:text-gray-500 text-sm">Мағлыўмат жоқ</p>
+        <p className="text-gray-400 dark:text-gray-500 dark:text-gray-400 text-sm">Мағлыўмат жоқ</p>
       </div>
     );
   }
@@ -68,7 +68,7 @@ export const ExpenseDonutChart = ({ data }: { data: DataItem[] }) => {
       {/* Legend */}
       <div className="mt-4 w-full grid grid-cols-2 gap-2">
         {data.filter(d => d.value > 0).map((item, index) => (
-          <div key={index} className="flex items-center text-xs text-gray-600 dark:text-gray-300">
+          <div key={index} className="flex items-center text-xs text-gray-600 dark:text-gray-400 dark:text-gray-300">
             <span className="w-3 h-3 rounded-full mr-2 shrink-0" style={{ backgroundColor: item.color }} />
             <span className="truncate">{item.label}</span>
             <span className="ml-auto font-medium">{Math.round((item.value / total) * 100)}%</span>
@@ -78,3 +78,6 @@ export const ExpenseDonutChart = ({ data }: { data: DataItem[] }) => {
     </div>
   );
 };
+
+
+

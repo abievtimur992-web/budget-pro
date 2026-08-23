@@ -36,7 +36,7 @@ export const Login = () => {
   if (!isSupabaseMode) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-        <div className="bg-white p-8 rounded-2xl shadow-sm border border-yellow-200 text-center max-w-md">
+        <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border dark:border-gray-700 border-yellow-200 text-center max-w-md">
           <AlertCircle className="mx-auto text-yellow-500 mb-4" size={48} />
           <p className="text-gray-700">{t('auth.demoMode')}</p>
           <button onClick={() => navigate('/')} className="mt-6 w-full bg-primary-600 text-white py-3 rounded-xl font-medium">Кіріў (Local Mode)</button>
@@ -47,12 +47,12 @@ export const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 w-full max-w-md">
+      <div className="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 w-full max-w-md">
         <div className="text-center mb-8">
           <div className="bg-primary-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 text-primary-600">
             <Shield size={32} />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('auth.login')}</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t('auth.login')}</h1>
         </div>
 
         {error && (
@@ -72,7 +72,7 @@ export const Login = () => {
                 required
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full pl-10 pr-4 py-3 rounded-xl border dark:border-gray-700 border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 placeholder="name@example.com"
               />
             </div>
@@ -90,7 +90,7 @@ export const Login = () => {
                 required
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full pl-10 pr-4 py-3 rounded-xl border dark:border-gray-700 border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 placeholder="••••••••"
               />
             </div>
@@ -105,10 +105,13 @@ export const Login = () => {
           </button>
         </form>
 
-        <p className="text-center mt-6 text-sm text-gray-600">
+        <p className="text-center mt-6 text-sm text-gray-600 dark:text-gray-400">
           {t('auth.noAccount')} <Link to="/register" className="text-primary-600 font-medium hover:underline">{t('auth.register')}</Link>
         </p>
       </div>
     </div>
   );
 };
+
+
+

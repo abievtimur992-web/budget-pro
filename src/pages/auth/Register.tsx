@@ -52,9 +52,9 @@ export const Register = () => {
   if (success) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-        <div className="bg-white p-8 rounded-2xl shadow-sm text-center max-w-md">
+        <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm text-center max-w-md">
           <Shield className="mx-auto text-green-500 mb-4" size={48} />
-          <h2 className="text-xl font-bold mb-2">{t('auth.successRegister')}</h2>
+          <h2 className="text-xl font-bold mb-2 dark:text-white">{t('auth.successRegister')}</h2>
           <button onClick={() => navigate('/login')} className="mt-6 text-primary-600 font-medium">{t('auth.backToLogin')}</button>
         </div>
       </div>
@@ -63,9 +63,9 @@ export const Register = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 w-full max-w-md">
+      <div className="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">{t('auth.register')}</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t('auth.register')}</h1>
         </div>
 
         {error && (
@@ -85,7 +85,7 @@ export const Register = () => {
                 required
                 value={displayName}
                 onChange={e => setDisplayName(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full pl-10 pr-4 py-3 rounded-xl border dark:border-gray-700 border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 placeholder="Timur"
               />
             </div>
@@ -100,7 +100,7 @@ export const Register = () => {
                 required
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full pl-10 pr-4 py-3 rounded-xl border dark:border-gray-700 border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 placeholder="name@example.com"
               />
             </div>
@@ -116,7 +116,7 @@ export const Register = () => {
                 minLength={6}
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full pl-10 pr-4 py-3 rounded-xl border dark:border-gray-700 border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 placeholder="••••••••"
               />
             </div>
@@ -131,10 +131,13 @@ export const Register = () => {
           </button>
         </form>
 
-        <p className="text-center mt-6 text-sm text-gray-600">
+        <p className="text-center mt-6 text-sm text-gray-600 dark:text-gray-400">
           {t('auth.hasAccount')} <Link to="/login" className="text-primary-600 font-medium hover:underline">{t('auth.login')}</Link>
         </p>
       </div>
     </div>
   );
 };
+
+
+

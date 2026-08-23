@@ -98,7 +98,7 @@ export const Transactions = () => {
   const getAmountColor = (type: string) => {
     if (type === 'income') return 'text-green-600';
     if (type === 'expense') return 'text-red-600';
-    return 'text-gray-800';
+    return 'text-gray-800 dark:text-white';
   };
 
   const getAmountPrefix = (type: string) => {
@@ -116,11 +116,11 @@ export const Transactions = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-20">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Операциялар</h1>
+        <h1 className="text-2xl font-bold dark:text-white">Операциялар</h1>
       </div>
 
       {/* Advanced Filters */}
-      <div className="bg-white p-4 rounded-xl shadow-sm border space-y-4">
+      <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 space-y-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
           <input
@@ -128,7 +128,7 @@ export const Transactions = () => {
             placeholder="Излеў (категория, комментарий, сумма)..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-gray-50"
+            className="w-full pl-10 pr-4 py-2 border dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-gray-50"
           />
         </div>
         
@@ -164,7 +164,7 @@ export const Transactions = () => {
       {/* Transactions List */}
       <div className="space-y-3">
         {filteredTransactions.length === 0 ? (
-          <div className="text-center py-10 text-gray-500 bg-white rounded-xl shadow-sm border">
+          <div className="text-center py-10 text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 rounded-xl shadow-sm border dark:border-gray-700">
             Бул фильтрлер бойынша операциялар табылмады.
           </div>
         ) : (
@@ -175,7 +175,7 @@ export const Transactions = () => {
             const userName = currentUser?.id === tx.userId ? currentUser.name : 'Басқа ағза';
             
             return (
-              <div key={tx.id} className="bg-white p-4 rounded-xl shadow-sm border flex flex-col sm:flex-row justify-between gap-4 group hover:shadow-md transition-shadow">
+              <div key={tx.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 flex flex-col sm:flex-row justify-between gap-4 group hover:shadow-md transition-shadow">
                 <div className="flex items-start gap-4">
                   <div className="p-3 rounded-full bg-gray-50 flex-shrink-0 mt-1">
                     {getTypeIcon(tx.type)}
@@ -184,10 +184,10 @@ export const Transactions = () => {
                     <div className="flex items-center gap-2">
                       <span className="font-medium text-gray-400 text-sm">{formatDate(tx.date)}</span>
                     </div>
-                    <h3 className="font-bold text-gray-800 text-lg">
+                    <h3 className="font-bold text-gray-800 dark:text-white text-lg">
                       {tx.type === 'transfer' ? 'Трансфер' : category?.name || 'Кирис'}
                     </h3>
-                    <p className="text-sm text-gray-500 flex flex-wrap items-center gap-2 mt-1">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 flex flex-wrap items-center gap-2 mt-1">
                       <span className="font-medium">
                         {account?.name} {tx.type === 'transfer' && targetAccount ? ` → ${targetAccount.name}` : ''}
                       </span>
@@ -196,7 +196,7 @@ export const Transactions = () => {
                       {tx.comment && (
                         <>
                           <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                          <span className="italic text-gray-500">"{tx.comment}"</span>
+                          <span className="italic text-gray-500 dark:text-gray-400">"{tx.comment}"</span>
                         </>
                       )}
                     </p>
@@ -211,14 +211,14 @@ export const Transactions = () => {
                   <div className="flex space-x-2 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity">
                     <button 
                       onClick={() => { setEditingTx(tx); setEditAmount(tx.amount.toString()); }} 
-                      className="p-2 text-gray-500 hover:bg-blue-50 hover:text-blue-600 rounded-lg"
+                      className="p-2 text-gray-500 dark:text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded-lg"
                       title="Өзгертиў"
                     >
                       <Edit2 size={18} />
                     </button>
                     <button 
                       onClick={() => handleDelete(tx.id)} 
-                      className="p-2 text-gray-500 hover:bg-red-50 hover:text-red-600 rounded-lg"
+                      className="p-2 text-gray-500 dark:text-gray-400 hover:bg-red-50 hover:text-red-600 rounded-lg"
                       title="Өшириў"
                     >
                       <Trash2 size={18} />
@@ -234,9 +234,9 @@ export const Transactions = () => {
       {/* Edit Modal */}
       {editingTx && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl">
-            <h3 className="text-xl font-bold mb-4">Операцияны өзгертиў</h3>
-            <p className="text-sm text-gray-500 mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm shadow-xl">
+            <h3 className="text-xl font-bold mb-4 dark:text-white">Операцияны өзгертиў</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
               Бул жерде өзгертилген сумма автоматлы түрде Басбет ҳәм Бюджет бетинде қайта есапланады.
             </p>
             <form onSubmit={handleEditSave} className="space-y-4">
@@ -246,7 +246,7 @@ export const Transactions = () => {
                   type="number" 
                   value={editAmount}
                   onChange={e => setEditAmount(e.target.value)}
-                  className="w-full border rounded-lg p-2 bg-gray-50"
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 bg-gray-50"
                   required
                 />
               </div>
@@ -261,3 +261,6 @@ export const Transactions = () => {
     </div>
   );
 };
+
+
+

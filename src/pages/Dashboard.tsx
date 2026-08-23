@@ -199,48 +199,48 @@ export const Dashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex flex-col">
+        <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 flex flex-col">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="font-bold text-gray-800 flex items-center gap-2">
+            <h3 className="font-bold text-gray-800 dark:text-white flex items-center gap-2">
               <span className="text-xl">🛡</span> ҚОРЛАР
             </h3>
           </div>
           <div className="flex justify-between mb-2">
             <div>
-              <p className="text-sm text-gray-500">Жыйналған қор</p>
-              <p className="text-xl font-bold">{formatCurrency(totalFundCurrent)}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Жыйналған қор</p>
+              <p className="text-xl font-bold dark:text-white">{formatCurrency(totalFundCurrent)}</p>
             </div>
             <div className="text-right">
-              <p className="text-sm text-gray-500">Мақсет</p>
-              <p className="text-xl font-bold">{formatCurrency(totalFundTarget)}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Мақсет</p>
+              <p className="text-xl font-bold dark:text-white">{formatCurrency(totalFundTarget)}</p>
             </div>
           </div>
           <div className="w-full bg-gray-100 rounded-full h-3 mb-2">
             <div className="bg-blue-500 h-3 rounded-full" style={{ width: `${Math.min(100, Math.round((totalFundCurrent/totalFundTarget)*100))}%` }}></div>
           </div>
-          <p className="text-sm text-gray-500 font-bold text-right">{Math.round((totalFundCurrent/totalFundTarget)*100)}%</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 font-bold text-right">{Math.round((totalFundCurrent/totalFundTarget)*100)}%</p>
         </div>
 
-        <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex flex-col">
+        <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 flex flex-col">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="font-bold text-gray-800 flex items-center gap-2">
+            <h3 className="font-bold text-gray-800 dark:text-white flex items-center gap-2">
               <span className="text-xl">💳</span> ҚАРЫЗДАН ҚУТЫЛЫЎ
             </h3>
           </div>
           <div className="flex justify-between mb-2">
             <div>
-              <p className="text-sm text-gray-500">Қалған қарыз</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Қалған қарыз</p>
               <p className="text-xl font-bold text-red-600">{formatCurrency(totalDebtRemaining)}</p>
             </div>
           </div>
           <div className="w-full bg-gray-100 rounded-full h-3 mb-2">
             <div className="bg-red-500 h-3 rounded-full" style={{ width: `${Math.min(100, Math.round(((totalDebtOriginal - totalDebtRemaining) / totalDebtOriginal) * 100))}%` }}></div>
           </div>
-          <p className="text-sm text-gray-500 font-bold text-right">{Math.round(((totalDebtOriginal - totalDebtRemaining) / totalDebtOriginal) * 100)}% жабылды</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 font-bold text-right">{Math.round(((totalDebtOriginal - totalDebtRemaining) / totalDebtOriginal) * 100)}% жабылды</p>
         </div>
       </div>
 
-      <div className="bg-white p-6 rounded-2xl shadow-sm border">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700">
         <h3 className="font-semibold mb-4 text-lg">{t('budget')} (Усы ай)</h3>
         
         {currentBudget && unallocated === 0 ? (
@@ -255,15 +255,15 @@ export const Dashboard = () => {
 
         <div className="space-y-4">
           <div className="flex justify-between text-sm">
-            <span className="text-gray-500">{t('monthly_income')}</span>
+            <span className="text-gray-500 dark:text-gray-400">{t('monthly_income')}</span>
             <span className="font-medium">{formatCurrency(totalBudget)}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-gray-500">{t('spent_this_month')}</span>
+            <span className="text-gray-500 dark:text-gray-400">{t('spent_this_month')}</span>
             <span className="font-medium text-red-600">{formatCurrency(spentThisMonth)}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-gray-500">{t('remaining_budget')}</span>
+            <span className="text-gray-500 dark:text-gray-400">{t('remaining_budget')}</span>
             <span className="font-medium text-green-600">{formatCurrency(remainingBudget)}</span>
           </div>
 
@@ -276,7 +276,7 @@ export const Dashboard = () => {
         </div>
         
         <div className="mt-6 space-y-3">
-          <h4 className="font-medium text-sm text-gray-500">Категориялар (Category Limits)</h4>
+          <h4 className="font-medium text-sm text-gray-500 dark:text-gray-400">Категориялар (Category Limits)</h4>
           {currentBudget?.categories.map(cb => {
             const cat = categories.find(c => c.id === cb.categoryId);
             const spent = calculateSpentByCategory(transactions, cb.categoryId, currentMonth);
@@ -296,7 +296,7 @@ export const Dashboard = () => {
       {showIncomeModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm border dark:border-gray-700">
-            <h3 className="text-xl font-bold mb-4">{t('add_income')}</h3>
+            <h3 className="text-xl font-bold mb-4 dark:text-white">{t('add_income')}</h3>
             <form onSubmit={handleAddIncome} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-1">{t('amount')}</label>
@@ -305,7 +305,7 @@ export const Dashboard = () => {
                   required
                   value={amount}
                   onChange={e => setAmount(e.target.value)}
-                  className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
                 />
               </div>
               <div>
@@ -314,7 +314,7 @@ export const Dashboard = () => {
                   required
                   value={categoryId}
                   onChange={e => setCategoryId(e.target.value)}
-                  className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
                 >
                   <option value="">Таңлаң...</option>
                   {categories.filter(c => c.type === 'income').map(c => (
@@ -329,7 +329,7 @@ export const Dashboard = () => {
                   value={incomeComment}
                   onChange={e => setIncomeComment(e.target.value)}
                   placeholder="Қосымша түсініктеме..."
-                  className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
                 />
               </div>
               <div className="flex space-x-3 pt-4">
@@ -344,7 +344,7 @@ export const Dashboard = () => {
       {showExpenseModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm border dark:border-gray-700">
-            <h3 className="text-xl font-bold mb-4">{t('add_expense')}</h3>
+            <h3 className="text-xl font-bold mb-4 dark:text-white">{t('add_expense')}</h3>
             
             {showWarning ? (
               <div className="space-y-4">
@@ -367,7 +367,7 @@ export const Dashboard = () => {
                     required
                     value={amount}
                     onChange={e => setAmount(e.target.value)}
-                    className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                    className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
                   />
                 </div>
                 <div>
@@ -376,7 +376,7 @@ export const Dashboard = () => {
                     required
                     value={categoryId}
                     onChange={e => setCategoryId(e.target.value)}
-                    className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                    className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
                   >
                     <option value="">Таңлаң...</option>
                     {categories.map(c => (
@@ -391,7 +391,7 @@ export const Dashboard = () => {
                     value={expenseComment}
                     onChange={e => setExpenseComment(e.target.value)}
                     placeholder="Мысалы: супермаркеттен азық-түлік..."
-                    className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                    className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
                   />
                 </div>
                 <div className="flex space-x-3 pt-4">
@@ -407,7 +407,7 @@ export const Dashboard = () => {
       {showTransferModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm border dark:border-gray-700">
-            <h3 className="text-xl font-bold mb-4">Ақша ауыстыру (Перевод)</h3>
+            <h3 className="text-xl font-bold mb-4 dark:text-white">Ақша ауыстыру (Перевод)</h3>
             <form onSubmit={handleTransfer} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Сумма</label>
@@ -416,7 +416,7 @@ export const Dashboard = () => {
                   required
                   value={transferAmount}
                   onChange={e => setTransferAmount(e.target.value)}
-                  className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
                 />
               </div>
               <div>
@@ -425,7 +425,7 @@ export const Dashboard = () => {
                   required
                   value={transferFrom}
                   onChange={e => setTransferFrom(e.target.value)}
-                  className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
                 >
                   <option value="">Таңдаңыз...</option>
                   {accounts.map(a => (
@@ -439,7 +439,7 @@ export const Dashboard = () => {
                   required
                   value={transferTo}
                   onChange={e => setTransferTo(e.target.value)}
-                  className="w-full border rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700"
                 >
                   <option value="">Таңдаңыз...</option>
                   {accounts.map(a => (
@@ -458,3 +458,6 @@ export const Dashboard = () => {
     </div>
   );
 };
+
+
+

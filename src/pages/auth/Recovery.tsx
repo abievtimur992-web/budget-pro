@@ -29,9 +29,9 @@ export const Recovery = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 w-full max-w-md">
+      <div className="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">{t('auth.recovery')}</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t('auth.recovery')}</h1>
         </div>
 
         {error && (
@@ -58,7 +58,7 @@ export const Recovery = () => {
                   required
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border dark:border-gray-700 border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
                   placeholder="name@example.com"
                 />
               </div>
@@ -80,3 +80,6 @@ export const Recovery = () => {
     </div>
   );
 };
+
+
+

@@ -101,13 +101,13 @@ export const Budget = () => {
   if (!currentBudget) {
     return (
       <div className="max-w-4xl mx-auto space-y-6 pb-20">
-        <div className="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm">
+        <div className="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm">
           <button onClick={() => setSelectedMonth(getPreviousMonth(selectedMonth))} className="p-2"><ChevronLeft /></button>
-          <h2 className="text-xl font-bold">{formatMonthName(selectedMonth)}</h2>
+          <h2 className="text-xl font-bold dark:text-white">{formatMonthName(selectedMonth)}</h2>
           <button onClick={() => setSelectedMonth(getNextMonth(selectedMonth))} className="p-2"><ChevronRight /></button>
         </div>
         
-        <div className="bg-white p-8 rounded-2xl shadow-sm text-center">
+        <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm text-center">
           <h3 className="text-xl font-medium mb-4">Бул айға бюджет қурылмаған</h3>
           <div className="space-x-4">
             {prevBudget && (
@@ -115,7 +115,7 @@ export const Budget = () => {
                 Өткен ай бюджетин көшириў
               </button>
             )}
-            <button onClick={handleCreateEmpty} className="bg-gray-100 text-gray-800 px-6 py-3 rounded-lg font-medium">
+            <button onClick={handleCreateEmpty} className="bg-gray-100 text-gray-800 dark:text-white px-6 py-3 rounded-lg font-medium">
               Жаңадан баслаў
             </button>
           </div>
@@ -129,14 +129,14 @@ export const Budget = () => {
       {/* Month Selector */}
       <div className="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">
         <button onClick={() => setSelectedMonth(getPreviousMonth(selectedMonth))} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><ChevronLeft /></button>
-        <h2 className="text-xl font-bold">{formatMonthName(selectedMonth)}</h2>
+        <h2 className="text-xl font-bold dark:text-white">{formatMonthName(selectedMonth)}</h2>
         <button onClick={() => setSelectedMonth(getNextMonth(selectedMonth))} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><ChevronRight /></button>
       </div>
 
       {/* Summary Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 relative">
-          <p className="text-xs text-gray-500 flex justify-between">
+          <p className="text-xs text-gray-500 dark:text-gray-400 flex justify-between">
             Жоспарланған кирис (План)
             <button onClick={() => {
               const newIncome = prompt('Усы айға жоспарланған киристи (План) жазың:', monthlyIncome.toString());
@@ -145,18 +145,18 @@ export const Budget = () => {
               }
             }} className="text-primary-600 hover:text-primary-800"><Edit2 size={14}/></button>
           </p>
-          <p className="font-bold">{formatCurrency(monthlyIncome)}</p>
+          <p className="font-bold dark:text-white">{formatCurrency(monthlyIncome)}</p>
         </div>
         <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">
-          <p className="text-xs text-gray-500">Жалпы бюджет</p>
-          <p className="font-bold">{formatCurrency(allocatedBudget)}</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">Жалпы бюджет</p>
+          <p className="font-bold dark:text-white">{formatCurrency(allocatedBudget)}</p>
         </div>
         <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">
-          <p className="text-xs text-gray-500">Жумсалғаны</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">Жумсалғаны</p>
           <p className="font-bold text-red-500">{formatCurrency(totalSpent)}</p>
         </div>
         <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">
-          <p className="text-xs text-gray-500">Қалған бюджет</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">Қалған бюджет</p>
           <p className="font-bold text-green-500">{formatCurrency(remainingTotal)}</p>
         </div>
       </div>
@@ -167,7 +167,7 @@ export const Budget = () => {
           ✓ БАРЛЫҚ АҚШАҢЫЗҒА МАҚСЕТ БЕРИЛДИ
         </div>
       ) : unallocated > 0 ? (
-        <div className="bg-blue-50 text-blue-700 p-4 rounded-xl text-center font-bold">
+        <div className="bg-blue-50 text-blue-700 p-4 rounded-xl text-center font-bold dark:text-white">
           🟢 БӨЛИНБЕГЕН АҚША: {formatCurrency(unallocated)}
         </div>
       ) : (
@@ -179,16 +179,16 @@ export const Budget = () => {
       {/* Categories List */}
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <h3 className="font-bold text-lg">Категориялар</h3>
+          <h3 className="font-bold text-lg dark:text-white">Категориялар</h3>
           <div className="flex space-x-2">
-            <button onClick={() => setShowTransferModal(true)} className="text-gray-500 p-2 bg-white rounded-full shadow-sm"><ArrowRightLeft size={18} /></button>
-            <button onClick={() => setShowAddModal(true)} className="text-primary-600 p-2 bg-white rounded-full shadow-sm"><Plus size={18} /></button>
+            <button onClick={() => setShowTransferModal(true)} className="text-gray-500 dark:text-gray-400 p-2 bg-white dark:bg-gray-800 rounded-full shadow-sm"><ArrowRightLeft size={18} /></button>
+            <button onClick={() => setShowAddModal(true)} className="text-primary-600 p-2 bg-white dark:bg-gray-800 rounded-full shadow-sm"><Plus size={18} /></button>
           </div>
         </div>
 
         {/* Debt Virtual Category */}
         {debts.length > 0 && (
-          <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-xl shadow-sm border border-red-100 dark:border-red-900/50">
+          <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-xl shadow-sm border dark:border-gray-700 border-red-100 dark:border-red-900/50">
             <div className="flex justify-between items-start mb-2">
               <div>
                 <h4 className="font-bold text-red-800 dark:text-red-300">Қарыз төлемлери (Мәжбүрий)</h4>
@@ -238,8 +238,8 @@ export const Budget = () => {
             <div key={cb.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 border-l-4 border-l-green-500">
               <div className="flex justify-between items-start mb-2">
                 <div>
-                  <h4 className="font-bold">{cat.name}</h4>
-                  <p className="text-xs text-gray-500">{statusText}</p>
+                  <h4 className="font-bold dark:text-white">{cat.name}</h4>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{statusText}</p>
                 </div>
                 <div className="flex space-x-2">
                   <button onClick={() => { setEditingCatId(cb.categoryId); setEditLimit(cb.limit.toString()); }} className="text-gray-400 hover:text-blue-500"><Edit2 size={16} /></button>
@@ -249,15 +249,15 @@ export const Budget = () => {
               
               <div className="grid grid-cols-3 gap-2 text-sm mb-3">
                 <div>
-                  <p className="text-gray-500 text-xs">План:</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-xs">План:</p>
                   <p className="font-medium">{formatCurrency(cb.limit)}</p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Түскені:</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-xs">Түскені:</p>
                   <p className="font-medium text-green-600">{formatCurrency(spent)}</p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Қалғаны:</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-xs">Қалғаны:</p>
                   <p className="font-medium">{formatCurrency(remaining)}</p>
                 </div>
               </div>
@@ -295,8 +295,8 @@ export const Budget = () => {
             <div key={cb.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700">
               <div className="flex justify-between items-start mb-2">
                 <div>
-                  <h4 className="font-bold">{cat.name}</h4>
-                  <p className="text-xs text-gray-500">{statusText}</p>
+                  <h4 className="font-bold dark:text-white">{cat.name}</h4>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{statusText}</p>
                 </div>
                 <div className="flex space-x-2">
                   <button onClick={() => { setEditingCatId(cb.categoryId); setEditLimit(cb.limit.toString()); }} className="text-gray-400 hover:text-blue-500"><Edit2 size={16} /></button>
@@ -306,15 +306,15 @@ export const Budget = () => {
               
               <div className="grid grid-cols-3 gap-2 text-sm mb-3">
                 <div>
-                  <p className="text-gray-500 text-xs">Бюджет:</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-xs">Бюджет:</p>
                   <p className="font-medium">{formatCurrency(cb.limit)}</p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Жумсалғаны:</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-xs">Жумсалғаны:</p>
                   <p className="font-medium text-red-500">{formatCurrency(spent)}</p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Қалғаны (Variance):</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-xs">Қалғаны (Variance):</p>
                   <p className={`font-medium ${remaining < 0 ? 'text-red-600' : 'text-green-600'}`}>{formatCurrency(remaining)}</p>
                 </div>
               </div>
@@ -326,7 +326,7 @@ export const Budget = () => {
                 ></div>
               </div>
               <div className="text-right mt-1">
-                <span className="text-xs font-bold text-gray-500">{percent.toFixed(0)}%</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{percent.toFixed(0)}%</span>
               </div>
             </div>
           );
@@ -336,8 +336,8 @@ export const Budget = () => {
       {/* Modals */}
       {editingCatId && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm">
-            <h3 className="text-xl font-bold mb-4">Бюджетти өзгертиў</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm">
+            <h3 className="text-xl font-bold mb-4 dark:text-white">Бюджетти өзгертиў</h3>
             <form onSubmit={handleSaveLimit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Жаңа лимит суммасы</label>
@@ -345,7 +345,7 @@ export const Budget = () => {
                   type="number" 
                   value={editLimit}
                   onChange={e => setEditLimit(e.target.value)}
-                  className="w-full border rounded-lg p-2"
+                  className="w-full border dark:border-gray-700 rounded-lg p-2"
                 />
               </div>
               <div className="flex space-x-3 pt-4">
@@ -359,23 +359,23 @@ export const Budget = () => {
 
       {showAddModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm">
-            <h3 className="text-xl font-bold mb-4">Категория қосыў</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm">
+            <h3 className="text-xl font-bold mb-4 dark:text-white">Категория қосыў</h3>
             <form onSubmit={handleAddCategory} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Түрі</label>
-                <select value={newCatType} onChange={e => setNewCatType(e.target.value as any)} className="w-full border rounded-lg p-2 dark:bg-gray-800">
+                <select value={newCatType} onChange={e => setNewCatType(e.target.value as any)} className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800">
                   <option value="expense">Шығыс (Категория)</option>
                   <option value="income">Кирис (Табыс көзі)</option>
                 </select>
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">Категория аты</label>
-                <input required type="text" value={newCatName} onChange={e => setNewCatName(e.target.value)} className="w-full border rounded-lg p-2" />
+                <input required type="text" value={newCatName} onChange={e => setNewCatName(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2" />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">Айлық лимит</label>
-                <input required type="number" value={newCatLimit} onChange={e => setNewCatLimit(e.target.value)} className="w-full border rounded-lg p-2" />
+                <input required type="number" value={newCatLimit} onChange={e => setNewCatLimit(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2" />
               </div>
               <div className="flex space-x-3 pt-4">
                 <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Бекарлаў</button>
@@ -388,12 +388,12 @@ export const Budget = () => {
 
       {showTransferModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm">
-            <h3 className="text-xl font-bold mb-4">Ақша аўыстырыў</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm">
+            <h3 className="text-xl font-bold mb-4 dark:text-white">Ақша аўыстырыў</h3>
             <form onSubmit={handleTransfer} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Қайсы категориядан алынады?</label>
-                <select required value={transferFrom} onChange={e => setTransferFrom(e.target.value)} className="w-full border rounded-lg p-2">
+                <select required value={transferFrom} onChange={e => setTransferFrom(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2">
                   <option value="">Таңлаң...</option>
                   {currentBudget.categories.map(cb => {
                     const c = categories.find(cat => cat.id === cb.categoryId);
@@ -403,7 +403,7 @@ export const Budget = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">Қайсы категорияға қосылады?</label>
-                <select required value={transferTo} onChange={e => setTransferTo(e.target.value)} className="w-full border rounded-lg p-2">
+                <select required value={transferTo} onChange={e => setTransferTo(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2">
                   <option value="">Таңлаң...</option>
                   {currentBudget.categories.map(cb => {
                     const c = categories.find(cat => cat.id === cb.categoryId);
@@ -413,7 +413,7 @@ export const Budget = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">Сумма</label>
-                <input required type="number" value={transferAmount} onChange={e => setTransferAmount(e.target.value)} className="w-full border rounded-lg p-2" />
+                <input required type="number" value={transferAmount} onChange={e => setTransferAmount(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2" />
               </div>
               <div className="flex space-x-3 pt-4">
                 <button type="button" onClick={() => setShowTransferModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Бекарлаў</button>
@@ -426,3 +426,6 @@ export const Budget = () => {
     </div>
   );
 };
+
+
+

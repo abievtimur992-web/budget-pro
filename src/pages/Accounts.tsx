@@ -47,7 +47,7 @@ export const Accounts = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
           <CreditCard className="text-primary-600" />
           {t('accounts.title') || 'Аккаунтлар'}
         </h1>
@@ -60,14 +60,14 @@ export const Accounts = () => {
       </div>
 
       {isAdding && (
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-wrap gap-4 items-end">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 flex flex-wrap gap-4 items-end">
           <div className="flex-1 min-w-[200px]">
             <label className="block text-sm font-medium text-gray-700 mb-1">{t('accounts.name') || 'Аты'}</label>
-            <input required type="text" value={name} onChange={e => setName(e.target.value)} className="w-full px-4 py-2 border rounded-xl" />
+            <input required type="text" value={name} onChange={e => setName(e.target.value)} className="w-full px-4 py-2 border dark:border-gray-700 rounded-xl" />
           </div>
           <div className="flex-1 min-w-[200px]">
             <label className="block text-sm font-medium text-gray-700 mb-1">{t('accounts.type') || 'Түри'}</label>
-            <select value={type} onChange={e => setType(e.target.value)} className="w-full px-4 py-2 border rounded-xl bg-white">
+            <select value={type} onChange={e => setType(e.target.value)} className="w-full px-4 py-2 border dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800">
               <option value="bank">{t('accounts.bank') || 'Банк картасы'}</option>
               <option value="cash">{t('accounts.cash') || 'Наличка'}</option>
               <option value="savings">{t('accounts.savings') || 'Жинақ'}</option>
@@ -81,13 +81,13 @@ export const Accounts = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {accounts.map(acc => (
-          <div key={acc.id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 relative">
+          <div key={acc.id} className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 relative">
             <div className="absolute top-4 right-4 flex gap-2">
               <button onClick={() => handleEdit(acc)} className="text-gray-400 hover:text-blue-500"><Edit2 size={16} /></button>
               <button onClick={() => deleteAccount(acc.id)} className="text-gray-400 hover:text-red-500"><Trash2 size={16} /></button>
             </div>
-            <div className="text-sm text-gray-500 mb-1 capitalize">{t(`accounts.${acc.type}`) || acc.type}</div>
-            <div className="font-bold text-gray-900 mb-2">{acc.name}</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400 mb-1 capitalize">{t(`accounts.${acc.type}`) || acc.type}</div>
+            <div className="font-bold text-gray-900 dark:text-white mb-2">{acc.name}</div>
             <div className="text-xl font-bold text-primary-600">{formatCurrency(acc.balance)}</div>
           </div>
         ))}
@@ -95,3 +95,6 @@ export const Accounts = () => {
     </div>
   );
 };
+
+
+

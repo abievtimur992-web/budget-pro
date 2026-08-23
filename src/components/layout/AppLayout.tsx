@@ -39,7 +39,7 @@ export const AppLayout = () => {
   };
 
   const LanguageSelector = () => (
-    <div className="flex items-center space-x-2 text-gray-500">
+    <div className="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
       <Globe size={18} />
       <select 
         value={i18n.language} 
@@ -57,7 +57,7 @@ export const AppLayout = () => {
   const SyncIndicator = () => {
     if (!isSupabaseMode || !syncStatus) return null;
     return (
-      <div className="flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-full bg-gray-50 border">
+      <div className="flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-full bg-gray-50 border dark:border-gray-700">
         {syncStatus === 'online' && <><div className="w-2 h-2 rounded-full bg-green-500"></div> Онлайн</>}
         {syncStatus === 'syncing' && <><div className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></div> Синхронланбақта</>}
         {syncStatus === 'offline' && <><div className="w-2 h-2 rounded-full bg-red-500"></div> Офлайн</>}
@@ -77,7 +77,7 @@ export const AppLayout = () => {
           <LanguageSelector />
           <div className="flex items-center gap-3">
             <NotificationBell />
-            <button onClick={toggleTheme} className="p-1.5 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+            <button onClick={toggleTheme} className="p-1.5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
             <SyncIndicator />
@@ -92,7 +92,7 @@ export const AppLayout = () => {
                 key={item.path}
                 to={item.path}
                 className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
-                  isActive ? 'bg-primary-50 text-primary-600 dark:bg-primary-900/50 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                  isActive ? 'bg-primary-50 text-primary-600 dark:bg-primary-900/50 dark:text-primary-400' : 'text-gray-600 dark:text-gray-400 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50'
                 }`}
               >
                 <Icon size={20} />
@@ -122,7 +122,7 @@ export const AppLayout = () => {
           <h1 className="text-xl font-bold text-primary-600 dark:text-primary-400">Budget PRO</h1>
           <div className="flex items-center gap-2">
             <NotificationBell />
-            <button onClick={toggleTheme} className="p-1.5 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+            <button onClick={toggleTheme} className="p-1.5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
             <SyncIndicator />
@@ -163,9 +163,9 @@ export const AppLayout = () => {
 
       {/* Mobile Full Screen Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 bg-white dark:bg-gray-900 z-50 flex flex-col">
+        <div className="md:hidden fixed inset-0 bg-white dark:bg-gray-800 dark:bg-gray-900 z-50 flex flex-col">
           <div className="flex justify-between items-center p-4 border-b dark:border-gray-700">
-            <h2 className="text-xl font-bold">Меню</h2>
+            <h2 className="text-xl font-bold dark:text-white">Меню</h2>
             <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 bg-gray-100 dark:bg-gray-800 rounded-full">
               <X size={24} />
             </button>
@@ -212,9 +212,9 @@ export const AppLayout = () => {
       {/* Conflict Resolution Dialog */}
       {conflictOperation && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl">
-            <h2 className="text-xl font-bold text-gray-900 mb-2">Синхронлаў Конфликти</h2>
-            <p className="text-sm text-gray-600 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-sm w-full shadow-xl">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Синхронлаў Конфликти</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
               Бул мағлыўмат басқа қурылмада өзгертилген. Қайсы версиясын сақлаўды қәлейсиз?
             </p>
             <div className="flex flex-col gap-3">
@@ -237,3 +237,6 @@ export const AppLayout = () => {
     </div>
   );
 };
+
+
+
