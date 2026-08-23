@@ -180,14 +180,14 @@ export const Dashboard = () => {
           className="bg-primary-600 text-white p-2 md:p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-primary-700 transition-colors"
         >
           <PlusCircle size={24} />
-          <span className="font-medium text-[11px] md:text-sm text-center">Кіріс</span>
+          <span className="font-medium text-[11px] md:text-sm text-center">Dáramat</span>
         </button>
         <button 
           onClick={() => setShowExpenseModal(true)}
           className="bg-red-500 text-white p-2 md:p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-red-600 transition-colors"
         >
           <ArrowDownRight size={24} />
-          <span className="font-medium text-[11px] md:text-sm text-center">Шығыс</span>
+          <span className="font-medium text-[11px] md:text-sm text-center">Shıǵıs</span>
         </button>
         <button 
           onClick={() => setShowTransferModal(true)}
