@@ -245,9 +245,9 @@ export const compareStrategies = (debts: Debt[], extraMonthlyPayment: number) =>
 };
 
 export const calculateDebtFreeDate = (months: number | null): string => {
-  if (months === null) return 'Ешқашан (Төлем аз)';
+  if (months === null) return 'Eshqashan (Tólem az)';
   const d = new Date();
   d.setMonth(d.getMonth() + months);
-  const monthsArr = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+  const monthsArr = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgwst', 'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr'];
   return `${monthsArr[d.getMonth()]} ${d.getFullYear()}`;
 };

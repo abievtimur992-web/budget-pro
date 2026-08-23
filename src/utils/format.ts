@@ -1,5 +1,5 @@
 export const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat('uz-UZ').format(amount).replace(/,/g, ' ') + ' сум';
+  return new Intl.NumberFormat('uz-UZ').format(amount).replace(/,/g, ' ') + ' swm';
 };
 
 export const getCurrentMonth = (): string => {
@@ -22,6 +22,6 @@ export const getNextMonth = (month: string): string => {
 export const formatMonthName = (month: string): string => {
   const [year, m] = month.split('-');
   const date = new Date(parseInt(year), parseInt(m) - 1, 1);
-  const months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+  const months = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgwst', 'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr'];
   return `${months[date.getMonth()]} ${year}`;
 };

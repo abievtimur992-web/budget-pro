@@ -89,12 +89,12 @@ export const useFinanceStore = create<FinanceState>()(
       accounts: [],
       transactions: [],
       categories: [
-        { id: 'cat-1', familyId: '', name: 'Азық-түлик', icon: 'shopping-cart', type: 'expense' },
-        { id: 'cat-2', familyId: '', name: 'Транспорт', icon: 'car', type: 'expense' },
-        { id: 'cat-3', familyId: '', name: 'Балалар', icon: 'users', type: 'expense' },
-        { id: 'cat-4', familyId: '', name: 'Жинақ', icon: 'piggy-bank', type: 'expense' },
-        { id: 'cat-inc-1', familyId: '', name: 'Айлық ТМВ', icon: 'briefcase', type: 'income' },
-        { id: 'cat-inc-2', familyId: '', name: 'Бизнес', icon: 'trending-up', type: 'income' },
+        { id: 'cat-1', familyId: '', name: 'Azıq-túlik', icon: 'shopping-cart', type: 'expense' },
+        { id: 'cat-2', familyId: '', name: 'Transport', icon: 'car', type: 'expense' },
+        { id: 'cat-3', familyId: '', name: 'Balalar', icon: 'users', type: 'expense' },
+        { id: 'cat-4', familyId: '', name: 'Jinaq', icon: 'piggy-bank', type: 'expense' },
+        { id: 'cat-inc-1', familyId: '', name: 'Aylıq TMV', icon: 'briefcase', type: 'income' },
+        { id: 'cat-inc-2', familyId: '', name: 'Biznes', icon: 'trending-up', type: 'income' },
       ],
       budgets: [],
       funds: [],
@@ -107,14 +107,14 @@ export const useFinanceStore = create<FinanceState>()(
         const initialAccount: Account = {
           id: uuid(),
           familyId,
-          name: 'Негизги Хапшық (Main)',
+          name: 'Negizgi Xapshıq (Main)',
           type: 'bank',
           balance: 25000000 
         };
         const cashAccount: Account = {
           id: uuid(),
           familyId,
-          name: 'Қолма-қол ақша',
+          name: 'Qolma-qol aqsha',
           type: 'cash',
           balance: 0
         };
@@ -139,12 +139,12 @@ export const useFinanceStore = create<FinanceState>()(
         // Phase 4.5 Test Data
         const initialFunds: Fund[] = [
           {
-            id: uuid(), familyId, name: 'Қауипсизлик қоры',
+            id: uuid(), familyId, name: 'Qawipsizlik qorı',
             targetAmount: 24000000, currentAmount: 5000000,
             monthlyContribution: 2500000, priority: 1, icon: 'shield', color: 'bg-blue-500'
           },
           {
-            id: uuid(), familyId, name: 'Машина қоры',
+            id: uuid(), familyId, name: 'Mashina qorı',
             targetAmount: 12000000, currentAmount: 4000000,
             monthlyContribution: 1000000, priority: 3, icon: 'car', color: 'bg-purple-500'
           }
@@ -152,12 +152,12 @@ export const useFinanceStore = create<FinanceState>()(
 
         const initialDebts: Debt[] = [
           {
-            id: uuid(), familyId, name: 'Кредит карта', creditor: 'ТБС Банк',
+            id: uuid(), familyId, name: 'Kredit karta', creditor: 'TBS Bank',
             originalAmount: 50000000, remainingAmount: 50000000,
             interestRate: 24, minimumPayment: 2500000, nextPaymentDate: new Date().toISOString()
           },
           {
-            id: uuid(), familyId, name: 'Авто кредит', creditor: 'Халық Банк',
+            id: uuid(), familyId, name: 'Avto kredit', creditor: 'Xalıq Bank',
             originalAmount: 20000000, remainingAmount: 20000000,
             interestRate: 18, minimumPayment: 1500000, nextPaymentDate: new Date().toISOString()
           }
@@ -180,7 +180,7 @@ export const useFinanceStore = create<FinanceState>()(
               type: 'income',
               amount: 25000000,
               accountId: initialAccount.id,
-              comment: 'Айлық кирис',
+              comment: 'Aylıq kiris',
               createdAt: new Date().toISOString()
             },
             {
@@ -190,7 +190,7 @@ export const useFinanceStore = create<FinanceState>()(
               date: new Date().toISOString(),
               type: 'expense',
               amount: 2650000,
-              categoryId: updatedCategories[0].id, // Азық-түлик
+              categoryId: updatedCategories[0].id, // Azıq-túlik
               accountId: initialAccount.id,
               createdAt: new Date().toISOString()
             },
@@ -201,9 +201,9 @@ export const useFinanceStore = create<FinanceState>()(
               date: new Date().toISOString(),
               type: 'expense',
               amount: 200000,
-              categoryId: updatedCategories[1].id, // Транспорт
+              categoryId: updatedCategories[1].id, // Transport
               accountId: initialAccount.id,
-              comment: 'Бензин',
+              comment: 'Benzin',
               createdAt: new Date().toISOString()
             },
             {
@@ -213,7 +213,7 @@ export const useFinanceStore = create<FinanceState>()(
               date: new Date().toISOString(),
               type: 'expense',
               amount: 300000,
-              categoryId: updatedCategories[2].id, // Балалар
+              categoryId: updatedCategories[2].id, // Balalar
               accountId: initialAccount.id,
               createdAt: new Date().toISOString()
             },
@@ -226,7 +226,7 @@ export const useFinanceStore = create<FinanceState>()(
               amount: 500000,
               accountId: initialAccount.id,
               targetAccountId: cashAccount.id,
-              comment: 'Қолма-қол пул алдым',
+              comment: 'Qolma-qol pwl aldım',
               createdAt: new Date().toISOString()
             }
           ]
@@ -395,7 +395,7 @@ export const useFinanceStore = create<FinanceState>()(
           amount,
           accountId,
           fundId,
-          comment: 'Қорға ақша қосыў',
+          comment: 'Qorǵa aqsha qosıў',
           createdAt: new Date().toISOString()
         };
 
@@ -421,7 +421,7 @@ export const useFinanceStore = create<FinanceState>()(
           amount,
           accountId,
           fundId,
-          comment: 'Қордан ақша алыў',
+          comment: 'Qordan aqsha alıў',
           createdAt: new Date().toISOString()
         };
 
@@ -491,7 +491,7 @@ export const useFinanceStore = create<FinanceState>()(
           debtId,
           interestPortion: actualInterest,
           principalPortion: principal,
-          comment: 'Қарыз төлеми',
+          comment: 'Qarız tólemi',
           createdAt: new Date().toISOString()
         };
 
@@ -911,7 +911,7 @@ export const useFinanceStore = create<FinanceState>()(
         // For simplicity and 100% DB consistency without huge mappers,
         // we can simply re-fetch the specific entity domain that changed!
         // This is safe because Zustand batches updates, and fetching guarantees derived states are flawless.
-        // Wait, prompt explicitly said: "Zustand state жаңартылсын... Duplicate transaction жасалмасын".
+        // Wait, prompt explicitly said: "Zustand state jańartılsın... Duplicate transaction jasalmasın".
         // Let's do a fast re-fetch for now to ensure consistency, it fulfills all requirements elegantly.
         
         const store = get();

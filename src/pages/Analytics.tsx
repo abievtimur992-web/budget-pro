@@ -42,7 +42,7 @@ export const Analytics = () => {
 
   const renderChange = (val: number | 'new') => {
     if (val === 'new') return <span className="text-gray-500 dark:text-gray-400 text-xs">Jańa</span>;
-    if (val === 0) return <span className="text-gray-500 dark:text-gray-400 text-xs">Өзгерис жоқ</span>;
+    if (val === 0) return <span className="text-gray-500 dark:text-gray-400 text-xs">Ózgeris joq</span>;
     if (val > 0) return <span className="text-green-600 text-xs flex items-center gap-1"><TrendingUp size={12}/> +{val.toFixed(1)}%</span>;
     return <span className="text-red-600 text-xs flex items-center gap-1"><TrendingDown size={12}/> {val.toFixed(1)}%</span>;
   };
@@ -57,11 +57,11 @@ export const Analytics = () => {
             onChange={(e) => setPeriodType(e.target.value)}
             className="bg-gray-50 dark:bg-gray-700 dark:text-white border dark:border-gray-700 border-gray-200 dark:border-gray-700 rounded-lg p-2 font-medium"
           >
-            <option value="current_month">Бул ай</option>
+            <option value="current_month">Bwl ay</option>
             <option value="last_month">Ótken ay</option>
             <option value="last_3_months">Sońǵı 3 ay</option>
             <option value="last_6_months">Sońǵı 6 ay</option>
-            <option value="this_year">Бул жыл</option>
+            <option value="this_year">Bwl jıl</option>
             <option value="custom">Basqa waqıt</option>
           </select>
           {periodType === 'custom' && (
@@ -75,7 +75,7 @@ export const Analytics = () => {
 
       {isEmpty ? (
         <div className="bg-white dark:bg-gray-800 p-12 rounded-3xl shadow-sm text-center">
-          <p className="text-gray-500 dark:text-gray-400 text-lg">Бул периодта мәлимлеме жоқ.</p>
+          <p className="text-gray-500 dark:text-gray-400 text-lg">Bwl periodta málimleme joq.</p>
         </div>
       ) : (
         <>
@@ -190,7 +190,7 @@ export const Analytics = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Funds Progress */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
-              <h3 className="font-bold text-lg mb-4 text-blue-900 dark:text-white">Qorlar Analitikaсы</h3>
+              <h3 className="font-bold text-lg mb-4 text-blue-900 dark:text-white">Qorlar Analitikası</h3>
               <div className="flex justify-between mb-2">
                 <span className="text-gray-500 dark:text-gray-400 text-sm">Ulıwma balans</span>
                 <span className="font-bold dark:text-white">{formatCurrency(fundAnalytics.totalCurrent)} / {formatCurrency(fundAnalytics.totalTarget)}</span>
@@ -205,7 +205,7 @@ export const Analytics = () => {
                     <span className="font-medium">{f.name}</span>
                     <div className="text-right">
                       <span className="font-bold text-blue-700 dark:text-white">{f.progress.toFixed(0)}%</span>
-                      <p className="text-[10px] text-gray-500 dark:text-gray-400">Мерзим: {f.estimatedTargetDate}</p>
+                      <p className="text-[10px] text-gray-500 dark:text-gray-400">Merzim: {f.estimatedTargetDate}</p>
                     </div>
                   </div>
                 ))}
@@ -214,7 +214,7 @@ export const Analytics = () => {
 
             {/* Debts Progress */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
-              <h3 className="font-bold text-lg mb-4 text-orange-900 dark:text-white">Qarız Analitikaсы</h3>
+              <h3 className="font-bold text-lg mb-4 text-orange-900 dark:text-white">Qarız Analitikası</h3>
               <div className="flex justify-between mb-2">
                 <span className="text-gray-500 dark:text-gray-400 text-sm">Ulıwma qarız qaldıǵı</span>
                 <span className="font-bold text-orange-600 dark:text-white">{formatCurrency(debtAnalytics.remainingDebt)} / {formatCurrency(debtAnalytics.originalDebt)}</span>

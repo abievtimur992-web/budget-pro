@@ -50,7 +50,7 @@ export const useMigrationStore = create<MigrationState>((set, get) => ({
   },
 
   startUpload: async () => {
-    set({ step: 'uploading', progressMsg: 'Қулпты алыў (Locking)...' });
+    set({ step: 'uploading', progressMsg: 'Qwlptı alıў (Locking)...' });
     
     const state = useFinanceStore.getState();
     const familyId = state.family?.id;
@@ -71,12 +71,12 @@ export const useMigrationStore = create<MigrationState>((set, get) => ({
     
     if (!uploaded) {
       await migrationService.releaseLock(familyId);
-      set({ step: 'error', progressMsg: 'Жүклеў барысында қате жүз берди. LocalStorage сақланды.' });
+      set({ step: 'error', progressMsg: 'Júkleў barısında qate júz berdi. LocalStorage saqlandı.' });
       return;
     }
 
     // 3. Verify
-    set({ step: 'verifying', progressMsg: 'Баланслар ҳәм тексериўлер...' });
+    set({ step: 'verifying', progressMsg: 'Balanslar ҳám tekseriўler...' });
     const verified = await migrationService.verifyCloudBalance();
     
     if (verified) {
@@ -87,7 +87,7 @@ export const useMigrationStore = create<MigrationState>((set, get) => ({
       useAuthStore.getState().completeMigration();
     } else {
       await migrationService.releaseLock(familyId);
-      set({ step: 'error', progressMsg: 'Cloud ҳәм Local Баланслары тең емес! Миграция бийкар етилди. LocalStorage сақланды.' });
+      set({ step: 'error', progressMsg: 'Cloud ҳám Local Balansları teń emes! Migraciya biykar etildi. LocalStorage saqlandı.' });
     }
   },
 

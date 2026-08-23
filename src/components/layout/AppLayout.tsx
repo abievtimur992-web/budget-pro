@@ -24,14 +24,14 @@ export const AppLayout = () => {
   };
 
   const navItems = [
-    { path: '/', label: 'Басбет', icon: Home },
+    { path: '/', label: 'Basbet', icon: Home },
     { path: '/analytics', label: 'Analitika', icon: PieChart },
     { path: '/budget', label: 'Budjet', icon: PieChart },
-    { path: '/accounts', label: 'Аккаунтлар', icon: CreditCard },
-    { path: '/transactions', label: 'Операциялар', icon: CreditCard },
+    { path: '/accounts', label: 'Akkawntlar', icon: CreditCard },
+    { path: '/transactions', label: 'Operaciyalar', icon: CreditCard },
     { path: '/funds', label: 'Qorlar', icon: Shield },
-    { path: '/debts', label: 'Қарызлар', icon: TrendingDown },
-    { path: '/family', label: 'Шаңарақ', icon: Settings },
+    { path: '/debts', label: 'Qarızlar', icon: TrendingDown },
+    { path: '/family', label: 'Shańaraq', icon: Settings },
   ];
   
   const switchLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -46,9 +46,9 @@ export const AppLayout = () => {
         onChange={switchLanguage}
         className="bg-transparent border-none text-sm focus:ring-0 cursor-pointer"
       >
-        <option value="kk">Қарақалпақша</option>
+        <option value="kk">Qaraqalpaqsha</option>
         <option value="uz">O'zbekcha</option>
-        <option value="ru">Русский</option>
+        <option value="ru">Rwsskiy</option>
         <option value="en">English</option>
       </select>
     </div>
@@ -58,10 +58,10 @@ export const AppLayout = () => {
     if (!isSupabaseMode || !syncStatus) return null;
     return (
       <div className="flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-full bg-gray-50 dark:bg-gray-700 dark:text-white border dark:border-gray-700">
-        {syncStatus === 'online' && <><div className="w-2 h-2 rounded-full bg-green-500"></div> Онлайн</>}
-        {syncStatus === 'syncing' && <><div className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></div> Синхронланбақта</>}
-        {syncStatus === 'offline' && <><div className="w-2 h-2 rounded-full bg-red-500"></div> Офлайн</>}
-        {syncStatus === 'conflict' && <><div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></div> Конфликт</>}
+        {syncStatus === 'online' && <><div className="w-2 h-2 rounded-full bg-green-500"></div> Onlayn</>}
+        {syncStatus === 'syncing' && <><div className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></div> Sinxronlanbaqta</>}
+        {syncStatus === 'offline' && <><div className="w-2 h-2 rounded-full bg-red-500"></div> Oflayn</>}
+        {syncStatus === 'conflict' && <><div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></div> Konflikt</>}
       </div>
     );
   };
@@ -110,7 +110,7 @@ export const AppLayout = () => {
               className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 w-full"
             >
               <LogOut size={20} />
-              <span>{t('auth.logout') || 'Шығыў'}</span>
+              <span>{t('auth.logout') || 'Shıǵıў'}</span>
             </button>
           </div>
         )}
@@ -157,7 +157,7 @@ export const AppLayout = () => {
           className="flex flex-col items-center flex-1 p-2 text-gray-500 dark:text-gray-400"
         >
           <Menu size={24} />
-          <span className="text-[10px] mt-1 truncate w-full text-center">Меню</span>
+          <span className="text-[10px] mt-1 truncate w-full text-center">Menyu</span>
         </button>
       </nav>
 
@@ -165,7 +165,7 @@ export const AppLayout = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden fixed inset-0 bg-white dark:bg-gray-800 dark:bg-gray-900 z-50 flex flex-col">
           <div className="flex justify-between items-center p-4 border-b dark:border-gray-700">
-            <h2 className="text-xl font-bold dark:text-white">Меню</h2>
+            <h2 className="text-xl font-bold dark:text-white">Menyu</h2>
             <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 bg-gray-100 dark:bg-gray-800 rounded-full">
               <X size={24} />
             </button>
@@ -213,22 +213,22 @@ export const AppLayout = () => {
       {conflictOperation && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-sm w-full shadow-xl">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Синхронлаў Конфликти</h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Sinxronlaў Konflikti</h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-              Бул мағлыўмат басқа қурылмада өзгертилген. Қайсы версиясын сақлаўды қәлейсиз?
+              Bwl maǵlıўmat basqa qwrılmada ózgertilgen. Qaysı versiyasın saqlaўdı qáleysiz?
             </p>
             <div className="flex flex-col gap-3">
               <button 
                 onClick={() => resolveConflict('server')}
                 className="w-full py-2.5 px-4 bg-gray-100 text-gray-700 dark:text-gray-300 hover:bg-gray-200 rounded-xl font-medium transition-colors"
               >
-                Сервердегини қабыллаў
+                Serverdegini qabıllaў
               </button>
               <button 
                 onClick={() => resolveConflict('client')}
                 className="w-full py-2.5 px-4 bg-primary-600 text-white hover:bg-primary-700 rounded-xl font-medium transition-colors"
               >
-                Өзгерисимди сақлаў
+                Ózgerisimdi saqlaў
               </button>
             </div>
           </div>

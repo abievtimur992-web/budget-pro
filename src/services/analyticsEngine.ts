@@ -158,7 +158,7 @@ export const calculateFundAnalytics = (funds: Fund[]) => {
     if (estimatedMonths > 0) {
       const d = new Date();
       d.setMonth(d.getMonth() + estimatedMonths);
-      const monthsArr = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+      const monthsArr = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgwst', 'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr'];
       estimatedTargetDate = `${monthsArr[d.getMonth()]} ${d.getFullYear()}`;
     }
 
@@ -265,7 +265,7 @@ export const calculateFinancialHealthScore = (
 
   // 3. Emergency Fund (20 points)
   let efScore = 0;
-  const ef = funds.find(f => f.priority === 1 || f.name.toLowerCase().includes('қауипсизлик'));
+  const ef = funds.find(f => f.priority === 1 || f.name.toLowerCase().includes('qawipsizlik'));
   if (ef && monthlyIncome > 0) {
     const monthsSaved = ef.currentAmount / monthlyIncome; // crude estimate of months covered
     if (monthsSaved >= 6) efScore = 20;
@@ -286,10 +286,10 @@ export const calculateFinancialHealthScore = (
 
   const total = Math.round(budgetScore + savingsScore + efScore + debtScore);
   
-  let label = 'Қәўипли';
-  if (total >= 80) label = 'Өте жақсы';
+  let label = 'Qáўipli';
+  if (total >= 80) label = 'Óte jaqsı';
   else if (total >= 60) label = 'Jaqsı';
-  else if (total >= 40) label = 'Назар керек';
+  else if (total >= 40) label = 'Nazar kerek';
 
   return { total, labels: { budgetScore, savingsScore, efScore, debtScore }, label };
 };
@@ -307,16 +307,16 @@ export const generateSmartInsights = (
   const insights: { type: 'positive' | 'warning' | 'negative', text: string }[] = [];
   
   if (summary.income === 0 && summary.expense === 0) {
-    return [{ type: 'warning', text: 'Бул қорытынды ушын мәлимлеме жетерли емес.' }];
+    return [{ type: 'warning', text: 'Bwl qorıtındı wshın málimleme jeterli emes.' }];
   }
 
   if (summary.income > prevSummary.income && prevSummary.income > 0) {
-    insights.push({ type: 'positive', text: `Кирисиңиз өткен айға қарағанда өсти.` });
+    insights.push({ type: 'positive', text: `Kirisińiz ótken ayǵa qaraǵanda ósti.` });
   }
 
   const overBudgets = budgetActuals.filter(b => b.status === 'over');
   if (overBudgets.length > 0) {
-    insights.push({ type: 'negative', text: `${overBudgets[0].categoryName} бюджети ${overBudgets[0].utilizationPercent?.toFixed(0) || '>100'}% paydalanıldı.` });
+    insights.push({ type: 'negative', text: `${overBudgets[0].categoryName} byudjeti ${overBudgets[0].utilizationPercent?.toFixed(0) || '>100'}% paydalanıldı.` });
   }
 
   if (unusualSpends.length > 0) {
@@ -324,20 +324,20 @@ export const generateSmartInsights = (
     if (u.changePercent === 'new') {
       insights.push({ type: 'warning', text: `${u.categoryName} boyınsha jańa shıǵıs payda boldı.` });
     } else {
-      insights.push({ type: 'warning', text: `${u.categoryName} шығыны өткен айға қарағанда ${u.changePercent.toFixed(0)}% өсти.` });
+      insights.push({ type: 'warning', text: `${u.categoryName} shıǵını ótken ayǵa qaraǵanda ${u.changePercent.toFixed(0)}% ósti.` });
     }
   }
 
   if (summary.debtPrincipal > 0) {
-    insights.push({ type: 'positive', text: `Бул периодта қарыз қалдығы ${summary.debtPrincipal.toLocaleString()} sumǵa azaydı.` });
+    insights.push({ type: 'positive', text: `Bwl periodta qarız qaldıǵı ${summary.debtPrincipal.toLocaleString()} sumǵa azaydı.` });
   }
 
   if (health.labels.savingsScore < 10) {
-    insights.push({ type: 'warning', text: `Жинақ процентиңиз төмен (${summary.savingsRate.toFixed(1)}%). Қорларға көбирек ақша бөлиўди ойлап көриң.` });
+    insights.push({ type: 'warning', text: `Jinaq procentińiz tómen (${summary.savingsRate.toFixed(1)}%). Qorlarǵa kóbirek aqsha bóliўdi oylap kóriń.` });
   }
 
   if (insights.length === 0) {
-    insights.push({ type: 'positive', text: 'Барлығы жақсы! Финанслық жағдайыңыз турақлы.' });
+    insights.push({ type: 'positive', text: 'Barlıǵı jaqsı! Finanslıq jaǵdayıńız twraqlı.' });
   }
 
   return insights.slice(0, 4);

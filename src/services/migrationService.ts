@@ -61,7 +61,7 @@ export const migrationService = {
       type: amount > 0 ? 'income' : 'expense',
       amount: Math.abs(amount),
       accountId,
-      comment: 'Басланғыш баланс түзетуі (Миграция)',
+      comment: 'Baslanǵısh balans túzetwi (Migraciya)',
       categoryId: undefined,
     });
   },
@@ -127,7 +127,7 @@ export const migrationService = {
 
     try {
       // 1. ACCOUNTS (With Balance = 0 initially to avoid double counting)
-      onProgress('Аккаунтлар жүкленбекте...');
+      onProgress('Akkawntlar júklenbekte...');
       const accountsPayload = state.accounts.map(a => ({
         id: a.id,
         family_id: familyId,
@@ -143,7 +143,7 @@ export const migrationService = {
       await supabase.from('accounts').upsert(accountsPayload, { onConflict: 'id' }).setHeader('Authorization', `Bearer ${token}`);
 
       // 2. FUNDS
-      onProgress('Қорлар жүкленбекте...');
+      onProgress('Qorlar júklenbekte...');
       const fundsPayload = state.funds.map(f => ({
         id: f.id,
         family_id: familyId,
@@ -161,7 +161,7 @@ export const migrationService = {
       }
 
       // 3. DEBTS
-      onProgress('Қарызлар жүкленбекте...');
+      onProgress('Qarızlar júklenbekte...');
       const debtsPayload = state.debts.map(d => ({
         id: d.id,
         family_id: familyId,
@@ -178,7 +178,7 @@ export const migrationService = {
       }
 
       // 4. BUDGETS
-      onProgress('Бюджетлер жүкленбекте...');
+      onProgress('Byudjetler júklenbekte...');
       const budgetsPayload = state.budgets.map(b => ({
         id: b.id,
         family_id: familyId,
@@ -201,7 +201,7 @@ export const migrationService = {
       }
 
       // 6. TRANSACTIONS (Batch upload)
-      onProgress('Транзакциялар жүкленбекте...');
+      onProgress('Tranzakciyalar júklenbekte...');
       const txs = state.transactions;
       const BATCH_SIZE = 50;
       

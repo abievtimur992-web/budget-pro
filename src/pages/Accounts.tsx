@@ -49,32 +49,32 @@ export const Accounts = () => {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
           <CreditCard className="text-primary-600" />
-          {t('accounts.title') || 'Аккаунтлар'}
+          {t('accounts.title') || 'Akkawntlar'}
         </h1>
         <button
           onClick={() => { setIsAdding(!isAdding); setEditingId(null); setName(''); }}
           className="bg-primary-600 text-white px-4 py-2 rounded-xl flex items-center gap-2 hover:bg-primary-700"
         >
-          <Plus size={18} /> {t('accounts.add') || 'Счёт қосыў'}
+          <Plus size={18} /> {t('accounts.add') || 'Schyot qosıў'}
         </button>
       </div>
 
       {isAdding && (
         <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 flex flex-wrap gap-4 items-end dark:text-white">
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('accounts.name') || 'Аты'}</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('accounts.name') || 'Atı'}</label>
             <input required type="text" value={name} onChange={e => setName(e.target.value)} className="w-full px-4 py-2 border dark:border-gray-700 rounded-xl dark:bg-gray-800 dark:text-white" />
           </div>
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('accounts.type') || 'Түри'}</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('accounts.type') || 'Túri'}</label>
             <select value={type} onChange={e => setType(e.target.value)} className="w-full px-4 py-2 border dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 dark:text-white">
-              <option value="bank">{t('accounts.bank') || 'Банк картасы'}</option>
-              <option value="cash">{t('accounts.cash') || 'Наличка'}</option>
-              <option value="savings">{t('accounts.savings') || 'Жинақ'}</option>
+              <option value="bank">{t('accounts.bank') || 'Bank kartası'}</option>
+              <option value="cash">{t('accounts.cash') || 'Nalichka'}</option>
+              <option value="savings">{t('accounts.savings') || 'Jinaq'}</option>
             </select>
           </div>
           <button type="submit" className="bg-green-600 text-white px-6 py-2 rounded-xl hover:bg-green-700">
-            {t('family.save') || 'Сақлаў'}
+            {t('family.save') || 'Saqlaў'}
           </button>
         </form>
       )}

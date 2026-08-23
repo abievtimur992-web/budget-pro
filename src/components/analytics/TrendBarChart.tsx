@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface TrendData {
-  label: string; // e.g. "Авг"
+  label: string; // e.g. "Avg"
   income: number;
   expense: number;
 }

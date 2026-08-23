@@ -12,26 +12,26 @@ export interface ParsedTransaction {
 }
 
 const CATEGORY_MAP: Record<string, string[]> = {
-  'cat-1': ['азық', 'түлик', 'нан', 'сүт', 'магазин', 'базар', 'тамақ', 'аўқат', 'продукт'],
-  'cat-2': ['транспорт', 'бензин', 'машина', 'авто', 'такси', 'жолкире', 'метро', 'автобус'],
-  'cat-3': ['бала', 'балалар', 'мектеп', 'бақша', 'ойыншық', 'памперс', 'садик', 'китап', 'оқыў', 'репетитор'],
-  'cat-4': ['жинақ', 'қор', 'сбережения', 'депозит', 'копилка'],
+  'cat-1': ['azıq', 'túlik', 'nan', 'sút', 'magazin', 'bazar', 'tamaq', 'aўqat', 'prodwkt'],
+  'cat-2': ['transport', 'benzin', 'mashina', 'avto', 'taksi', 'jolkire', 'metro', 'avtobws'],
+  'cat-3': ['bala', 'balalar', 'mektep', 'baqsha', 'oyınshıq', 'pampers', 'sadik', 'kitap', 'oqıў', 'repetitor'],
+  'cat-4': ['jinaq', 'qor', 'sberejeniya', 'depozit', 'kopilka'],
 };
 
 const parseAmount = (text: string): number | undefined => {
   let lower = text.toLowerCase()
-    .replace(/\bсоң\b/g, 'сум')
-    .replace(/\bсом\b/g, 'сум');
+    .replace(/\bsoń\b/g, 'swm')
+    .replace(/\bsom\b/g, 'swm');
 
   const wordToNum: Record<string, number> = {
-    'бір': 1, 'екі': 2, 'үш': 3, 'төрт': 4, 'бес': 5, 
-    'алты': 6, 'жеті': 7, 'сегіз': 8, 'тоғыз': 9,
-    'он': 10, 'жиырма': 20, 'отыз': 30, 'қырық': 40, 'елу': 50,
-    'алпыс': 60, 'жетпіс': 70, 'сексен': 80, 'тоқсан': 90,
-    'жүз': 100, 'мың': 1000, 'миллион': 1000000,
-    'бир': 1, 'еки': 2, 'уш': 3, 'торт': 4, 'жети': 7, 'сегиз': 8, 'тогыз': 9,
-    'жуз': 100, 'мын': 1000,
-    'іс': 3, 'ис': 3, 'жүзінің': 100, 'жүзін': 100, 'мысалы': 1000
+    'bir': 1, 'eki': 2, 'úsh': 3, 'tórt': 4, 'bes': 5, 
+    'altı': 6, 'jeti': 7, 'segiz': 8, 'toǵız': 9,
+    'on': 10, 'jiırma': 20, 'otız': 30, 'qırıq': 40, 'elw': 50,
+    'alpıs': 60, 'jetpis': 70, 'seksen': 80, 'toqsan': 90,
+    'júz': 100, 'mıń': 1000, 'million': 1000000,
+    'bir': 1, 'eki': 2, 'wsh': 3, 'tort': 4, 'jeti': 7, 'segiz': 8, 'togız': 9,
+    'jwz': 100, 'mın': 1000,
+    'is': 3, 'is': 3, 'júziniń': 100, 'júzin': 100, 'mısalı': 1000
   };
 
   const words = lower.split(/[\s,.-]+/);
@@ -66,8 +66,8 @@ const parseAmount = (text: string): number | undefined => {
   if (foundAny && totalAmount > 0) return totalAmount;
   
   let processed = lower
-    .replace(/мың/g, '000')
-    .replace(/миллион/g, '000000')
+    .replace(/mıń/g, '000')
+    .replace(/million/g, '000000')
     .replace(/ /g, '')
     .replace(/,/g, '.');
 
@@ -83,9 +83,9 @@ const guessCategory = (text: string): { id: string; name: string; keyword: strin
   for (const [id, keywords] of Object.entries(CATEGORY_MAP)) {
     for (const kw of keywords) {
       if (lowerText.includes(kw)) {
-        const name = id === 'cat-1' ? 'Азық-түлік' : 
-                     id === 'cat-2' ? 'Транспорт' : 
-                     id === 'cat-3' ? 'Балалар' : 'Жинақ';
+        const name = id === 'cat-1' ? 'Azıq-túlik' : 
+                     id === 'cat-2' ? 'Transport' : 
+                     id === 'cat-3' ? 'Balalar' : 'Jinaq';
         return { id, name, keyword: kw };
       }
     }
@@ -100,14 +100,14 @@ export const parseFinancialText = (text: string): ParsedTransaction => {
   let type: ParsedTransaction['type'] = 'expense';
   
   // Multi-language keyword dictionaries
-  const incomeKeywords = ['кирис', 'айлық', 'түсти', 'таптым', 'келди', 'daromad', 'oylik', 'tushdi', 'доход', 'зарплата', 'поступило', 'получил', 'income', 'salary', 'earned'];
-  const transferKeywords = ['аўыстырдым', 'өткердим', 'перевод', 'o\'tkazdim', 'perevod', 'перевел', 'перевод', 'transfer', 'sent'];
-  const fundContributeKeywords = ['қорға', 'жыйнадым', 'копилка', 'jamg\'arma', 'yig\'dim', 'копилку', 'накопил', 'fund', 'saved', 'savings'];
-  const fundWithdrawKeywords = ['қордан', 'алдым', 'jamg\'armadan', 'oldim', 'снял с', 'withdrew from'];
-  const debtPaymentKeywords = ['қарыз', 'төледим', 'qarz', 'to\'ladim', 'долг', 'оплатил', 'погасил', 'кредит', 'debt', 'paid loan', 'loan'];
+  const incomeKeywords = ['kiris', 'aylıq', 'tústi', 'taptım', 'keldi', 'daromad', 'oylik', 'tushdi', 'doxod', 'zarplata', 'postwpilo', 'polwchil', 'income', 'salary', 'earned'];
+  const transferKeywords = ['aўıstırdım', 'ótkerdim', 'perevod', 'o\'tkazdim', 'perevod', 'perevel', 'perevod', 'transfer', 'sent'];
+  const fundContributeKeywords = ['qorǵa', 'jıynadım', 'kopilka', 'jamg\'arma', 'yig\'dim', 'kopilkw', 'nakopil', 'fund', 'saved', 'savings'];
+  const fundWithdrawKeywords = ['qordan', 'aldım', 'jamg\'armadan', 'oldim', 'snyal s', 'withdrew from'];
+  const debtPaymentKeywords = ['qarız', 'tóledim', 'qarz', 'to\'ladim', 'dolg', 'oplatil', 'pogasil', 'kredit', 'debt', 'paid loan', 'loan'];
 
-  const queryBalanceKeywords = ['баланс', 'қанша қалды', 'қанша ақша бар', 'қанша бар', 'qancha qoldi', 'balans', 'сколько осталось', 'баланс', 'balance'];
-  const queryExpenseKeywords = ['қанша кетти', 'қанша жумсадым', 'қанша жумсалды', 'qancha ketdi', 'qancha sarfladim', 'сколько потратил', 'сколько ушло'];
+  const queryBalanceKeywords = ['balans', 'qansha qaldı', 'qansha aqsha bar', 'qansha bar', 'qancha qoldi', 'balans', 'skolko ostalos', 'balans', 'balance'];
+  const queryExpenseKeywords = ['qansha ketti', 'qansha jwmsadım', 'qansha jwmsaldı', 'qancha ketdi', 'qancha sarfladim', 'skolko potratil', 'skolko wshlo'];
 
   if (queryBalanceKeywords.some(k => text.includes(k))) {
     type = 'query_balance';
@@ -121,8 +121,8 @@ export const parseFinancialText = (text: string): ParsedTransaction => {
     type = 'fund_contribution';
   } else if (fundWithdrawKeywords.some(k => text.includes(k))) {
     type = 'fund_withdrawal';
-  } else if (debtPaymentKeywords.filter(k => text.includes(k)).length >= 2 || text.includes('погасил') || text.includes('loan')) {
-    // Require 2 keywords for debt (e.g. "қарыз" + "төледим") to prevent false positives, or strong single words
+  } else if (debtPaymentKeywords.filter(k => text.includes(k)).length >= 2 || text.includes('pogasil') || text.includes('loan')) {
+    // Require 2 keywords for debt (e.g. "qarız" + "tóledim") to prevent false positives, or strong single words
     type = 'debt_payment';
   }
 

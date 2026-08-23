@@ -87,10 +87,10 @@ export const NotificationBell = () => {
       {isOpen && (
         <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-xl shadow-xl border dark:border-gray-700 z-50 overflow-hidden dark:text-white">
           <div className="p-3 border-b dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-900/50">
-            <h3 className="font-semibold text-gray-800 dark:text-gray-200">Хабарландырыўлар</h3>
+            <h3 className="font-semibold text-gray-800 dark:text-gray-200">Xabarlandırıўlar</h3>
             {unreadCount > 0 && (
               <button onClick={markAllAsRead} className="text-xs text-primary-600 hover:text-primary-700 font-medium">
-                Бәрин оқылды етиў
+                Bárin oqıldı etiў
               </button>
             )}
           </div>
@@ -98,7 +98,7 @@ export const NotificationBell = () => {
           <div className="max-h-96 overflow-y-auto">
             {notifications.length === 0 ? (
               <div className="p-8 text-center text-gray-500 dark:text-gray-400 text-sm">
-                Ҳәзирше жаңа хабарлар жоқ
+                Ҳázirshe jańa xabarlar joq
               </div>
             ) : (
               notifications.map(notification => (

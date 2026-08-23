@@ -13,7 +13,7 @@ export const FundMilestones = ({ current, target }: { current: number, target: n
 
   return (
     <div className="mt-4 border-t dark:border-gray-700 pt-4">
-      <h4 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Жетискенликлер</h4>
+      <h4 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Jetiskenlikler</h4>
       <div className="flex justify-between relative px-2">
         {/* Background line */}
         <div className="absolute top-1/2 left-4 right-4 h-1 bg-gray-200 dark:bg-gray-700 -translate-y-1/2 z-0" />

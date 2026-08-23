@@ -18,8 +18,8 @@ export const generateSmartRecommendations = (
   const highInterestDebts = debts.filter(d => d.interestRate >= 15 && d.remainingAmount > 0);
   const totalDebtBalance = debts.reduce((sum, d) => sum + d.remainingAmount, 0);
   
-  // Find emergency fund (assuming one with word "Қауипсизлик" or priority 1)
-  const emergencyFund = funds.find(f => f.priority === 1 || f.name.toLowerCase().includes('қауипсизлик'));
+  // Find emergency fund (assuming one with word "Qawipsizlik" or priority 1)
+  const emergencyFund = funds.find(f => f.priority === 1 || f.name.toLowerCase().includes('qawipsizlik'));
   const hasEmergency = emergencyFund ? emergencyFund.currentAmount >= emergencyFund.targetAmount * 0.5 : false;
 
   const options: DecisionOption[] = [];
@@ -28,60 +28,60 @@ export const generateSmartRecommendations = (
     if (!hasEmergency && emergencyFund) {
       // Scenario: High debt but no emergency fund
       options.push({
-        title: 'Option A: Теңгеримли (Balanced)',
-        description: `${surplusCash * 0.5} қорға, ${surplusCash * 0.5} қарызға.`,
+        title: 'Option A: Teńgerimli (Balanced)',
+        description: `${surplusCash * 0.5} qorǵa, ${surplusCash * 0.5} qarızǵa.`,
         fundAllocation: surplusCash * 0.5,
         debtAllocation: surplusCash * 0.5,
-        reason: 'Сизде жоқары пайызлы қарыз бар, бирақ қаўипсизлик қорыңыз толмаған. Бул вариант кризистен қорғап, қарызды да азайтады.'
+        reason: 'Sizde joqarı payızlı qarız bar, biraq qaўipsizlik qorıńız tolmaǵan. Bwl variant krizisten qorǵap, qarızdı da azaytadı.'
       });
       options.push({
-        title: 'Option B: Қарызды агрессив жабыў',
-        description: `${surplusCash * 0.2} қорға, ${surplusCash * 0.8} қарызға.`,
+        title: 'Option B: Qarızdı agressiv jabıў',
+        description: `${surplusCash * 0.2} qorǵa, ${surplusCash * 0.8} qarızǵa.`,
         fundAllocation: surplusCash * 0.2,
         debtAllocation: surplusCash * 0.8,
-        reason: 'Минимал резерв сақлап, бос ақшаның көбин жоқары пайызлы қарызға бағытлаў ең көп пайыз үнемлейди.'
+        reason: 'Minimal rezerv saqlap, bos aqshanıń kóbin joqarı payızlı qarızǵa baǵıtlaў eń kóp payız únemleydi.'
       });
     } else {
       // Scenario: High debt, HAS emergency fund
       options.push({
-        title: 'Option A: Қарыздан тез қутылыў (Ұсынылады)',
-        description: `${surplusCash * 0.1} қорға, ${surplusCash * 0.9} қарызға.`,
+        title: 'Option A: Qarızdan tez qwtılıў (Usınıladı)',
+        description: `${surplusCash * 0.1} qorǵa, ${surplusCash * 0.9} qarızǵa.`,
         fundAllocation: surplusCash * 0.1,
         debtAllocation: surplusCash * 0.9,
-        reason: 'Қаўипсизлик қорыңыз жетерли дәрежеде. Бос ақшаны қарызға салыў банкке кететуғын миллионлаған сумды үнемлейди.'
+        reason: 'Qaўipsizlik qorıńız jeterli dárejede. Bos aqshanı qarızǵa salıў bankke ketetwǵın millionlaǵan swmdı únemleydi.'
       });
       options.push({
-        title: 'Option B: Теңгеримли (Balanced)',
-        description: `${surplusCash * 0.5} қорға, ${surplusCash * 0.5} қарызға.`,
+        title: 'Option B: Teńgerimli (Balanced)',
+        description: `${surplusCash * 0.5} qorǵa, ${surplusCash * 0.5} qarızǵa.`,
         fundAllocation: surplusCash * 0.5,
         debtAllocation: surplusCash * 0.5,
-        reason: 'Қарызды жабыў менен бирге басқа да мақсетлерге жетиўди қәлесеңиз.'
+        reason: 'Qarızdı jabıў menen birge basqa da maqsetlerge jetiўdi qáleseńiz.'
       });
     }
   } else if (totalDebtBalance > 0) {
     // Scenario: Low interest debt only
     options.push({
-      title: 'Option A: Теңгеримли инвестиция',
-      description: `${surplusCash * 0.7} қорға, ${surplusCash * 0.3} қарызға.`,
+      title: 'Option A: Teńgerimli investiciya',
+      description: `${surplusCash * 0.7} qorǵa, ${surplusCash * 0.3} qarızǵa.`,
       fundAllocation: surplusCash * 0.7,
       debtAllocation: surplusCash * 0.3,
-      reason: 'Қарызыңыздың пайызы төмен болғанлықтан, ақшаны көбирек мақсетли қорларға (инвестицияға) салыў тийимли.'
+      reason: 'Qarızıńızdıń payızı tómen bolǵanlıqtan, aqshanı kóbirek maqsetli qorlarǵa (investiciyaǵa) salıў tiyimli.'
     });
     options.push({
-      title: 'Option B: Debt Free (Психологиялық)',
-      description: `${surplusCash * 0.2} қорға, ${surplusCash * 0.8} қарызға.`,
+      title: 'Option B: Debt Free (Psixologiyalıq)',
+      description: `${surplusCash * 0.2} qorǵa, ${surplusCash * 0.8} qarızǵa.`,
       fundAllocation: surplusCash * 0.2,
       debtAllocation: surplusCash * 0.8,
-      reason: 'Пайыз төмен болса да, қарыздан тез қутылып, психологиялық еркинликке шығыў ушын.'
+      reason: 'Payız tómen bolsa da, qarızdan tez qwtılıp, psixologiyalıq erkinlikke shıǵıў wshın.'
     });
   } else {
     // Scenario: No debt
     options.push({
-      title: 'Option A: Толық инвестиция / Мақсетлер',
-      description: `Толық ${surplusCash} қорларға.`,
+      title: 'Option A: Tolıq investiciya / Maqsetler',
+      description: `Tolıq ${surplusCash} qorlarǵa.`,
       fundAllocation: surplusCash,
       debtAllocation: 0,
-      reason: 'Сизде қарыз жоқ! Бос ақшаңыздың бәрин болашақ мақсетлерге ҳәм инвестицияға бағытлаң.'
+      reason: 'Sizde qarız joq! Bos aqshańızdıń bárin bolashaq maqsetlerge ҳám investiciyaǵa baǵıtlań.'
     });
   }
 

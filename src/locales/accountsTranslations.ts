@@ -1,13 +1,13 @@
 export const accountsTranslations = {
   kk: {
     accounts: {
-      title: 'Аккаунтлар',
-      add: 'Счёт қосыў',
-      name: 'Аты',
-      type: 'Түри',
-      bank: 'Банк картасы',
-      cash: 'Наличка',
-      savings: 'Жинақ'
+      title: 'Akkawntlar',
+      add: 'Schyot qosıў',
+      name: 'Atı',
+      type: 'Túri',
+      bank: 'Bank kartası',
+      cash: 'Nalichka',
+      savings: 'Jinaq'
     }
   },
   uz: {
@@ -23,13 +23,13 @@ export const accountsTranslations = {
   },
   ru: {
     accounts: {
-      title: 'Счета',
-      add: 'Добавить счет',
-      name: 'Название',
-      type: 'Тип',
-      bank: 'Банковская карта',
-      cash: 'Наличные',
-      savings: 'Сбережения'
+      title: 'Scheta',
+      add: 'Dobavit schet',
+      name: 'Nazvanie',
+      type: 'Tip',
+      bank: 'Bankovskaya karta',
+      cash: 'Nalichnıe',
+      savings: 'Sberejeniya'
     }
   },
   en: {

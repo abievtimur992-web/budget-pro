@@ -1,22 +1,22 @@
 export const authTranslations = {
   kk: {
     auth: {
-      login: 'Кириў',
-      register: 'Дизимнен өтиў',
-      email: 'Электрон почта',
-      password: 'Пароль',
-      displayName: 'Толық атыңыз',
-      forgotPassword: 'Паролди умыттыңыз ба?',
-      noAccount: 'Аккаунтыңыз жоқ па?',
-      hasAccount: 'Аккаунтыңыз бар ма?',
-      logout: 'Шығыў',
-      errorInvalid: 'Email ямаса пароль қате.',
-      recovery: 'Паролди тиклеў',
-      sendLink: 'Силтеме жибериў',
-      backToLogin: 'Кириў бетине қайтыў',
-      successRegister: 'Дизимнен табыслы өттиңиз!',
-      successRecovery: 'Тиклеў силтемеси почтаңызға жиберилди.',
-      demoMode: 'Cloud системасы өширилген. Қосымша LocalStorage режиминде ислемекте.'
+      login: 'Kiriў',
+      register: 'Dizimnen ótiў',
+      email: 'Elektron pochta',
+      password: 'Parol',
+      displayName: 'Tolıq atıńız',
+      forgotPassword: 'Paroldi wmıttıńız ba?',
+      noAccount: 'Akkawntıńız joq pa?',
+      hasAccount: 'Akkawntıńız bar ma?',
+      logout: 'Shıǵıў',
+      errorInvalid: 'Email yamasa parol qate.',
+      recovery: 'Paroldi tikleў',
+      sendLink: 'Silteme jiberiў',
+      backToLogin: 'Kiriў betine qaytıў',
+      successRegister: 'Dizimnen tabıslı óttińiz!',
+      successRecovery: 'Tikleў siltemesi pochtańızǵa jiberildi.',
+      demoMode: 'Cloud sisteması óshirilgen. Qosımsha LocalStorage rejiminde islemekte.'
     }
   },
   uz: {
@@ -41,22 +41,22 @@ export const authTranslations = {
   },
   ru: {
     auth: {
-      login: 'Войти',
-      register: 'Регистрация',
-      email: 'Электронная почта',
-      password: 'Пароль',
-      displayName: 'Полное имя',
-      forgotPassword: 'Забыли пароль?',
-      noAccount: 'Нет аккаунта?',
-      hasAccount: 'Уже есть аккаунт?',
-      logout: 'Выйти',
-      errorInvalid: 'Неверный email или пароль.',
-      recovery: 'Восстановление пароля',
-      sendLink: 'Отправить ссылку',
-      backToLogin: 'Вернуться ко входу',
-      successRegister: 'Успешная регистрация!',
-      successRecovery: 'Ссылка для восстановления отправлена на почту.',
-      demoMode: 'Облачная система отключена. Приложение работает в режиме LocalStorage.'
+      login: 'Voyti',
+      register: 'Registraciya',
+      email: 'Elektronnaya pochta',
+      password: 'Parol',
+      displayName: 'Polnoe imya',
+      forgotPassword: 'Zabıli parol?',
+      noAccount: 'Net akkawnta?',
+      hasAccount: 'Wje est akkawnt?',
+      logout: 'Vıyti',
+      errorInvalid: 'Nevernıy email ili parol.',
+      recovery: 'Vosstanovlenie parolya',
+      sendLink: 'Otpravit ssılkw',
+      backToLogin: 'Vernwtsya ko vxodw',
+      successRegister: 'Wspeshnaya registraciya!',
+      successRecovery: 'Ssılka dlya vosstanovleniya otpravlena na pochtw.',
+      demoMode: 'Oblachnaya sistema otklyuchena. Prilojenie rabotaet v rejime LocalStorage.'
     }
   },
   en: {

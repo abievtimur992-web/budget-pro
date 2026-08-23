@@ -39,7 +39,7 @@ export const Login = () => {
         <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border dark:border-gray-700 border-yellow-200 text-center max-w-md dark:text-white">
           <AlertCircle className="mx-auto text-yellow-500 mb-4" size={48} />
           <p className="text-gray-700 dark:text-gray-300">{t('auth.demoMode')}</p>
-          <button onClick={() => navigate('/')} className="mt-6 w-full bg-primary-600 text-white py-3 rounded-xl font-medium">Кіріў (Local Mode)</button>
+          <button onClick={() => navigate('/')} className="mt-6 w-full bg-primary-600 text-white py-3 rounded-xl font-medium">Kiriў (Local Mode)</button>
         </div>
       </div>
     );

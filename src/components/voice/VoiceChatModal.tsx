@@ -20,7 +20,7 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
     {
       id: '1',
       role: 'assistant',
-      text: 'Сәлем! Қаржылық операцияңызды дауыс пенен ямаса текст арқалы киргизиң.'
+      text: 'Sálem! Qarjılıq operaciyańızdı dawıs penen yamasa tekst arqalı kirgiziń.'
     }
   ]);
   const [input, setInput] = useState('');
@@ -31,7 +31,7 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
     if (isListening) return;
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
-      alert('Сіздің браузеріңіз дауыс тануды қолдамайды. Google Chrome қолданыңыз.');
+      alert('Sizdiń brawzerińiz dawıs tanwdı qoldamaydı. Google Chrome qoldanıńız.');
       return;
     }
     const recognition = new SpeechRecognition();
@@ -40,10 +40,10 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
     recognition.onstart = () => setIsListening(true);
     recognition.onresult = (e: any) => {
       let transcript = e.results[0][0].transcript;
-      transcript = transcript.replace(/\bсоң\b/gi, 'сум')
-                             .replace(/\bсом\b/gi, 'сум')
-                             .replace(/\bсоңында\b/gi, 'сум')
-                             .replace(/\bсоңғы\b/gi, 'сум');
+      transcript = transcript.replace(/\bsoń\b/gi, 'swm')
+                             .replace(/\bsom\b/gi, 'swm')
+                             .replace(/\bsońında\b/gi, 'swm')
+                             .replace(/\bsońǵı\b/gi, 'swm');
       setInput(prev => (prev + ' ' + transcript).trim());
     };
     recognition.onerror = () => setIsListening(false);
@@ -56,14 +56,14 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         role: 'user',
-        text: '📷 Чек жіберілді...'
+        text: '📷 Chek jiberildi...'
       }]);
       setTimeout(() => {
         setMessages(prev => [...prev, {
           id: Date.now().toString() + '2',
           role: 'assistant',
-          text: 'Чек оқылды! 📄\n\nСумма: 45 000 сум\nКатегория: Азық-түлік\n\nСақтаймыз ба?',
-          parsedData: { type: 'expense', amount: 45000, categoryName: 'Азық-түлік', categoryId: 'cat-1', description: 'Чектен' }
+          text: 'Chek oqıldı! 📄\n\nSwmma: 45 000 swm\nKategoriya: Azıq-túlik\n\nSaqtaymız ba?',
+          parsedData: { type: 'expense', amount: 45000, categoryName: 'Azıq-túlik', categoryId: 'cat-1', description: 'Chekten' }
         }]);
       }, 2000);
     }
@@ -79,13 +79,13 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
     
     let parsed = pendingTx ? { ...pendingTx } : parseFinancialText(text);
 
-    const isCorrection = text.includes('емес');
+    const isCorrection = text.includes('emes');
     if (isCorrection && !pendingTx) {
       const lastAsstMsg = messages.slice().reverse().find(m => m.role === 'assistant' && m.parsedData);
       if (lastAsstMsg && lastAsstMsg.parsedData) {
         parsed = { ...lastAsstMsg.parsedData };
-        // extract whatever is after "емес"
-        const afterEmes = text.substring(text.indexOf('емес') + 4);
+        // extract whatever is after "emes"
+        const afterEmes = text.substring(text.indexOf('emes') + 4);
         const newParsed = parseFinancialText(afterEmes);
         if (newParsed.amount) parsed.amount = newParsed.amount;
         else {
@@ -128,9 +128,9 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
 
     if (!parsed.isComplete) {
       // Ask for missing info
-      let askText = 'Түсинбедим.';
-      if (parsed.missingFields.includes('amount')) askText = 'Қанша сум жумсадыңыз? (Сумманы айтыңыз)';
-      else if (parsed.missingFields.includes('category')) askText = 'Бул шығынды қай категорияға киргизейик?';
+      let askText = 'Túsinbedim.';
+      if (parsed.missingFields.includes('amount')) askText = 'Qansha swm jwmsadıńız? (Swmmanı aytıńız)';
+      else if (parsed.missingFields.includes('category')) askText = 'Bwl shıǵındı qay kategoriyaǵa kirgizeyik?';
       
       newMsgs.push({ id: Date.now().toString() + '1', role: 'assistant', text: askText });
       setPendingTx(parsed);
@@ -141,20 +141,20 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
       
       if (parsed.type === 'query_balance') {
         const totalBal = accounts.reduce((sum, a) => sum + a.balance, 0);
-        desc = `Ҳәзирги улыўма балансыңыз: ${formatCurrency(totalBal)}`;
+        desc = `Ҳázirgi wlıўma balansıńız: ${formatCurrency(totalBal)}`;
       } else if (parsed.type === 'query_expense') {
         const spent = calculateSpentByCategory(transactions, parsed.categoryId!, currentMonth);
-        desc = `Бул айда ${parsed.categoryName} ушын жумсаған пулыңыз: ${formatCurrency(spent)}`;
+        desc = `Bwl ayda ${parsed.categoryName} wshın jwmsaǵan pwlıńız: ${formatCurrency(spent)}`;
       } else if (parsed.type === 'expense') {
-        desc = `Мен мынаны түсиндим:\n\nШығыс — ${formatCurrency(parsed.amount!)}\nКатегория — ${parsed.categoryName}\nСана — Бүгин\n\nСақлаймыз ба?`;
+        desc = `Men mınanı túsindim:\n\nShıǵıs — ${formatCurrency(parsed.amount!)}\nKategoriya — ${parsed.categoryName}\nSana — Búgin\n\nSaqlaymız ba?`;
       } else if (parsed.type === 'income') {
-        desc = `Мен мынаны түсиндим:\n\nКирис — ${formatCurrency(parsed.amount!)}\nСана — Бүгин\n\nСақлаймыз ба?`;
+        desc = `Men mınanı túsindim:\n\nKiris — ${formatCurrency(parsed.amount!)}\nSana — Búgin\n\nSaqlaymız ba?`;
       } else if (parsed.type === 'fund_contribution') {
-        desc = `Мен мынаны түсиндим:\n\nҚорға қосыў — ${formatCurrency(parsed.amount!)}\nСана — Бүгин\n\nСақлаймыз ба?`;
+        desc = `Men mınanı túsindim:\n\nQorǵa qosıў — ${formatCurrency(parsed.amount!)}\nSana — Búgin\n\nSaqlaymız ba?`;
       } else if (parsed.type === 'debt_payment') {
-        desc = `Мен мынаны түсиндим:\n\nҚарыз төлеми — ${formatCurrency(parsed.amount!)}\nСана — Бүгин\n\nСақлаймыз ба?`;
+        desc = `Men mınanı túsindim:\n\nQarız tólemi — ${formatCurrency(parsed.amount!)}\nSana — Búgin\n\nSaqlaymız ba?`;
       } else {
-        desc = `Мен мынаны түсиндим:\n\nТрансфер — ${formatCurrency(parsed.amount!)}\n\nСақлаймыз ба?`;
+        desc = `Men mınanı túsindim:\n\nTransfer — ${formatCurrency(parsed.amount!)}\n\nSaqlaymız ba?`;
       }
 
       newMsgs.push({ id: Date.now().toString() + '1', role: 'assistant', text: desc, parsedData: parsed });
@@ -179,7 +179,7 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
           setMessages(prev => [...prev, {
             id: Date.now().toString(),
             role: 'assistant',
-            text: '⚠️ БЮДЖЕТ ЛИМИТИНЕН АСЫП КЕТЕДИ. Бәрбир қосамыз ба?',
+            text: '⚠️ BYuDJET LIMITINEN ASIP KETEDI. Bárbir qosamız ba?',
             parsedData: parsed,
             isWarning: true
           }]);
@@ -213,7 +213,7 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
     setMessages(prev => [...prev, {
       id: Date.now().toString(),
       role: 'assistant',
-      text: '✅ Сақланды!'
+      text: '✅ Saqlandı!'
     }]);
     
     setTimeout(() => {
@@ -249,13 +249,13 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
                   <div className="mt-3 flex gap-2">
                     {msg.isWarning ? (
                       <>
-                        <button onClick={() => setMessages(prev => [...prev, {id: Date.now().toString(), role:'user', text:'Бекарлаў'}])} className="flex-1 bg-gray-100 py-2 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300">Бекарлаў</button>
-                        <button onClick={() => handleSave(msg.parsedData!, true)} className="flex-1 bg-red-100 text-red-700 py-2 rounded-xl text-sm font-medium">Бәрбир қосыў</button>
+                        <button onClick={() => setMessages(prev => [...prev, {id: Date.now().toString(), role:'user', text:'Bekarlaў'}])} className="flex-1 bg-gray-100 py-2 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300">Bekarlaў</button>
+                        <button onClick={() => handleSave(msg.parsedData!, true)} className="flex-1 bg-red-100 text-red-700 py-2 rounded-xl text-sm font-medium">Bárbir qosıў</button>
                       </>
                     ) : (
                       <>
-                        <button onClick={() => setMessages(prev => [...prev, {id: Date.now().toString(), role:'user', text:'Бекарлаў'}])} className="flex-1 bg-gray-100 py-2 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300">Бекарлаў</button>
-                        <button onClick={() => handleSave(msg.parsedData!)} className="flex-1 bg-green-500 text-white py-2 rounded-xl text-sm font-medium">Сақлаў</button>
+                        <button onClick={() => setMessages(prev => [...prev, {id: Date.now().toString(), role:'user', text:'Bekarlaў'}])} className="flex-1 bg-gray-100 py-2 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300">Bekarlaў</button>
+                        <button onClick={() => handleSave(msg.parsedData!)} className="flex-1 bg-green-500 text-white py-2 rounded-xl text-sm font-medium">Saqlaў</button>
                       </>
                     )}
                   </div>
@@ -279,7 +279,7 @@ export const VoiceChatModal = ({ onClose }: { onClose: () => void }) => {
               type="text" 
               value={input}
               onChange={e => setInput(e.target.value)}
-              placeholder="Жазып немесе дауыспен..."
+              placeholder="Jazıp nemese dawıspen..."
               className="flex-1 bg-gray-100 rounded-full px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
             />
             <button type="submit" className="p-3 bg-primary-600 text-white rounded-full hover:bg-primary-700 transition-colors">

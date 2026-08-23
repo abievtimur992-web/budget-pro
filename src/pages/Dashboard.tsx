@@ -52,7 +52,7 @@ export const Dashboard = () => {
   const donutData = currentBudget?.categories.map((cat, index) => {
     // We intentionally sort or just use map index, but map index is fine for now
     return {
-      label: categories.find(c => c.id === cat.categoryId)?.name || 'Белгісіз',
+      label: categories.find(c => c.id === cat.categoryId)?.name || 'Belgisiz',
       value: calculateSpentByCategory(transactions, cat.categoryId, currentMonth),
       color: CHART_COLORS[index % CHART_COLORS.length]
     };
@@ -140,7 +140,7 @@ export const Dashboard = () => {
         amount: Number(transferAmount),
         accountId: transferFrom,
         targetAccountId: transferTo,
-        comment: 'Ауыстыру (Перевод)'
+        comment: 'Awıstırw (Perevod)'
       });
       setShowTransferModal(false);
       setTransferAmount('');
@@ -163,13 +163,13 @@ export const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Expense Donut Chart */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
-          <h3 className="font-bold text-lg mb-4 dark:text-white">Бул айда қәрежетлер</h3>
+          <h3 className="font-bold text-lg mb-4 dark:text-white">Bwl ayda qárejetler</h3>
           <ExpenseDonutChart data={donutData} />
         </div>
 
         {/* 6 Months Trend */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
-          <h3 className="font-bold text-lg mb-4 dark:text-white">Дәрамат ҳәм қәрежет тренди</h3>
+          <h3 className="font-bold text-lg mb-4 dark:text-white">Dáramat ҳám qárejet trendi</h3>
           <TrendBarChart data={generateTrendData()} />
         </div>
       </div>
@@ -194,7 +194,7 @@ export const Dashboard = () => {
           className="bg-blue-500 text-white p-2 md:p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-blue-600 transition-colors"
         >
           <ArrowRightLeft size={24} />
-          <span className="font-medium text-[11px] md:text-sm text-center">Ауыстыру</span>
+          <span className="font-medium text-[11px] md:text-sm text-center">Awıstırw</span>
         </button>
       </div>
 
@@ -202,16 +202,16 @@ export const Dashboard = () => {
         <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 flex flex-col dark:text-white">
           <div className="flex justify-between items-center mb-4">
             <h3 className="font-bold text-gray-800 dark:text-white flex items-center gap-2">
-              <span className="text-xl">🛡</span> ҚОРЛАР
+              <span className="text-xl">🛡</span> QORLAR
             </h3>
           </div>
           <div className="flex justify-between mb-2">
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Жыйналған қор</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Jıynalǵan qor</p>
               <p className="text-xl font-bold dark:text-white">{formatCurrency(totalFundCurrent)}</p>
             </div>
             <div className="text-right">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Мақсет</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Maqset</p>
               <p className="text-xl font-bold dark:text-white">{formatCurrency(totalFundTarget)}</p>
             </div>
           </div>
@@ -224,24 +224,24 @@ export const Dashboard = () => {
         <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 flex flex-col dark:text-white">
           <div className="flex justify-between items-center mb-4">
             <h3 className="font-bold text-gray-800 dark:text-white flex items-center gap-2">
-              <span className="text-xl">💳</span> ҚАРЫЗДАН ҚУТЫЛЫЎ
+              <span className="text-xl">💳</span> QARIZDAN QWTILIЎ
             </h3>
           </div>
           <div className="flex justify-between mb-2">
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Қалған қарыз</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Qalǵan qarız</p>
               <p className="text-xl font-bold text-red-600">{formatCurrency(totalDebtRemaining)}</p>
             </div>
           </div>
           <div className="w-full bg-gray-100 rounded-full h-3 mb-2">
             <div className="bg-red-500 h-3 rounded-full" style={{ width: `${Math.min(100, Math.round(((totalDebtOriginal - totalDebtRemaining) / totalDebtOriginal) * 100))}%` }}></div>
           </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400 font-bold text-right">{Math.round(((totalDebtOriginal - totalDebtRemaining) / totalDebtOriginal) * 100)}% жабылды</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 font-bold text-right">{Math.round(((totalDebtOriginal - totalDebtRemaining) / totalDebtOriginal) * 100)}% jabıldı</p>
         </div>
       </div>
 
       <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
-        <h3 className="font-semibold mb-4 text-lg">{t('budget')} (Усы ай)</h3>
+        <h3 className="font-semibold mb-4 text-lg">{t('budget')} (Wsı ay)</h3>
         
         {currentBudget && unallocated === 0 ? (
            <p className="text-sm text-green-600 bg-green-50 p-2 rounded-lg mb-4 text-center font-medium">
@@ -276,7 +276,7 @@ export const Dashboard = () => {
         </div>
         
         <div className="mt-6 space-y-3">
-          <h4 className="font-medium text-sm text-gray-500 dark:text-gray-400">Категориялар (Category Limits)</h4>
+          <h4 className="font-medium text-sm text-gray-500 dark:text-gray-400">Kategoriyalar (Category Limits)</h4>
           {currentBudget?.categories.map(cb => {
             const cat = categories.find(c => c.id === cb.categoryId);
             const spent = calculateSpentByCategory(transactions, cb.categoryId, currentMonth);
@@ -285,7 +285,7 @@ export const Dashboard = () => {
               <div key={cb.id} className="flex justify-between text-sm border-b pb-2">
                 <span>{cat?.name}</span>
                 <span className={rem < 0 ? 'text-red-500 font-bold' : ''}>
-                  {formatCurrency(rem)} қалды / {formatCurrency(cb.limit)}
+                  {formatCurrency(rem)} qaldı / {formatCurrency(cb.limit)}
                 </span>
               </div>
             );
@@ -309,26 +309,26 @@ export const Dashboard = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Категория (Дерек)</label>
+                <label className="block text-sm font-medium mb-1">Kategoriya (Derek)</label>
                 <select 
                   required
                   value={categoryId}
                   onChange={e => setCategoryId(e.target.value)}
                   className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 >
-                  <option value="">Таңлаң...</option>
+                  <option value="">Tańlań...</option>
                   {categories.filter(c => c.type === 'income').map(c => (
                     <option key={c.id} value={c.id}>{c.name}</option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Комментарий (Қайдан келди?)</label>
+                <label className="block text-sm font-medium mb-1">Kommentariy (Qaydan keldi?)</label>
                 <input 
                   type="text" 
                   value={incomeComment}
                   onChange={e => setIncomeComment(e.target.value)}
-                  placeholder="Қосымша түсініктеме..."
+                  placeholder="Qosımsha túsinikteme..."
                   className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 />
               </div>
@@ -378,19 +378,19 @@ export const Dashboard = () => {
                     onChange={e => setCategoryId(e.target.value)}
                     className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                   >
-                    <option value="">Таңлаң...</option>
+                    <option value="">Tańlań...</option>
                     {categories.map(c => (
                       <option key={c.id} value={c.id}>{c.name}</option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Комментарий (Не үшін?)</label>
+                  <label className="block text-sm font-medium mb-1">Kommentariy (Ne úshin?)</label>
                   <input 
                     type="text" 
                     value={expenseComment}
                     onChange={e => setExpenseComment(e.target.value)}
-                    placeholder="Мысалы: супермаркеттен азық-түлік..."
+                    placeholder="Mısalı: swpermarketten azıq-túlik..."
                     className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                   />
                 </div>
@@ -407,10 +407,10 @@ export const Dashboard = () => {
       {showTransferModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm border dark:border-gray-700 dark:text-white">
-            <h3 className="text-xl font-bold mb-4 dark:text-white">Ақша ауыстыру (Перевод)</h3>
+            <h3 className="text-xl font-bold mb-4 dark:text-white">Aqsha awıstırw (Perevod)</h3>
             <form onSubmit={handleTransfer} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Сумма</label>
+                <label className="block text-sm font-medium mb-1">Swmma</label>
                 <input 
                   type="number" 
                   required
@@ -420,36 +420,36 @@ export const Dashboard = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Қайдан жібересіз?</label>
+                <label className="block text-sm font-medium mb-1">Qaydan jiberesiz?</label>
                 <select 
                   required
                   value={transferFrom}
                   onChange={e => setTransferFrom(e.target.value)}
                   className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 >
-                  <option value="">Таңдаңыз...</option>
+                  <option value="">Tańdańız...</option>
                   {accounts.map(a => (
                     <option key={a.id} value={a.id}>{a.name} ({formatCurrency(a.balance)})</option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Қайда жібересіз?</label>
+                <label className="block text-sm font-medium mb-1">Qayda jiberesiz?</label>
                 <select 
                   required
                   value={transferTo}
                   onChange={e => setTransferTo(e.target.value)}
                   className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 >
-                  <option value="">Таңдаңыз...</option>
+                  <option value="">Tańdańız...</option>
                   {accounts.map(a => (
                     <option key={a.id} value={a.id}>{a.name} ({formatCurrency(a.balance)})</option>
                   ))}
                 </select>
               </div>
               <div className="flex space-x-3 pt-4">
-                <button type="button" onClick={() => setShowTransferModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Бекарлау</button>
-                <button type="submit" className="flex-1 py-2 bg-blue-500 text-white rounded-lg">Жіберу</button>
+                <button type="button" onClick={() => setShowTransferModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Bekarlaw</button>
+                <button type="submit" className="flex-1 py-2 bg-blue-500 text-white rounded-lg">Jiberw</button>
               </div>
             </form>
           </div>

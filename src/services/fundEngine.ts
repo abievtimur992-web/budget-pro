@@ -15,11 +15,11 @@ export const calculateMonthsToFundTarget = (fund: Fund): number | null => {
 
 export const getFundTargetDate = (fund: Fund): string => {
   const months = calculateMonthsToFundTarget(fund);
-  if (months === null) return 'Төлем белгиленбеген';
-  if (months === 0) return 'Аяқланған';
+  if (months === null) return 'Tólem belgilenbegen';
+  if (months === 0) return 'Ayaqlanǵan';
   
   const d = new Date();
   d.setMonth(d.getMonth() + months);
-  const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+  const monthNames = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgwst', 'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr'];
   return `${monthNames[d.getMonth()]} ${d.getFullYear()}`;
 };

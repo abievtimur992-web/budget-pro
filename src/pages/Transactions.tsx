@@ -73,7 +73,7 @@ export const Transactions = () => {
   }, [sortedTransactions, search, typeFilter, categoryFilter, accountFilter, dateFilter, categories]);
 
   const handleDelete = (id: string) => {
-    if (confirm('Бул операцияны өширесиз бе?')) {
+    if (confirm('Bwl operaciyanı óshiresiz be?')) {
       deleteTransaction(id);
     }
   };
@@ -109,14 +109,14 @@ export const Transactions = () => {
 
   const formatDate = (isoStr: string) => {
     const d = new Date(isoStr);
-    const months = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
+    const months = ['Yanv', 'Fev', 'Mar', 'Apr', 'May', 'Iyun', 'Iyul', 'Avg', 'Sen', 'Okt', 'Noya', 'Dek'];
     return `${d.getDate()} ${months[d.getMonth()]}`;
   };
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-20">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold dark:text-white">Операциялар</h1>
+        <h1 className="text-2xl font-bold dark:text-white">Operaciyalar</h1>
       </div>
 
       {/* Advanced Filters */}
@@ -125,7 +125,7 @@ export const Transactions = () => {
           <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
           <input
             type="text"
-            placeholder="Излеў (категория, комментарий, сумма)..."
+            placeholder="Izleў (kategoriya, kommentariy, swmma)..."
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2 border dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-gray-50 dark:bg-gray-700 dark:text-white"
@@ -134,28 +134,28 @@ export const Transactions = () => {
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           <select value={typeFilter} onChange={e => setTypeFilter(e.target.value as any)} className="border rounded-lg p-2 text-sm bg-gray-50 dark:bg-gray-700 dark:text-white">
-            <option value="all">Барлық типлер</option>
-            <option value="income">Кирис 🟢</option>
-            <option value="expense">Шығыс 🔴</option>
-            <option value="transfer">Трансфер 🔵</option>
+            <option value="all">Barlıq tipler</option>
+            <option value="income">Kiris 🟢</option>
+            <option value="expense">Shıǵıs 🔴</option>
+            <option value="transfer">Transfer 🔵</option>
           </select>
 
           <select value={dateFilter} onChange={e => setDateFilter(e.target.value as any)} className="border rounded-lg p-2 text-sm bg-gray-50 dark:bg-gray-700 dark:text-white">
-            <option value="all">Бәрше ўақыт</option>
-            <option value="today">Бүгин</option>
-            <option value="yesterday">Кеше</option>
-            <option value="week">Бул апта</option>
-            <option value="month">Бул ай</option>
-            <option value="last_month">Өткен ай</option>
+            <option value="all">Bárshe ўaqıt</option>
+            <option value="today">Búgin</option>
+            <option value="yesterday">Keshe</option>
+            <option value="week">Bwl apta</option>
+            <option value="month">Bwl ay</option>
+            <option value="last_month">Ótken ay</option>
           </select>
 
           <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="border rounded-lg p-2 text-sm bg-gray-50 dark:bg-gray-700 dark:text-white">
-            <option value="all">Барлық категориялар</option>
+            <option value="all">Barlıq kategoriyalar</option>
             {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
 
           <select value={accountFilter} onChange={e => setAccountFilter(e.target.value)} className="border rounded-lg p-2 text-sm bg-gray-50 dark:bg-gray-700 dark:text-white">
-            <option value="all">Барлық есаплар</option>
+            <option value="all">Barlıq esaplar</option>
             {accounts.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
           </select>
         </div>
@@ -165,14 +165,14 @@ export const Transactions = () => {
       <div className="space-y-3">
         {filteredTransactions.length === 0 ? (
           <div className="text-center py-10 text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 rounded-xl shadow-sm border dark:border-gray-700">
-            Бул фильтрлер бойынша операциялар табылмады.
+            Bwl filtrler boyınsha operaciyalar tabılmadı.
           </div>
         ) : (
           filteredTransactions.map(tx => {
             const category = categories.find(c => c.id === tx.categoryId);
             const account = accounts.find(a => a.id === tx.accountId);
             const targetAccount = accounts.find(a => a.id === tx.targetAccountId);
-            const userName = currentUser?.id === tx.userId ? currentUser.name : 'Басқа ағза';
+            const userName = currentUser?.id === tx.userId ? currentUser.name : 'Basqa aǵza';
             
             return (
               <div key={tx.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 flex flex-col sm:flex-row justify-between gap-4 group hover:shadow-md transition-shadow dark:text-white">
@@ -185,7 +185,7 @@ export const Transactions = () => {
                       <span className="font-medium text-gray-400 text-sm">{formatDate(tx.date)}</span>
                     </div>
                     <h3 className="font-bold text-gray-800 dark:text-white text-lg">
-                      {tx.type === 'transfer' ? 'Трансфер' : category?.name || 'Кирис'}
+                      {tx.type === 'transfer' ? 'Transfer' : category?.name || 'Kiris'}
                     </h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400 flex flex-wrap items-center gap-2 mt-1">
                       <span className="font-medium">
@@ -212,14 +212,14 @@ export const Transactions = () => {
                     <button 
                       onClick={() => { setEditingTx(tx); setEditAmount(tx.amount.toString()); }} 
                       className="p-2 text-gray-500 dark:text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded-lg"
-                      title="Өзгертиў"
+                      title="Ózgertiў"
                     >
                       <Edit2 size={18} />
                     </button>
                     <button 
                       onClick={() => handleDelete(tx.id)} 
                       className="p-2 text-gray-500 dark:text-gray-400 hover:bg-red-50 hover:text-red-600 rounded-lg"
-                      title="Өшириў"
+                      title="Óshiriў"
                     >
                       <Trash2 size={18} />
                     </button>
@@ -235,13 +235,13 @@ export const Transactions = () => {
       {editingTx && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm shadow-xl">
-            <h3 className="text-xl font-bold mb-4 dark:text-white">Операцияны өзгертиў</h3>
+            <h3 className="text-xl font-bold mb-4 dark:text-white">Operaciyanı ózgertiў</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-              Бул жерде өзгертилген сумма автоматлы түрде Басбет ҳәм Бюджет бетинде қайта есапланады.
+              Bwl jerde ózgertilgen swmma avtomatlı túrde Basbet ҳám Byudjet betinde qayta esaplanadı.
             </p>
             <form onSubmit={handleEditSave} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Жаңа сумма</label>
+                <label className="block text-sm font-medium mb-1">Jańa swmma</label>
                 <input 
                   type="number" 
                   value={editAmount}
@@ -251,8 +251,8 @@ export const Transactions = () => {
                 />
               </div>
               <div className="flex space-x-3 pt-4">
-                <button type="button" onClick={() => setEditingTx(null)} className="flex-1 py-2 bg-gray-100 text-gray-700 dark:text-gray-300 rounded-lg font-medium">Бекарлаў</button>
-                <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg font-medium">Сақлаў</button>
+                <button type="button" onClick={() => setEditingTx(null)} className="flex-1 py-2 bg-gray-100 text-gray-700 dark:text-gray-300 rounded-lg font-medium">Bekarlaў</button>
+                <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg font-medium">Saqlaў</button>
               </div>
             </form>
           </div>
