@@ -163,15 +163,15 @@ export const Budget = () => {
 
       {/* Zero-based Alert */}
       {unallocated === 0 ? (
-        <div className="bg-green-50 text-green-700 p-4 rounded-xl text-center font-bold">
+        <div className="bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 p-4 rounded-xl text-center font-bold">
           ✓ БАРЛЫҚ АҚШАҢЫЗҒА МАҚСЕТ БЕРИЛДИ
         </div>
       ) : unallocated > 0 ? (
-        <div className="bg-blue-50 text-blue-700 p-4 rounded-xl text-center font-bold dark:text-white">
+        <div className="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 p-4 rounded-xl text-center font-bold">
           🟢 БӨЛИНБЕГЕН АҚША: {formatCurrency(unallocated)}
         </div>
       ) : (
-        <div className="bg-red-50 text-red-700 p-4 rounded-xl text-center font-bold">
+        <div className="bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 p-4 rounded-xl text-center font-bold">
           🔴 БЮДЖЕТ АРТЫҚ БӨЛИНГЕН: {formatCurrency(Math.abs(unallocated))}
         </div>
       )}
@@ -426,6 +426,7 @@ export const Budget = () => {
     </div>
   );
 };
+
 
 
 

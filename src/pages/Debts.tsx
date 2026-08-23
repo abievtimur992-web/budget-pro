@@ -161,7 +161,7 @@ export const Debts = () => {
               <div 
                 key={key} 
                 onClick={() => setDebtStrategy(key as any)}
-                className={`cursor-pointer rounded-2xl p-4 border-2 transition-all ${debtStrategy === key ? 'border-primary-600 bg-primary-50 dark:bg-primary-900/20' : 'border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-200 dark:hover:border-gray-600'}`}
+                className={`cursor-pointer rounded-2xl p-4 border-2 transition-all ${debtStrategy === key ? 'border-primary-600 bg-primary-50 dark:bg-gray-800' : 'border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-200 dark:hover:border-gray-600'}`}
               >
                 <h3 className="font-bold text-lg mb-2 dark:text-white">{getStrategyName(key)}</h3>
                 <div className="space-y-1">
@@ -289,3 +289,4 @@ export const Debts = () => {
     </div>
   );
 };
+
