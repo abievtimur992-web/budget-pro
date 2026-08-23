@@ -288,7 +288,7 @@ export const calculateFinancialHealthScore = (
   
   let label = 'Қәўипли';
   if (total >= 80) label = 'Өте жақсы';
-  else if (total >= 60) label = 'Жақсы';
+  else if (total >= 60) label = 'Jaqsı';
   else if (total >= 40) label = 'Назар керек';
 
   return { total, labels: { budgetScore, savingsScore, efScore, debtScore }, label };
@@ -316,20 +316,20 @@ export const generateSmartInsights = (
 
   const overBudgets = budgetActuals.filter(b => b.status === 'over');
   if (overBudgets.length > 0) {
-    insights.push({ type: 'negative', text: `${overBudgets[0].categoryName} бюджети ${overBudgets[0].utilizationPercent?.toFixed(0) || '>100'}% пайдаланылды.` });
+    insights.push({ type: 'negative', text: `${overBudgets[0].categoryName} бюджети ${overBudgets[0].utilizationPercent?.toFixed(0) || '>100'}% paydalanıldı.` });
   }
 
   if (unusualSpends.length > 0) {
     const u = unusualSpends[0];
     if (u.changePercent === 'new') {
-      insights.push({ type: 'warning', text: `${u.categoryName} бойынша жаңа шығын пайда болды.` });
+      insights.push({ type: 'warning', text: `${u.categoryName} boyınsha jańa shıǵıs payda boldı.` });
     } else {
       insights.push({ type: 'warning', text: `${u.categoryName} шығыны өткен айға қарағанда ${u.changePercent.toFixed(0)}% өсти.` });
     }
   }
 
   if (summary.debtPrincipal > 0) {
-    insights.push({ type: 'positive', text: `Бул периодта қарыз қалдығы ${summary.debtPrincipal.toLocaleString()} сумға азайды.` });
+    insights.push({ type: 'positive', text: `Бул периодта қарыз қалдығы ${summary.debtPrincipal.toLocaleString()} sumǵa azaydı.` });
   }
 
   if (health.labels.savingsScore < 10) {

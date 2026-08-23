@@ -82,7 +82,7 @@ export const Analytics = () => {
           {/* 1. Health & Insights Row */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-6 rounded-3xl text-white shadow-sm flex flex-col justify-center items-center text-center">
-              <h3 className="text-indigo-100 font-medium mb-2 flex items-center gap-2"><Activity size={18}/> Финанслық Жағдай</h3>
+              <h3 className="text-indigo-100 font-medium mb-2 flex items-center gap-2"><Activity size={18}/> Finanslıq jaǵday</h3>
               <div className="text-5xl font-black mb-1">{health.total}</div>
               <div className="text-lg font-bold bg-white dark:bg-gray-800/20 px-4 py-1 rounded-full dark:text-white">{health.label}</div>
             </div>
@@ -192,7 +192,7 @@ export const Analytics = () => {
             <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
               <h3 className="font-bold text-lg mb-4 text-blue-900 dark:text-white">Qorlar Analitikaсы</h3>
               <div className="flex justify-between mb-2">
-                <span className="text-gray-500 dark:text-gray-400 text-sm">Жалпы баланс</span>
+                <span className="text-gray-500 dark:text-gray-400 text-sm">Ulıwma balans</span>
                 <span className="font-bold dark:text-white">{formatCurrency(fundAnalytics.totalCurrent)} / {formatCurrency(fundAnalytics.totalTarget)}</span>
               </div>
               <div className="w-full bg-blue-100 rounded-full h-4 mb-4">
@@ -216,7 +216,7 @@ export const Analytics = () => {
             <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
               <h3 className="font-bold text-lg mb-4 text-orange-900 dark:text-white">Qarız Analitikaсы</h3>
               <div className="flex justify-between mb-2">
-                <span className="text-gray-500 dark:text-gray-400 text-sm">Жалпы қарыз қалдығы</span>
+                <span className="text-gray-500 dark:text-gray-400 text-sm">Ulıwma qarız qaldıǵı</span>
                 <span className="font-bold text-orange-600 dark:text-white">{formatCurrency(debtAnalytics.remainingDebt)} / {formatCurrency(debtAnalytics.originalDebt)}</span>
               </div>
               <div className="w-full bg-orange-100 rounded-full h-4 mb-4">
@@ -244,8 +244,8 @@ export const Analytics = () => {
                   <div className="flex-1">
                     <p className="font-medium text-sm mb-1">{cat.categoryName}</p>
                     <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
-                      <span>Сарпланды: {formatCurrency(cat.actualAmount)}</span>
-                      <span>Лимит: {formatCurrency(cat.budgetAmount)}</span>
+                      <span>Sarp etildi: {formatCurrency(cat.actualAmount)}</span>
+                      <span>Limit: {formatCurrency(cat.budgetAmount)}</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-1.5">
                       <div 
