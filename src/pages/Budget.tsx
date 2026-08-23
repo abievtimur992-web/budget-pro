@@ -137,7 +137,7 @@ export const Budget = () => {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 relative dark:text-white">
           <p className="text-xs text-gray-500 dark:text-gray-400 flex justify-between">
-            Жоспарланған кирис (План)
+            Jobaланған кирис (План)
             <button onClick={() => {
               const newIncome = prompt('Усы айға жоспарланған киристи (План) жазың:', monthlyIncome.toString());
               if (newIncome && !isNaN(Number(newIncome)) && currentBudget) {
@@ -205,7 +205,7 @@ export const Budget = () => {
                 <p className="font-medium text-red-900">{formatCurrency(totalDebtSpent)}</p>
               </div>
               <div>
-                <p className="text-red-400 text-xs">Қалғаны:</p>
+                <p className="text-red-400 text-xs">Qalǵanı:</p>
                 <p className="font-medium text-red-900">{formatCurrency(totalDebtMinLimit - totalDebtSpent)}</p>
               </div>
             </div>
@@ -257,7 +257,7 @@ export const Budget = () => {
                   <p className="font-medium text-green-600">{formatCurrency(spent)}</p>
                 </div>
                 <div>
-                  <p className="text-gray-500 dark:text-gray-400 text-xs">Қалғаны:</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-xs">Qalǵanı:</p>
                   <p className="font-medium">{formatCurrency(remaining)}</p>
                 </div>
               </div>
@@ -314,7 +314,7 @@ export const Budget = () => {
                   <p className="font-medium text-red-500">{formatCurrency(spent)}</p>
                 </div>
                 <div>
-                  <p className="text-gray-500 dark:text-gray-400 text-xs">Қалғаны (Variance):</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-xs">Qalǵanı (Variance):</p>
                   <p className={`font-medium ${remaining < 0 ? 'text-red-600' : 'text-green-600'}`}>{formatCurrency(remaining)}</p>
                 </div>
               </div>
