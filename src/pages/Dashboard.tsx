@@ -47,11 +47,16 @@ export const Dashboard = () => {
   const unallocated = currentBudget ? getUnallocatedIncome(currentBudget) : 0;
 
   // Chart Data Processing
-  const donutData = currentBudget?.categories.map(cat => ({
-    label: categories.find(c => c.id === cat.categoryId)?.name || 'Белгисиз',
-    value: calculateSpentByCategory(transactions, cat.categoryId, currentMonth),
-    color: categories.find(c => c.id === cat.categoryId)?.color || '#9ca3af'
-  })) || [];
+  const CHART_COLORS = ['#0ea5e9', '#f43f5e', '#8b5cf6', '#10b981', '#f59e0b', '#ec4899', '#14b8a6', '#f97316', '#6366f1'];
+  
+  const donutData = currentBudget?.categories.map((cat, index) => {
+    // We intentionally sort or just use map index, but map index is fine for now
+    return {
+      label: categories.find(c => c.id === cat.categoryId)?.name || 'Белгісіз',
+      value: calculateSpentByCategory(transactions, cat.categoryId, currentMonth),
+      color: CHART_COLORS[index % CHART_COLORS.length]
+    };
+  }) || [];
 
   // Trend Data for last 6 months
   const generateTrendData = () => {
