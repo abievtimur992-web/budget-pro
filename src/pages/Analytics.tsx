@@ -27,18 +27,18 @@ export const Analytics = () => {
   const prevPeriodTx = useMemo(() => filterTransactionsByPeriod(transactions, 'last_month'), [transactions]); // hardcoded last month for M2M comparison
   
   // Computations
-  const summary = useMemo(() => calculateFinancialSummary(filteredTx), [filteredTx]);
-  const prevSummary = useMemo(() => calculateFinancialSummary(prevPeriodTx), [prevPeriodTx]);
+  const summary = useMemo(() => calculateFinancialSummary(filteredTx, funds), [filteredTx, funds]);
+  const prevSummary = useMemo(() => calculateFinancialSummary(prevPeriodTx, funds), [prevPeriodTx, funds]);
   const budgetActuals = useMemo(() => calculateBudgetVsActual(budgets.find(b => b.month === getCurrentMonth()), filteredTx, categories), [budgets, filteredTx, categories]);
   const fundAnalytics = useMemo(() => calculateFundAnalytics(funds), [funds]);
   const debtAnalytics = useMemo(() => calculateDebtAnalytics(debts, filteredTx), [debts, filteredTx]);
-  const m2m = useMemo(() => compareWithPreviousMonth(filteredTx, prevPeriodTx), [filteredTx, prevPeriodTx]);
+  const m2m = useMemo(() => compareWithPreviousMonth(filteredTx, prevPeriodTx, funds), [filteredTx, prevPeriodTx, funds]);
   const unusual = useMemo(() => detectUnusualSpending(filteredTx, prevPeriodTx, categories), [filteredTx, prevPeriodTx, categories]);
   const health = useMemo(() => calculateFinancialHealthScore(budgetActuals, summary.savingsRate, funds, debts, summary.income), [budgetActuals, summary.savingsRate, funds, debts, summary.income]);
   const insights = useMemo(() => generateSmartInsights(summary, prevSummary, budgetActuals, unusual, health), [summary, prevSummary, budgetActuals, unusual, health]);
-  const cashFlow = useMemo(() => getCashFlowData(transactions), [transactions]); // always show full history for chart
+  const cashFlow = useMemo(() => getCashFlowData(transactions, funds), [transactions, funds]); // always show full history for chart
 
-  const isEmpty = summary.income === 0 && summary.expense === 0 && summary.savings === 0 && summary.debtPaymentTotal === 0;
+  const isEmpty = summary.income === 0 && summary.expense === 0 && summary.savings === 0 && summary.debtPaymentTotal === 0 && summary.debtorsLent === 0;
 
   const renderChange = (val: number | 'new') => {
     if (val === 'new') return <span className="text-gray-500 dark:text-gray-400 text-xs">Жаңа</span>;
@@ -103,9 +103,9 @@ export const Analytics = () => {
           </div>
 
           {/* 2. Financial Summary KPI */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
             <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Жалпы кирис</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Жалпы кіріс</p>
               <p className="font-bold text-xl text-gray-900 dark:text-white mb-2">{formatCurrency(summary.income)}</p>
               {renderChange(m2m.incomeChange)}
             </div>
@@ -120,9 +120,14 @@ export const Analytics = () => {
               {renderChange(m2m.savingsChange)}
             </div>
             <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Қарыз төлемлери</p>
-              <p className="font-bold text-xl text-orange-600 mb-1 dark:text-white">{formatCurrency(summary.debtPaymentTotal)}</p>
-              <div className="text-[10px] text-gray-400 flex justify-between">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Дебиторка (Берген қарыз)</p>
+              <p className="font-bold text-xl text-yellow-500 mb-2">{formatCurrency(summary.debtorsLent)}</p>
+              {renderChange(m2m.debtorsLentChange)}
+            </div>
+            <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Қарыз төлемдері</p>
+              <p className="font-bold text-xl text-gray-900 dark:text-white mb-1">{formatCurrency(summary.debtPaymentTotal)}</p>
+              <div className="text-[10px] text-gray-500 dark:text-gray-400 flex justify-between mt-2">
                 <span>P: {formatCurrency(summary.debtPrincipal)}</span>
                 <span>I: {formatCurrency(summary.debtInterest)}</span>
               </div>
@@ -134,21 +139,26 @@ export const Analytics = () => {
             <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
               <h3 className="font-bold text-lg mb-4 dark:text-white">Cash Flow</h3>
               <div className="space-y-4">
-                {cashFlow.slice(-4).map((cf) => (
-                  <div key={cf.month} className="mb-2">
-                    <p className="text-xs font-bold text-gray-600 dark:text-gray-400 mb-1">{cf.month}</p>
-                    <div className="flex h-3 rounded-full overflow-hidden">
-                      <div style={{ width: `${(cf.income / (cf.income + cf.expense + cf.savings + cf.debtPayment || 1)) * 100}%` }} className="bg-green-500"></div>
-                      <div style={{ width: `${(cf.expense / (cf.income + cf.expense + cf.savings + cf.debtPayment || 1)) * 100}%` }} className="bg-red-500"></div>
-                      <div style={{ width: `${(cf.savings / (cf.income + cf.expense + cf.savings + cf.debtPayment || 1)) * 100}%` }} className="bg-blue-500"></div>
-                      <div style={{ width: `${(cf.debtPayment / (cf.income + cf.expense + cf.savings + cf.debtPayment || 1)) * 100}%` }} className="bg-orange-500"></div>
+                {cashFlow.slice(-4).map((cf) => {
+                  const total = cf.income + cf.expense + cf.savings + cf.debtorsLent + cf.debtPayment || 1;
+                  return (
+                    <div key={cf.month} className="mb-2">
+                      <p className="text-xs font-bold text-gray-600 dark:text-gray-400 mb-1">{cf.month}</p>
+                      <div className="flex h-3 rounded-full overflow-hidden">
+                        <div style={{ width: `${(cf.income / total) * 100}%` }} className="bg-green-500"></div>
+                        <div style={{ width: `${(cf.expense / total) * 100}%` }} className="bg-red-500"></div>
+                        <div style={{ width: `${(cf.savings / total) * 100}%` }} className="bg-blue-500"></div>
+                        <div style={{ width: `${(cf.debtorsLent / total) * 100}%` }} className="bg-yellow-500"></div>
+                        <div style={{ width: `${(cf.debtPayment / total) * 100}%` }} className="bg-orange-500"></div>
+                      </div>
                     </div>
-                  </div>
-                ))}
-                <div className="flex gap-4 text-xs text-gray-500 dark:text-gray-400 justify-center mt-4">
-                  <span className="flex items-center gap-1"><div className="w-2 h-2 bg-green-500 rounded-full"></div>Кирис</span>
+                  );
+                })}
+                <div className="flex flex-wrap gap-3 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 justify-center mt-4">
+                  <span className="flex items-center gap-1"><div className="w-2 h-2 bg-green-500 rounded-full"></div>Кіріс</span>
                   <span className="flex items-center gap-1"><div className="w-2 h-2 bg-red-500 rounded-full"></div>Шығыс</span>
                   <span className="flex items-center gap-1"><div className="w-2 h-2 bg-blue-500 rounded-full"></div>Жинақ</span>
+                  <span className="flex items-center gap-1"><div className="w-2 h-2 bg-yellow-500 rounded-full"></div>Дебиторка</span>
                   <span className="flex items-center gap-1"><div className="w-2 h-2 bg-orange-500 rounded-full"></div>Қарыз</span>
                 </div>
               </div>

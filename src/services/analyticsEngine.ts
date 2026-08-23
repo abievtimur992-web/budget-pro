@@ -6,7 +6,8 @@ export type Period = 'current_month' | 'last_month' | 'last_3_months' | 'last_6_
 export interface FinancialSummary {
   income: number;
   expense: number; // ordinary + interest
-  savings: number; // fund_contribution
+  savings: number; // fund_contribution (excluding debtors)
+  debtorsLent: number; // new
   debtPaymentTotal: number;
   debtPrincipal: number;
   debtInterest: number;
@@ -60,17 +61,22 @@ export const filterTransactionsByPeriod = (transactions: Transaction[], period: 
 // ---------------------------------------------------------
 // 2. Financial Summary & Savings Rate
 // ---------------------------------------------------------
-export const calculateFinancialSummary = (transactions: Transaction[]): FinancialSummary => {
+export const calculateFinancialSummary = (transactions: Transaction[], funds: Fund[]): FinancialSummary => {
   let income = 0;
   let ordinaryExpense = 0;
   let savings = 0;
+  let debtorsLent = 0;
   let debtPrincipal = 0;
   let debtInterest = 0;
 
   transactions.forEach(t => {
     if (t.type === 'income') income += t.amount;
     else if (t.type === 'expense') ordinaryExpense += t.amount;
-    else if (t.type === 'fund_contribution') savings += t.amount;
+    else if (t.type === 'fund_contribution') {
+      const isDebtor = funds.find(f => f.id === t.fundId)?.name.startsWith('DEBTOR:');
+      if (isDebtor) debtorsLent += t.amount;
+      else savings += t.amount;
+    }
     else if (t.type === 'debt_payment') {
       debtPrincipal += (t.principalPortion || 0);
       debtInterest += (t.interestPortion || 0);
@@ -81,7 +87,7 @@ export const calculateFinancialSummary = (transactions: Transaction[]): Financia
   const debtPaymentTotal = debtPrincipal + debtInterest;
   const savingsRate = income > 0 ? (savings / income) * 100 : 0;
 
-  return { income, expense, savings, debtPaymentTotal, debtPrincipal, debtInterest, savingsRate };
+  return { income, expense, savings, debtorsLent, debtPaymentTotal, debtPrincipal, debtInterest, savingsRate };
 };
 
 // ---------------------------------------------------------
@@ -190,9 +196,9 @@ export const calculateDebtAnalytics = (debts: Debt[], allTransactions: Transacti
 // ---------------------------------------------------------
 // 5. Month-to-Month & Unusual Spending
 // ---------------------------------------------------------
-export const compareWithPreviousMonth = (currTx: Transaction[], prevTx: Transaction[]) => {
-  const curr = calculateFinancialSummary(currTx);
-  const prev = calculateFinancialSummary(prevTx);
+export const compareWithPreviousMonth = (currTx: Transaction[], prevTx: Transaction[], funds: Fund[]) => {
+  const curr = calculateFinancialSummary(currTx, funds);
+  const prev = calculateFinancialSummary(prevTx, funds);
 
   const calcChange = (c: number, p: number): string | number => {
     if (p === 0) return c > 0 ? 'new' : 0;
@@ -203,6 +209,7 @@ export const compareWithPreviousMonth = (currTx: Transaction[], prevTx: Transact
     incomeChange: calcChange(curr.income, prev.income),
     expenseChange: calcChange(curr.expense, prev.expense),
     savingsChange: calcChange(curr.savings, prev.savings),
+    debtorsLentChange: calcChange(curr.debtorsLent, prev.debtorsLent),
     debtChange: calcChange(curr.debtPaymentTotal, prev.debtPaymentTotal),
   };
 };
@@ -336,18 +343,22 @@ export const generateSmartInsights = (
   return insights.slice(0, 4);
 };
 
-export const getCashFlowData = (transactions: Transaction[]) => {
+export const getCashFlowData = (transactions: Transaction[], funds: Fund[]) => {
   // Group by YYYY-MM
-  const map = new Map<string, { income: number, expense: number, savings: number, debtPayment: number }>();
+  const map = new Map<string, { income: number, expense: number, savings: number, debtorsLent: number, debtPayment: number }>();
   
   transactions.forEach(t => {
     const m = t.date.substring(0, 7); // YYYY-MM
-    if (!map.has(m)) map.set(m, { income: 0, expense: 0, savings: 0, debtPayment: 0 });
+    if (!map.has(m)) map.set(m, { income: 0, expense: 0, savings: 0, debtorsLent: 0, debtPayment: 0 });
     const d = map.get(m)!;
     
     if (t.type === 'income') d.income += t.amount;
     else if (t.type === 'expense') d.expense += t.amount;
-    else if (t.type === 'fund_contribution') d.savings += t.amount;
+    else if (t.type === 'fund_contribution') {
+      const isDebtor = funds.find(f => f.id === t.fundId)?.name.startsWith('DEBTOR:');
+      if (isDebtor) d.debtorsLent += t.amount;
+      else d.savings += t.amount;
+    }
     else if (t.type === 'debt_payment') d.debtPayment += t.amount; // total amount for cash flow!
   });
 
