@@ -62,7 +62,7 @@ export const Analytics = () => {
             <option value="last_3_months">РЎРѕТЈТ“С‹ 3 Р°Р№</option>
             <option value="last_6_months">РЎРѕТЈТ“С‹ 6 Р°Р№</option>
             <option value="this_year">Р‘СѓР» Р¶С‹Р»</option>
-            <option value="custom">Р‘Р°СЃТ›Р° СћР°Т›С‹С‚</option>
+            <option value="custom">Р‘Р°СЃТ›Р° СћР°Т›С‹С‚ (Custom)</option>
           </select>
           {periodType === 'custom' && (
             <div className="flex gap-2">
@@ -88,7 +88,7 @@ export const Analytics = () => {
             </div>
             
             <div className="md:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 dark:text-white">
-              <h3 className="font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2"><Lightbulb className="text-yellow-500" size={20}/> РђТ›С‹Р»Р»С‹ РњУ™СЃР»У™ТіУ™С‚</h3>
+              <h3 className="font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2"><Lightbulb className="text-yellow-500" size={20}/> РђТ›С‹Р»Р»С‹ РњУ™СЃР»У™ТіУ™С‚ (Smart Insights)</h3>
               <div className="space-y-3">
                 {insights.map((ins, i) => (
                   <div key={i} className="flex items-start gap-3">
@@ -110,7 +110,7 @@ export const Analytics = () => {
               {renderChange(m2m.incomeChange)}
             </div>
             <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Р–Р°Р»РїС‹ С€С‹Т“С‹СЃ</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Р–Р°Р»РїС‹ С€С‹Т“С‹СЃ (P&L)</p>
               <p className="font-bold text-xl text-red-600 mb-2">{formatCurrency(summary.expense)}</p>
               {renderChange(m2m.expenseChange)}
             </div>
@@ -135,9 +135,9 @@ export const Analytics = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Ақша айналымы */}
+            {/* Cash Flow */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
-              <h3 className="font-bold text-lg mb-4 dark:text-white">Ақша айналымы</h3>
+              <h3 className="font-bold text-lg mb-4 dark:text-white">Cash Flow</h3>
               <div className="space-y-4">
                 {cashFlow.slice(-4).map((cf) => {
                   const total = cf.income + cf.expense + cf.savings + cf.debtorsLent + cf.debtPayment || 1;
@@ -166,7 +166,7 @@ export const Analytics = () => {
 
             {/* Expense Breakdown (Top 5) */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
-              <h3 className="font-bold text-lg mb-4 dark:text-white">Top 5 РЁС‹Т“С‹РЅ</h3>
+              <h3 className="font-bold text-lg mb-4 dark:text-white">Top 5 РЁС‹Т“С‹РЅ (Expense Breakdown)</h3>
               <div className="space-y-4">
                 {budgetActuals.slice(0, 5).map(cat => (
                   <div key={cat.categoryId}>
@@ -233,7 +233,7 @@ export const Analytics = () => {
           
           {/* Budget vs Actual */}
           <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
-            <h3 className="font-bold text-lg mb-4 dark:text-white">Р‘СЋРґР¶РµС‚ РћСЂС‹РЅР»Р°РЅС‹СћС‹</h3>
+            <h3 className="font-bold text-lg mb-4 dark:text-white">Р‘СЋРґР¶РµС‚ РћСЂС‹РЅР»Р°РЅС‹СћС‹ (Budget vs Actual)</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {budgetActuals.map(cat => (
                 <div key={cat.categoryId} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-xl">
@@ -264,8 +264,6 @@ export const Analytics = () => {
     </div>
   );
 };
-
-
 
 
 
