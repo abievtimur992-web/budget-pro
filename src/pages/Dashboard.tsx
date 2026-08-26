@@ -354,7 +354,7 @@ export const Dashboard = () => {
                 />
               </div>
               <div className="flex space-x-3 pt-4">
-                <button type="button" onClick={() => setShowIncomeModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">{t('cancel')}</button>
+                <button type="button" onClick={() => setShowIncomeModal(false)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg">{t('cancel')}</button>
                 <button type="submit" className="flex-1 py-2 bg-green-600 text-white rounded-lg">{t('save')}</button>
               </div>
             </form>
@@ -375,7 +375,7 @@ export const Dashboard = () => {
                   <p className="text-sm text-red-600 mt-1">{t('warning_overbudget_desc')}</p>
                 </div>
                 <div className="flex space-x-3 pt-2">
-                  <button onClick={() => setShowWarning(false)} className="flex-1 py-2 bg-gray-100 rounded-lg text-gray-700 dark:text-gray-300">{t('cancel')}</button>
+                  <button onClick={() => setShowWarning(false)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg">{t('cancel')}</button>
                   <button onClick={() => submitExpense(true)} className="flex-1 py-2 bg-red-600 text-white rounded-lg font-medium">{t('add_anyway')}</button>
                 </div>
               </div>
@@ -416,7 +416,7 @@ export const Dashboard = () => {
                   />
                 </div>
                 <div className="flex space-x-3 pt-4">
-                  <button type="button" onClick={() => { setShowExpenseModal(false); setShowWarning(false); }} className="flex-1 py-2 bg-gray-100 rounded-lg">{t('cancel')}</button>
+                  <button type="button" onClick={() => { setShowExpenseModal(false); setShowWarning(false); }} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg">{t('cancel')}</button>
                   <button type="submit" className="flex-1 py-2 bg-red-600 text-white rounded-lg">{t('save')}</button>
                 </div>
               </form>
@@ -469,7 +469,7 @@ export const Dashboard = () => {
                 </select>
               </div>
               <div className="flex space-x-3 pt-4">
-                <button type="button" onClick={() => setShowTransferModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Bekarlaw</button>
+                <button type="button" onClick={() => setShowTransferModal(false)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg">Bekarlaw</button>
                 <button type="submit" className="flex-1 py-2 bg-blue-500 text-white rounded-lg">Jiberw</button>
               </div>
             </form>

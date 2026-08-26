@@ -349,7 +349,7 @@ export const Budget = () => {
                 />
               </div>
               <div className="flex space-x-3 pt-4">
-                <button type="button" onClick={() => setEditingCatId(null)} className="flex-1 py-2 bg-gray-100 rounded-lg">Bekarlaў</button>
+                <button type="button" onClick={() => setEditingCatId(null)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg">Bekarlaў</button>
                 <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">Saqlaў</button>
               </div>
             </form>
@@ -378,7 +378,7 @@ export const Budget = () => {
                 <input required type="number" value={newCatLimit} onChange={e => setNewCatLimit(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white" />
               </div>
               <div className="flex space-x-3 pt-4">
-                <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Bekarlaў</button>
+                <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg">Bekarlaў</button>
                 <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">Qosıў</button>
               </div>
             </form>
@@ -416,7 +416,7 @@ export const Budget = () => {
                 <input required type="number" value={transferAmount} onChange={e => setTransferAmount(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white" />
               </div>
               <div className="flex space-x-3 pt-4">
-                <button type="button" onClick={() => setShowTransferModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Bekarlaў</button>
+                <button type="button" onClick={() => setShowTransferModal(false)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg">Bekarlaў</button>
                 <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">Aўıstırıў</button>
               </div>
             </form>

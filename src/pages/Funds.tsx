@@ -238,7 +238,7 @@ export const Funds = () => {
                 <option value="4">4 - Tómen</option>
               </select>
               <div className="flex space-x-3 pt-4">
-                <button type="button" onClick={() => { setShowAddModal(false); setEditingFundId(null); setFName(''); setFTarget(''); setFMonthly(''); }} className="flex-1 py-2 bg-gray-100 rounded-lg">Bekarlaw</button>
+                <button type="button" onClick={() => { setShowAddModal(false); setEditingFundId(null); setFName(''); setFTarget(''); setFMonthly(''); }} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg">Bekarlaw</button>
                 <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">Saqlaw</button>
               </div>
             </form>
@@ -259,7 +259,7 @@ export const Funds = () => {
               </select>
               <input required type="number" placeholder="Swmma" className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white" value={txAmount} onChange={e => setTxAmount(e.target.value)} />
               <div className="flex space-x-3 pt-4">
-                <button type="button" onClick={() => setShowTxModal(false)} className="flex-1 py-2 bg-gray-100 rounded-lg">Bekarlaў</button>
+                <button type="button" onClick={() => setShowTxModal(false)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg">Bekarlaў</button>
                 <button type="submit" className="flex-1 py-2 bg-primary-600 text-white rounded-lg">Saqlaў</button>
               </div>
             </form>
