@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Home, PieChart, CreditCard, Shield, TrendingDown, Globe, LogOut, Settings, Moon, Sun, Menu, X } from 'lucide-react';
+import { Home, PieChart, CreditCard, Shield, TrendingDown, TrendingUp, Globe, LogOut, Settings, Moon, Sun, Menu, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { VoiceAssistantFab } from '../voice/VoiceAssistantFab';
 import { useAuthStore } from '../../store/useAuthStore';
