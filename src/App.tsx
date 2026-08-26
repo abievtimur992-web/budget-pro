@@ -13,6 +13,7 @@ import { Budget } from './pages/Budget';
 import { Transactions } from './pages/Transactions';
 import { Funds } from './pages/Funds';
 import { Debts } from './pages/Debts';
+import { InvestStrategy } from './pages/InvestStrategy';
 import { Analytics } from './pages/Analytics';
 import { FamilySettings } from './pages/FamilySettings';
 import { Accounts } from './pages/Accounts';
@@ -63,6 +64,7 @@ export default function App() {
             <Route path="/transactions" element={<Transactions />} />
             <Route path="/funds" element={<Funds />} />
             <Route path="/debts" element={<Debts />} />
+            <Route path="/invest" element={<InvestStrategy />} />
             <Route path="/family" element={<FamilySettings />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
