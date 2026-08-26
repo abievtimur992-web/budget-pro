@@ -100,6 +100,7 @@ export const AppLayout = () => {
     { path: '/transactions', label: 'Operaciyalar', icon: CreditCard },
     { path: '/funds', label: 'Qorlar', icon: Shield },
     { path: '/debts', label: 'Qarızlar', icon: TrendingDown },
+    { path: '/invest', label: 'Invest strategiya', icon: TrendingUp },
     { path: '/family', label: 'Shańaraq', icon: Settings },
   ];
   
