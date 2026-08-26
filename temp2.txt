@@ -1,0 +1,42 @@
+      updateCategoryLimit(selectedMonth, editingCatId, Number(editLimit));
+      setEditingCatId(null);
+    }
+  };
+
+  const handleAddCategory = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newCatName) {
+      addCategory(newCatName, 'tag', Number(newCatLimit) || 0, selectedMonth, newCatType);
+      setShowAddModal(false);
+      setNewCatName('');
+      setNewCatLimit('');
+      setNewCatType('expense');
+    }
+  };
+
+  const handleTransfer = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (transferFrom && transferTo && transferAmount) {
+      transferCategoryLimit(selectedMonth, transferFrom, transferTo, Number(transferAmount));
+==================================================
+
+      {showAddModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm">
+            <h3 className="text-xl font-bold mb-4 dark:text-white">Kategoriya qosıў</h3>
+            <form onSubmit={handleAddCategory} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Túri</label>
+                <select value={newCatType} onChange={e => setNewCatType(e.target.value as any)} className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white">
+                  <option value="expense">Shıǵıs (Kategoriya)</option>
+                  <option value="income">Kiris (Tabıs kózi)</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Kategoriya atı</label>
+                <input required type="text" value={newCatName} onChange={e => setNewCatName(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Aylıq limit</label>
+                <input required type="number" value={newCatLimit} onChange={e => setNewCatLimit(e.target.value)} className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:text-white" />
+==================================================

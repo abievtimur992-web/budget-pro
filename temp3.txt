@@ -1,0 +1,66 @@
+import { NotificationBell } from '../notifications/NotificationBell';
+
+export const AppLayout = () => {
+
+  // Run Cyrillic to Latin transliteration for user data (LocalStorage)
+  React.useEffect(() => {
+    const store = useFinanceStore.getState();
+    const hasCyrillic = (str: string) => /[А-Яа-яЁёҚқҒғҮүҰұӨөІіҢңӘәҺһ]/.test(str);
+    
+    const translitMap: Record<string, string> = {
+        "А": "A", "а": "a", "Б": "B", "б": "b", "В": "V", "в": "v",
+        "Г": "G", "г": "g", "Ғ": "Ǵ", "ғ": "ǵ", "Д": "D", "д": "d",
+        "Е": "E", "е": "e", "Ё": "Yo", "ё": "yo", "Ж": "J", "ж": "j",
+        "З": "Z", "з": "z", "И": "I", "и": "i", "Й": "Y", "й": "y",
+        "К": "K", "к": "k", "Қ": "Q", "қ": "q", "Л": "L", "л": "l",
+        "М": "M", "м": "m", "Н": "N", "н": "n", "Ң": "Ń", "ң": "ń",
+        "О": "O", "о": "o", "Ө": "Ó", "ө": "ó", "П": "P", "п": "p",
+        "Р": "R", "р": "r", "С": "S", "с": "s", "Т": "T", "т": "t",
+        "У": "W", "у": "w", "Ұ": "U", "ұ": "u", "Ү": "Ú", "ү": "ú",
+        "Ф": "F", "ф": "f", "Х": "X", "х": "x", "Һ": "H", "һ": "h",
+        "Ц": "C", "ц": "c", "Ч": "Ch", "ч": "ch", "Ш": "Sh", "ш": "sh",
+        "Щ": "Sh", "щ": "sh", "Ъ": "", "ъ": "", "Ы": "I", "ы": "ı",
+        "І": "I", "і": "i", "Ь": "", "ь": "", "Э": "E", "э": "e",
+        "Ю": "Yu", "ю": "yu", "Я": "Ya", "я": "ya", "Ә": "Á", "ә": "á"
+    };
+    
+    const transliterate = (text: string) => text.split('').map(c => translitMap[c] || c).join('');
+
+    let updated = false;
+    
+    const newCategories = store.categories?.map(c => {
+      if (c.name && hasCyrillic(c.name)) {
+        updated = true;
+        return { ...c, name: transliterate(c.name) };
+      }
+      return c;
+    }) || [];
+
+    const newTransactions = store.transactions?.map(t => {
+      if (t.description && hasCyrillic(t.description)) {
+        updated = true;
+        return { ...t, description: transliterate(t.description) };
+      }
+      return t;
+    }) || [];
+
+    const newFunds = store.funds?.map(f => {
+      if (f.name && hasCyrillic(f.name)) {
+        updated = true;
+        return { ...f, name: transliterate(f.name) };
+      }
+      return f;
+    }) || [];
+
+    const newDebts = store.debts?.map(d => {
+      if (d.name && hasCyrillic(d.name)) {
+        updated = true;
+        return { ...d, name: transliterate(d.name) };
+      }
+      return d;
+    }) || [];
+
+    if (updated) {
+      useFinanceStore.setState({ 
+        categories: newCategories,
+==================================================

@@ -1,0 +1,11 @@
+﻿const fs = require('fs');
+let content = fs.readFileSync('src/pages/Analytics.tsx', 'utf8');
+content = content.replace('(Expense Breakdown)', '');
+content = content.replace('(Smart Insights)', '');
+content = content.replace('(Budget vs Actual)', '');
+content = content.replace('(Custom)', '');
+content = content.replace('Principal (Негізгі)', 'Негізгі қарыз');
+content = content.replace('Interest (Пайыз)', 'Пайыздық үстеме');
+content = content.replace('P&L', '');
+content = content.replace('Cash Flow', 'Ақша айналымы');
+fs.writeFileSync('src/pages/Analytics.tsx', content, 'utf8');

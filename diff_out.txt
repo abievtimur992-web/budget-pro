@@ -1,0 +1,30 @@
+diff --git a/src/pages/Analytics.tsx b/src/pages/Analytics.tsx
+index b8f8d28b..5b7ad111 100644
+--- a/src/pages/Analytics.tsx
++++ b/src/pages/Analytics.tsx
+@@ -41,7 +41,7 @@ export const Analytics = () => {
+   const isEmpty = summary.income === 0 && summary.expense === 0 && summary.savings === 0 && summary.debtPaymentTotal === 0 && summary.debtorsLent === 0;
+ 
+   const renderChange = (val: number | 'new') => {
+-    if (val === 'new') return <span className="text-gray-500 dark:text-gray-400 text-xs">Жаңа</span>;
++    if (val === 'new') return <span className="text-gray-500 dark:text-gray-400 text-xs">Jańa</span>;
+     if (val === 0) return <span className="text-gray-500 dark:text-gray-400 text-xs">Өзгерис жоқ</span>;
+     if (val > 0) return <span className="text-green-600 text-xs flex items-center gap-1"><TrendingUp size={12}/> +{val.toFixed(1)}%</span>;
+     return <span className="text-red-600 text-xs flex items-center gap-1"><TrendingDown size={12}/> {val.toFixed(1)}%</span>;
+@@ -50,7 +50,7 @@ export const Analytics = () => {
+   return (
+     <div className="max-w-6xl mx-auto space-y-6 pb-20">
+       <div className="flex flex-col md:flex-row justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm gap-4">
+-        <h1 className="text-2xl font-bold flex items-center gap-2 dark:text-white"><PieChart /> Аналитика</h1>
++        <h1 className="text-2xl font-bold flex items-center gap-2 dark:text-white"><PieChart /> Analitika</h1>
+         <div className="flex flex-col sm:flex-row gap-2">
+           <select 
+             value={periodType} 
+@@ -58,11 +58,11 @@ export const Analytics = () => {
+             className="bg-gray-50 dark:bg-gray-700 dark:text-white border dark:border-gray-700 border-gray-200 dark:border-gray-700 rounded-lg p-2 font-medium"
+           >
+             <option value="current_month">Бул ай</option>
+-            <option value="last_month">Өткен ай</option>
+-            <option value="last_3_months">Соңғы 3 ай</option>
+-            <option value="last_6_months">Соңғы 6 ай</option>
++            <option value="last_month">Ótken ay</option>

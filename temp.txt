@@ -1,0 +1,64 @@
+Match at line 319:
+                  type="number" 
+                  required
+                  value={amount}
+                  onChange={e => setAmount(e.target.value)}
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Kategoriya (Derek)</label>
+                <select 
+                  required
+                  value={categoryId}
+                  onChange={e => setCategoryId(e.target.value)}
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                >
+                  <option value="">Tańlań...</option>
+                  {categories.filter(c => c.type === 'income').map(c => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Kommentariy (Qaydan keldi?)</label>
+                <input 
+                  type="text" 
+                  value={incomeComment}
+                  onChange={e => setIncomeComment(e.target.value)}
+                  placeholder="Qosımsha túsinikteme..."
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                />
+==================================================
+Match at line 381:
+                    type="number" 
+                    required
+                    value={amount}
+                    onChange={e => setAmount(e.target.value)}
+                    className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">{t('category')}</label>
+                  <select 
+                    required
+                    value={categoryId}
+                    onChange={e => setCategoryId(e.target.value)}
+                    className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                  >
+                    <option value="">Tańlań...</option>
+                    {categories.map(c => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Kommentariy (Ne úshin?)</label>
+                  <input 
+                    type="text" 
+                    value={expenseComment}
+                    onChange={e => setExpenseComment(e.target.value)}
+                    placeholder="Mısalı: swpermarketten azıq-túlik..."
+                    className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                  />
+==================================================

@@ -1,0 +1,92 @@
+
+export const Dashboard = () => {
+  const { t } = useTranslation();
+  const { budgets, transactions, accounts, categories, addTransaction, addIncome, funds, debts } = useFinanceStore();
+  
+  const [showIncomeModal, setShowIncomeModal] = useState(false);
+  const [showExpenseModal, setShowExpenseModal] = useState(false);
+  const [showTransferModal, setShowTransferModal] = useState(false);
+  
+  // Modals state
+  const [amount, setAmount] = useState('');
+  const [categoryId, setCategoryId] = useState('');
+  const [expenseComment, setExpenseComment] = useState('');
+  
+  const [incomeComment, setIncomeComment] = useState('');
+  
+  const [transferAmount, setTransferAmount] = useState('');
+  const [transferFrom, setTransferFrom] = useState('');
+  const [transferTo, setTransferTo] = useState('');
+  const [showWarning, setShowWarning] = useState(false);
+
+  const currentMonth = getCurrentMonth();
+  
+  const currentBudget = budgets.find(b => b.month === currentMonth);
+  const totalBudget = currentBudget?.categories.reduce((acc, c) => acc + c.limit, 0) || 0;
+  
+  const spentThisMonth = calculateTotalSpent(transactions, currentMonth);
+  const remainingBudget = totalBudget - spentThisMonth;
+  const totalBalance = accounts.reduce((acc, a) => acc + a.balance, 0);
+
+  const totalFundCurrent = funds.reduce((acc, f) => acc + f.currentAmount, 0);
+  const totalFundTarget = funds.reduce((acc, f) => acc + f.targetAmount, 0) || 1; // Prevent div by 0
+
+  const totalDebtOriginal = debts.reduce((acc, d) => acc + d.originalAmount, 0) || 1;
+  const totalDebtRemaining = debts.reduce((acc, d) => acc + d.remainingAmount, 0);
+  
+  const progressPercent = totalBudget > 0 ? Math.min((spentThisMonth / totalBudget) * 100, 100) : 0;
+  
+  const unallocated = currentBudget ? getUnallocatedIncome(currentBudget) : 0;
+
+  // Chart Data Processing
+  const CHART_COLORS = ['#0ea5e9', '#f43f5e', '#8b5cf6', '#10b981', '#f59e0b', '#ec4899', '#14b8a6', '#f97316', '#6366f1'];
+  
+  const donutData = currentBudget?.categories.map((cat, index) => {
+    // We intentionally sort or just use map index, but map index is fine for now
+==================================================
+            );
+          })}
+        </div>
+      </div>
+
+      {showIncomeModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm border dark:border-gray-700 dark:text-white">
+            <h3 className="text-xl font-bold mb-4 dark:text-white">{t('add_income')}</h3>
+            <form onSubmit={handleAddIncome} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">{t('amount')}</label>
+                <input 
+                  type="number" 
+                  required
+                  value={amount}
+                  onChange={e => setAmount(e.target.value)}
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Kategoriya (Derek)</label>
+                <select 
+                  required
+                  value={categoryId}
+                  onChange={e => setCategoryId(e.target.value)}
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                >
+                  <option value="">Tańlań...</option>
+                  {categories.filter(c => c.type === 'income').length > 0 ? (
+                    categories.filter(c => c.type === 'income').map(c => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))
+                  ) : (
+                    <option value="" disabled>Kategoriya joq! Budjet bóliminen qosıń</option>
+                  )}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Kommentariy (Qaydan keldi?)</label>
+                <input 
+                  type="text" 
+                  value={incomeComment}
+                  onChange={e => setIncomeComment(e.target.value)}
+                  placeholder="Qosımsha túsinikteme..."
+==================================================

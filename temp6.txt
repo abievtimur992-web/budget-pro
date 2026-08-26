@@ -1,0 +1,72 @@
+      data.push({ label, income, expense });
+    }
+    return data;
+  };
+
+  const handleAddIncome = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (amount && accounts.length > 0) {
+      addIncome(Number(amount), accounts[0].id, incomeComment, categoryId);
+      setShowIncomeModal(false);
+      setAmount('');
+      setIncomeComment('');
+      setCategoryId('');
+    }
+  };
+
+  const submitExpense = (force = false) => {
+    if (!amount || !categoryId || accounts.length === 0) return;
+    
+    const numAmount = Number(amount);
+    
+    // Check overspending
+    if (!force && currentBudget) {
+      const spentSoFar = calculateSpentByCategory(transactions, categoryId, currentMonth);
+      if (checkOverspending(currentBudget, categoryId, spentSoFar, numAmount)) {
+        setShowWarning(true);
+        return;
+      }
+    }
+    
+    addTransaction({
+      familyId: accounts[0].familyId,
+      userId: 'current-user', 
+      date: new Date().toISOString(),
+      type: 'expense',
+==================================================
+
+      {showIncomeModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm border dark:border-gray-700 dark:text-white">
+            <h3 className="text-xl font-bold mb-4 dark:text-white">{t('add_income')}</h3>
+            <form onSubmit={handleAddIncome} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">{t('amount')}</label>
+                <input 
+                  type="number" 
+                  required
+                  value={amount}
+                  onChange={e => setAmount(e.target.value)}
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Kategoriya (Derek)</label>
+                <select 
+                  required
+                  value={categoryId}
+                  onChange={e => setCategoryId(e.target.value)}
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                >
+                  <option value="">Tańlań...</option>
+                  {categories.filter(c => c.type === 'income').length > 0 ? (
+                    categories.filter(c => c.type === 'income').map(c => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))
+                  ) : (
+                    <option value="" disabled>Kategoriya joq! Budjet bóliminen qosıń</option>
+                  )}
+                </select>
+              </div>
+              <div>
+==================================================
