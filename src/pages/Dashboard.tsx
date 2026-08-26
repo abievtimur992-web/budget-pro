@@ -317,9 +317,13 @@ export const Dashboard = () => {
                   className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 >
                   <option value="">Tańlań...</option>
-                  {categories.filter(c => c.type === 'income').map(c => (
-                    <option key={c.id} value={c.id}>{c.name}</option>
-                  ))}
+                  {categories.filter(c => c.type === 'income').length > 0 ? (
+                    categories.filter(c => c.type === 'income').map(c => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))
+                  ) : (
+                    <option value="" disabled>Kategoriya joq! Budjet bóliminen qosıń</option>
+                  )}
                 </select>
               </div>
               <div>
