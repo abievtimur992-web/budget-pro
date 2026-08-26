@@ -18,6 +18,7 @@ export const Dashboard = () => {
   // Modals state
   const [amount, setAmount] = useState('');
   const [categoryId, setCategoryId] = useState('');
+  const [accountId, setAccountId] = useState('');
   const [expenseComment, setExpenseComment] = useState('');
   
   const [incomeComment, setIncomeComment] = useState('');
@@ -82,8 +83,9 @@ export const Dashboard = () => {
 
   const handleAddIncome = (e: React.FormEvent) => {
     e.preventDefault();
-    if (amount && accounts.length > 0) {
-      addIncome(Number(amount), accounts[0].id, incomeComment, categoryId);
+    const targetAccountId = accountId || (accounts.length > 0 ? accounts[0].id : '');
+    if (amount && targetAccountId) {
+      addIncome(Number(amount), targetAccountId, incomeComment, categoryId);
       setShowIncomeModal(false);
       setAmount('');
       setIncomeComment('');
@@ -92,7 +94,8 @@ export const Dashboard = () => {
   };
 
   const submitExpense = (force = false) => {
-    if (!amount || !categoryId || accounts.length === 0) return;
+    const targetAccountId = accountId || (accounts.length > 0 ? accounts[0].id : '');
+    if (!amount || !categoryId || !targetAccountId) return;
     
     const numAmount = Number(amount);
     
@@ -111,7 +114,7 @@ export const Dashboard = () => {
       date: new Date().toISOString(),
       type: 'expense',
       amount: numAmount,
-      accountId: accounts[0].id,
+      accountId: targetAccountId,
       categoryId,
       comment: expenseComment,
       isOverBudget: force
@@ -298,6 +301,20 @@ export const Dashboard = () => {
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm border dark:border-gray-700 dark:text-white">
             <h3 className="text-xl font-bold mb-4 dark:text-white">{t('add_income')}</h3>
             <form onSubmit={handleAddIncome} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Esap (Kassa/Karta)</label>
+                <select 
+                  required
+                  value={accountId}
+                  onChange={e => setAccountId(e.target.value)}
+                  className="w-full border dark:border-gray-700 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                >
+                  <option value="">Tańlań...</option>
+                  {accounts.map(a => (
+                    <option key={a.id} value={a.id}>{a.name} ({a.balance} swm)</option>
+                  ))}
+                </select>
+              </div>
               <div>
                 <label className="block text-sm font-medium mb-1">{t('amount')}</label>
                 <input 
