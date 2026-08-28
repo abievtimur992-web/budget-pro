@@ -1,0 +1,27 @@
+﻿{
+  "translation": {
+    "welcome": "Добро пожаловать в Budget PRO Family!",
+    "onboarding_title": "Создайте семейный бюджет",
+    "family_name": "Название семьи",
+    "your_name": "Ваше имя",
+    "start": "Начать",
+    "dashboard": "Главная",
+    "budget": "Бюджет",
+    "transactions": "Транзакции",
+    "total_balance": "Общий баланс",
+    "monthly_income": "Доход за месяц",
+    "spent_this_month": "Потрачено в этом месяце",
+    "remaining_budget": "Остаток бюджета",
+    "add_expense": "Добавить расход",
+    "add_income": "Добавить доход",
+    "amount": "Сумма",
+    "category": "Категория",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "warning_overbudget": "ВНИМАНИЕ: ПРЕВЫШЕН ЛИМИТ",
+    "warning_overbudget_desc": "Этот расход превышает лимит категории. Все равно добавить?",
+    "add_anyway": "Все равно добавить",
+    "budget_allocated": "Все ваши деньги распределены по целям !",
+    "unallocated": "Нераспределенные деньги"
+  }
+}

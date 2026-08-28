@@ -1,12 +1,14 @@
-import i18n from 'i18next';
+﻿import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import kkTranslations from './locales/kk.json';
+import ruTranslations from './locales/ru.json';
 
 i18n
   .use(initReactI18next)
   .init({
     resources: {
-      kk: kkTranslations
+      kk: kkTranslations,
+      ru: ruTranslations
     },
     lng: 'kk',
     fallbackLng: 'kk',
