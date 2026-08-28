@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Home, PieChart, CreditCard, Shield, TrendingDown, TrendingUp, Globe, LogOut, Settings, Moon, Sun, Menu, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -14,23 +14,23 @@ export const AppLayout = () => {
   // Run Cyrillic to Latin transliteration for user data (LocalStorage)
   React.useEffect(() => {
     const store = useFinanceStore.getState();
-    const hasCyrillic = (str: string) => /[А-Яа-яЁёҚқҒғҮүҰұӨөІіҢңӘәҺһ]/.test(str);
+    const hasCyrillic = (str: string) => /[Рђ-РЇР°-СЏРЃС‘ТљТ›Т’Т“Т®ТЇТ°Т±УЁУ©Р†С–ТўТЈУУ™ТєТ»]/.test(str);
     
     const translitMap: Record<string, string> = {
-        "А": "A", "а": "a", "Б": "B", "б": "b", "В": "V", "в": "v",
-        "Г": "G", "г": "g", "Ғ": "Ǵ", "ғ": "ǵ", "Д": "D", "д": "d",
-        "Е": "E", "е": "e", "Ё": "Yo", "ё": "yo", "Ж": "J", "ж": "j",
-        "З": "Z", "з": "z", "И": "I", "и": "i", "Й": "Y", "й": "y",
-        "К": "K", "к": "k", "Қ": "Q", "қ": "q", "Л": "L", "л": "l",
-        "М": "M", "м": "m", "Н": "N", "н": "n", "Ң": "Ń", "ң": "ń",
-        "О": "O", "о": "o", "Ө": "Ó", "ө": "ó", "П": "P", "п": "p",
-        "Р": "R", "р": "r", "С": "S", "с": "s", "Т": "T", "т": "t",
-        "У": "W", "у": "w", "Ұ": "U", "ұ": "u", "Ү": "Ú", "ү": "ú",
-        "Ф": "F", "ф": "f", "Х": "X", "х": "x", "Һ": "H", "һ": "h",
-        "Ц": "C", "ц": "c", "Ч": "Ch", "ч": "ch", "Ш": "Sh", "ш": "sh",
-        "Щ": "Sh", "щ": "sh", "Ъ": "", "ъ": "", "Ы": "I", "ы": "ı",
-        "І": "I", "і": "i", "Ь": "", "ь": "", "Э": "E", "э": "e",
-        "Ю": "Yu", "ю": "yu", "Я": "Ya", "я": "ya", "Ә": "Á", "ә": "á"
+        "Рђ": "A", "Р°": "a", "Р‘": "B", "Р±": "b", "Р’": "V", "РІ": "v",
+        "Р“": "G", "Рі": "g", "Т’": "Зґ", "Т“": "Зµ", "Р”": "D", "Рґ": "d",
+        "Р•": "E", "Рµ": "e", "РЃ": "Yo", "С‘": "yo", "Р–": "J", "Р¶": "j",
+        "Р—": "Z", "Р·": "z", "Р": "I", "Рё": "i", "Р™": "Y", "Р№": "y",
+        "Рљ": "K", "Рє": "k", "Тљ": "Q", "Т›": "q", "Р›": "L", "Р»": "l",
+        "Рњ": "M", "Рј": "m", "Рќ": "N", "РЅ": "n", "Тў": "Еѓ", "ТЈ": "Е„",
+        "Рћ": "O", "Рѕ": "o", "УЁ": "Г“", "У©": "Гі", "Рџ": "P", "Рї": "p",
+        "Р ": "R", "СЂ": "r", "РЎ": "S", "СЃ": "s", "Рў": "T", "С‚": "t",
+        "РЈ": "W", "Сѓ": "w", "Т°": "U", "Т±": "u", "Т®": "Гљ", "ТЇ": "Гє",
+        "Р¤": "F", "С„": "f", "РҐ": "X", "С…": "x", "Тє": "H", "Т»": "h",
+        "Р¦": "C", "С†": "c", "Р§": "Ch", "С‡": "ch", "РЁ": "Sh", "С€": "sh",
+        "Р©": "Sh", "С‰": "sh", "РЄ": "", "СЉ": "", "Р«": "I", "С‹": "Д±",
+        "Р†": "I", "С–": "i", "Р¬": "", "СЊ": "", "Р­": "E", "СЌ": "e",
+        "Р®": "Yu", "СЋ": "yu", "РЇ": "Ya", "СЏ": "ya", "У": "ГЃ", "У™": "ГЎ"
     };
     
     const transliterate = (text: string) => text.split('').map(c => translitMap[c] || c).join('');
@@ -93,15 +93,15 @@ export const AppLayout = () => {
   };
 
   const navItems = [
-    { path: '/', label: 'Basbet', icon: Home },
-    { path: '/analytics', label: 'Analitika', icon: PieChart },
-    { path: '/budget', label: 'Budjet', icon: PieChart },
-    { path: '/accounts', label: 'Akkawntlar', icon: CreditCard },
-    { path: '/transactions', label: 'Operaciyalar', icon: CreditCard },
-    { path: '/funds', label: 'Qorlar', icon: Shield },
-    { path: '/debts', label: 'Qarızlar', icon: TrendingDown },
-    { path: '/invest', label: 'Invest strategiya', icon: TrendingUp },
-    { path: '/family', label: 'Shańaraq', icon: Settings },
+    { path: '/', label: t('nav.dashboard'), icon: Home },
+    { path: '/analytics', label: t('nav.analytics'), icon: PieChart },
+    { path: '/budget', label: t('nav.budget'), icon: PieChart },
+    { path: '/accounts', label: t('nav.accounts'), icon: CreditCard },
+    { path: '/transactions', label: t('nav.transactions'), icon: CreditCard },
+    { path: '/funds', label: t('nav.funds'), icon: Shield },
+    { path: '/debts', label: t('nav.debts'), icon: TrendingDown },
+    { path: '/invest', label: t('nav.invest'), icon: TrendingUp },
+    { path: '/family', label: t('nav.family'), icon: Settings },
   ];
   
   const switchLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -180,7 +180,7 @@ export const AppLayout = () => {
               className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 w-full"
             >
               <LogOut size={20} />
-              <span>{t('auth.logout') || 'Shıǵıў'}</span>
+              <span>{t('auth.logout') || 'ShД±ЗµД±Сћ'}</span>
             </button>
           </div>
         )}
@@ -268,7 +268,7 @@ export const AppLayout = () => {
                 className="flex items-center space-x-4 p-4 rounded-xl text-red-600 dark:text-red-400 w-full hover:bg-red-50 dark:hover:bg-red-900/20"
               >
                 <LogOut size={24} />
-                <span className="font-medium text-lg">{t('auth.logout') || 'Shıǵıw'}</span>
+                <span className="font-medium text-lg">{t('auth.logout') || 'ShД±ЗµД±w'}</span>
               </button>
             )}
           </div>
@@ -283,22 +283,22 @@ export const AppLayout = () => {
       {conflictOperation && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-sm w-full shadow-xl">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Sinxronlaў Konflikti</h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">SinxronlaСћ Konflikti</h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-              Bwl maǵlıўmat basqa qwrılmada ózgertilgen. Qaysı versiyasın saqlaўdı qáleysiz?
+              Bwl maЗµlД±Сћmat basqa qwrД±lmada Гіzgertilgen. QaysД± versiyasД±n saqlaСћdД± qГЎleysiz?
             </p>
             <div className="flex flex-col gap-3">
               <button 
                 onClick={() => resolveConflict('server')}
                 className="w-full py-2.5 px-4 bg-gray-100 text-gray-700 dark:text-gray-300 hover:bg-gray-200 rounded-xl font-medium transition-colors"
               >
-                Serverdegini qabıllaў
+                Serverdegini qabД±llaСћ
               </button>
               <button 
                 onClick={() => resolveConflict('client')}
                 className="w-full py-2.5 px-4 bg-primary-600 text-white hover:bg-primary-700 rounded-xl font-medium transition-colors"
               >
-                Ózgerisimdi saqlaў
+                Г“zgerisimdi saqlaСћ
               </button>
             </div>
           </div>
@@ -307,6 +307,8 @@ export const AppLayout = () => {
     </div>
   );
 };
+
+
 
 
 

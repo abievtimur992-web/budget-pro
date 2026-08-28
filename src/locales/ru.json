@@ -1,5 +1,16 @@
 ﻿{
   "translation": {
+  "nav": {
+    "dashboard": "Главная",
+    "analytics": "Аналитика",
+    "budget": "Бюджет",
+    "accounts": "Счета",
+    "transactions": "Операции",
+    "funds": "Фонды",
+    "debts": "Долги",
+    "invest": "Инвест. стратегия",
+    "family": "Семья"
+  },
     "welcome": "Добро пожаловать в Budget PRO Family!",
     "onboarding_title": "Создайте семейный бюджет",
     "family_name": "Название семьи",
@@ -25,3 +36,4 @@
     "unallocated": "Нераспределенные деньги"
   }
 }
+

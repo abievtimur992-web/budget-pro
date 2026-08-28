@@ -1,5 +1,16 @@
 ﻿{
   "translation": {
+  "nav": {
+    "dashboard": "Basbet",
+    "analytics": "Analitika",
+    "budget": "Budjet",
+    "accounts": "Akkawntlar",
+    "transactions": "Operaciyalar",
+    "funds": "Qorlar",
+    "debts": "Qarizlar",
+    "invest": "Invest strategiya",
+    "family": "Shanaraq"
+  },
     "welcome": "Budget PRO Family-ǵa xosh keldińiz!",
     "onboarding_title": "Shańaraqlıq budjetińizdi quriń",
     "family_name": "Shańaraq atı",
@@ -25,3 +36,4 @@
     "unallocated": "Bólinbegen pul"
   }
 }
+
