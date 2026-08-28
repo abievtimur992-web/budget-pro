@@ -7,7 +7,8 @@
       password: 'Parol',
       submit: 'Dawam etiw',
       error: 'Qate juz berdi',
-      success: 'Tabisl? ottiniz'
+      success: 'Tabisl? ottiniz',
+      logout: 'Shigiw'
     }
   },
   ru: {
@@ -18,7 +19,8 @@
       password: 'Пароль',
       submit: 'Продолжить',
       error: 'Произошла ошибка',
-      success: 'Успешно'
+      success: 'Успешно',
+      logout: 'Выйти'
     }
   }
 };
