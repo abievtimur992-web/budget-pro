@@ -118,7 +118,7 @@ export const AppLayout = () => {
       >
         <option value="kk">Qaraqalpaqsha</option>
         <option value="uz">O'zbekcha</option>
-        <option value="ru">Rwsskiy</option>
+        <option value="ru">Русский</option>
         <option value="en">English</option>
       </select>
     </div>
@@ -307,6 +307,7 @@ export const AppLayout = () => {
     </div>
   );
 };
+
 
 
 
