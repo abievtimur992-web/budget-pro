@@ -164,7 +164,7 @@ export const Dashboard = () => {
   return (
     <div className="space-y-6 max-w-4xl mx-auto pb-20">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold dark:text-white">{t('dashboard')}</h1>
+        <h1 className="text-2xl font-bold dark:text-white">{t('nav.dashboard')}</h1>
       </div>
 
       <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
@@ -192,14 +192,14 @@ export const Dashboard = () => {
           className="bg-primary-600 text-white p-2 md:p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-primary-700 transition-colors"
         >
           <PlusCircle size={24} />
-          <span className="font-medium text-[11px] md:text-sm text-center">{t("transaction.income")}</span>
+          <span className="font-medium text-[11px] md:text-sm text-center">{t("dashboard.income")}</span>
         </button>
         <button 
           onClick={() => setShowExpenseModal(true)}
           className="bg-red-500 text-white p-2 md:p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-red-600 transition-colors"
         >
           <ArrowDownRight size={24} />
-          <span className="font-medium text-[11px] md:text-sm text-center">{t("transaction.expense")}</span>
+          <span className="font-medium text-[11px] md:text-sm text-center">{t("dashboard.expense")}</span>
         </button>
         <button 
           onClick={() => setShowTransferModal(true)}
