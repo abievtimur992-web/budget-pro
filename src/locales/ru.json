@@ -46,6 +46,25 @@
     "warning_overbudget_desc": "Этот расход превышает лимит категории. Все равно добавить?",
     "add_anyway": "Все равно добавить",
     "budget_allocated": "Все ваши деньги распределены по целям !",
-    "unallocated": "Нераспределенные деньги"
+    "unallocated": "Нераспределенные деньги",
+    "analytics": {
+      "current_month": "Этот месяц",
+      "last_month": "Прошлый месяц",
+      "last_3_months": "Последние 3 месяца",
+      "last_6_months": "Последние 6 месяцев",
+      "this_year": "За год",
+      "financial_health": "Фин. состояние",
+      "smart_insights": "Умные советы (ИИ)",
+      "total_income": "Общий доход",
+      "total_expense": "Общие расходы",
+      "savings": "Накопления (Процент)",
+      "debtor": "Дебиторы (Дал в долг)",
+      "debt_payments": "Платежи по долгам",
+      "cash_flow": "Денежный поток",
+      "top_5_expenses": "Топ-5 расходов",
+      "funds_analytics": "Аналитика фондов",
+      "debts_analytics": "Аналитика долгов",
+      "needs_attention": "Требует внимания"
+    }
   }
 }

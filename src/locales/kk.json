@@ -46,6 +46,25 @@
     "warning_overbudget_desc": "Bul shıǵıs kategoriya limitinen artıq. Bári-bir qosasız ba?",
     "add_anyway": "Bári-bir qosıw",
     "budget_allocated": "Barlıq pulıńızǵa maqset berildi ✓",
-    "unallocated": "Bólinbegen pul"
+    "unallocated": "Bólinbegen pul",
+    "analytics": {
+      "current_month": "Usı ay",
+      "last_month": "Ótken ay",
+      "last_3_months": "Sońǵı 3 ay",
+      "last_6_months": "Sońǵı 6 ay",
+      "this_year": "Jıl dawamında",
+      "financial_health": "Qarji jaǵdayı",
+      "smart_insights": "Aqıllı keńesler (Jasalma intellekt)",
+      "total_income": "Ulıwma dáramat",
+      "total_expense": "Ulıwma shıǵıs",
+      "savings": "Jıynalǵan (Protsent)",
+      "debtor": "Debitor (Bergen qarız)",
+      "debt_payments": "Qarız tólemleri",
+      "cash_flow": "Pul aylanbası",
+      "top_5_expenses": "Eń kóp jumsalǵan 5 shıǵıs (Top-5)",
+      "funds_analytics": "Qorlar Analitikası",
+      "debts_analytics": "Qarız Analitikası",
+      "needs_attention": "Nazar kerek"
+    }
   }
 }
