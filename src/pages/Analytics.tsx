@@ -90,7 +90,7 @@ export const Analytics = () => {
             </div>
             
             <div className="md:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 dark:text-white">
-              <h3 className="font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2"><Lightbulb className="text-yellow-500" size={20}/> {t("analytics.smart_insights")})</h3>
+              <h3 className="font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2"><Lightbulb className="text-yellow-500" size={20}/> {t("analytics.smart_insights")}</h3>
               <div className="space-y-3">
                 {insights.map((ins, i) => (
                   <div key={i} className="flex items-start gap-3">
@@ -122,7 +122,7 @@ export const Analytics = () => {
               {renderChange(m2m.savingsChange)}
             </div>
             <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{t("analytics.debtor")})</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{t("analytics.debtor")}</p>
               <p className="font-bold text-xl text-yellow-500 mb-2">{formatCurrency(summary.debtorsLent)}</p>
               {renderChange(m2m.debtorsLentChange)}
             </div>
@@ -139,7 +139,7 @@ export const Analytics = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Cash Flow */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
-              <h3 className="font-bold text-lg mb-4 dark:text-white">{t("analytics.cash_flow")}ı</h3>
+              <h3 className="font-bold text-lg mb-4 dark:text-white">{t("analytics.cash_flow")}</h3>
               <div className="space-y-4">
                 {cashFlow.slice(-4).map((cf) => {
                   const total = cf.income + cf.expense + cf.savings + cf.debtorsLent + cf.debtPayment || 1;
@@ -168,7 +168,7 @@ export const Analytics = () => {
 
             {/* Expense Breakdown (Top 5) */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
-              <h3 className="font-bold text-lg mb-4 dark:text-white">{t("analytics.top_5_expenses")})</h3>
+              <h3 className="font-bold text-lg mb-4 dark:text-white">{t("analytics.top_5_expenses")}</h3>
               <div className="space-y-4">
                 {[...budgetActuals].sort((a, b) => b.actualAmount - a.actualAmount).slice(0, 5).map(cat => {
                   const totalCategorySpent = budgetActuals.reduce((sum, c) => sum + c.actualAmount, 0);
@@ -192,7 +192,7 @@ export const Analytics = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Funds Progress */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
-              <h3 className="font-bold text-lg mb-4 text-blue-900 dark:text-white">{t("analytics.funds_analytics")}ı</h3>
+              <h3 className="font-bold text-lg mb-4 text-blue-900 dark:text-white">{t("analytics.funds_analytics")}</h3>
               <div className="flex justify-between mb-2">
                 <span className="text-gray-500 dark:text-gray-400 text-sm">Ulıwma balans</span>
                 <span className="font-bold dark:text-white">{formatCurrency(fundAnalytics.totalCurrent)} / {formatCurrency(fundAnalytics.totalTarget)}</span>
@@ -216,7 +216,7 @@ export const Analytics = () => {
 
             {/* Debts Progress */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
-              <h3 className="font-bold text-lg mb-4 text-orange-900 dark:text-white">{t("analytics.debts_analytics")}ı</h3>
+              <h3 className="font-bold text-lg mb-4 text-orange-900 dark:text-white">{t("analytics.debts_analytics")}</h3>
               <div className="flex justify-between mb-2">
                 <span className="text-gray-500 dark:text-gray-400 text-sm">Ulıwma qarız qaldıǵı</span>
                 <span className="font-bold text-orange-600 dark:text-white">{formatCurrency(debtAnalytics.remainingDebt)} / {formatCurrency(debtAnalytics.originalDebt)}</span>
