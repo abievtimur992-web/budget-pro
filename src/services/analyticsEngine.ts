@@ -289,7 +289,7 @@ export const calculateFinancialHealthScore = (
   let label = 'Qáўipli';
   if (total >= 80) label = 'Óte jaqsı';
   else if (total >= 60) label = 'Jaqsı';
-  else if (total >= 40) label = 'Nazar kerek';
+  else if (total >= 40) label = t('analytics.health_needs_attention');
 
   return { total, labels: { budgetScore, savingsScore, efScore, debtScore }, label };
 };
@@ -302,42 +302,43 @@ export const generateSmartInsights = (
   prevSummary: FinancialSummary,
   budgetActuals: CategoryActual[],
   unusualSpends: ReturnType<typeof detectUnusualSpending>,
-  health: ReturnType<typeof calculateFinancialHealthScore>
+  health: ReturnType<typeof calculateFinancialHealthScore>,
+    t: any
 ) => {
   const insights: { type: 'positive' | 'warning' | 'negative', text: string }[] = [];
   
   if (summary.income === 0 && summary.expense === 0) {
-    return [{ type: 'warning', text: 'Bwl qorıtındı wshın málimleme jeterli emes.' }];
+    return [{ type: 'warning', text: t("analytics.no_data") }];
   }
 
   if (summary.income > prevSummary.income && prevSummary.income > 0) {
-    insights.push({ type: 'positive', text: `Kirisińiz ótken ayǵa qaraǵanda ósti.` });
+    insights.push({ type: 'positive', text: t("analytics.income_up") });
   }
 
   const overBudgets = budgetActuals.filter(b => b.status === 'over');
   if (overBudgets.length > 0) {
-    insights.push({ type: 'negative', text: `${overBudgets[0].categoryName} byudjeti ${overBudgets[0].utilizationPercent?.toFixed(0) || '>100'}% paydalanıldı.` });
+    insights.push({ type: 'negative', text: t("analytics.budget_over", { cat: overBudgets[0].categoryName, pct: overBudgets[0].utilizationPercent?.toFixed(0) || ">100" }) });
   }
 
   if (unusualSpends.length > 0) {
     const u = unusualSpends[0];
     if (u.changePercent === 'new') {
-      insights.push({ type: 'warning', text: `${u.categoryName} boyınsha jańa shıǵıs payda boldı.` });
+      insights.push({ type: 'warning', text: t("analytics.new_expense", { cat: u.categoryName }) });
     } else {
-      insights.push({ type: 'warning', text: `${u.categoryName} shıǵını ótken ayǵa qaraǵanda ${u.changePercent.toFixed(0)}% ósti.` });
+      insights.push({ type: 'warning', text: t("analytics.expense_up", { cat: u.categoryName, pct: u.changePercent.toFixed(0) }) });
     }
   }
 
   if (summary.debtPrincipal > 0) {
-    insights.push({ type: 'positive', text: `Bwl periodta qarız qaldıǵı ${summary.debtPrincipal.toLocaleString()} sumǵa azaydı.` });
+    insights.push({ type: 'positive', text: t("analytics.debt_down", { sum: summary.debtPrincipal.toLocaleString() + " swm" }) });
   }
 
   if (health.labels.savingsScore < 10) {
-    insights.push({ type: 'warning', text: `Jinaq procentińiz tómen (${summary.savingsRate.toFixed(1)}%). Qorlarǵa kóbirek aqsha bóliўdi oylap kóriń.` });
+    insights.push({ type: 'warning', text: t("analytics.savings_low", { pct: summary.savingsRate.toFixed(1) }) });
   }
 
   if (insights.length === 0) {
-    insights.push({ type: 'positive', text: 'Barlıǵı jaqsı! Finanslıq jaǵdayıńız twraqlı.' });
+    insights.push({ type: 'positive', text: t("analytics.all_good") });
   }
 
   return insights.slice(0, 4);
