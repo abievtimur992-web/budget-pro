@@ -1,22 +1,35 @@
-﻿{
+{
   "translation": {
-  "nav": {
-    "dashboard": "Basbet",
-    "analytics": "Analitika",
-    "budget": "Budjet",
-    "accounts": "Akkawntlar",
-    "transactions": "Operaciyalar",
-    "funds": "Qorlar",
-    "debts": "Qarizlar",
-    "invest": "Invest strategiya",
-    "family": "Shanaraq"
-  },
+    "nav": {
+      "dashboard": "Basbet",
+      "analytics": "Analitika",
+      "budget": "Budjet",
+      "accounts": "Akkawntlar",
+      "transactions": "Operaciyalar",
+      "funds": "Qorlar",
+      "debts": "Qarizlar",
+      "invest": "Invest strategiya",
+      "family": "Shanaraq"
+    },
     "welcome": "Budget PRO Family-ǵa xosh keldińiz!",
     "onboarding_title": "Shańaraqlıq budjetińizdi quriń",
     "family_name": "Shańaraq atı",
     "your_name": "Siziń atıńız",
     "start": "Baslaw",
-    "dashboard": "Bas bet",
+    "dashboard": {
+      "expenses_this_month": "Bul aydaǵı qárejetler",
+      "income_expense_trend": "Dáramat hám qárejetler tendenciyası",
+      "income": "Dáramat",
+      "expense": "Shıǵıs",
+      "transfer": "Awıstırıw",
+      "funds": "QORLAR",
+      "debts": "QARÍZDAN QUTÍLÍW",
+      "saved_fund": "Jıynalǵan qor",
+      "goal": "Maqset",
+      "remaining_debt": "Qalǵan qarız",
+      "budget_this_month": "Byudjet (usı ayda)",
+      "unallocated": "Bólistirilmegen payda"
+    },
     "budget": "Budjet",
     "transactions": "Tranzakciyalar",
     "total_balance": "Ulıwma balans",
@@ -36,4 +49,3 @@
     "unallocated": "Bólinbegen pul"
   }
 }
-

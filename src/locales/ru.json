@@ -1,22 +1,35 @@
-﻿{
+{
   "translation": {
-  "nav": {
-    "dashboard": "Главная",
-    "analytics": "Аналитика",
-    "budget": "Бюджет",
-    "accounts": "Счета",
-    "transactions": "Операции",
-    "funds": "Фонды",
-    "debts": "Долги",
-    "invest": "Инвест. стратегия",
-    "family": "Семья"
-  },
+    "nav": {
+      "dashboard": "Главная",
+      "analytics": "Аналитика",
+      "budget": "Бюджет",
+      "accounts": "Счета",
+      "transactions": "Операции",
+      "funds": "Фонды",
+      "debts": "Долги",
+      "invest": "Инвест. стратегия",
+      "family": "Семья"
+    },
     "welcome": "Добро пожаловать в Budget PRO Family!",
     "onboarding_title": "Создайте семейный бюджет",
     "family_name": "Название семьи",
     "your_name": "Ваше имя",
     "start": "Начать",
-    "dashboard": "Главная",
+    "dashboard": {
+      "expenses_this_month": "Расходы в этом месяце",
+      "income_expense_trend": "Тренд доходов и расходов",
+      "income": "Доход",
+      "expense": "Расход",
+      "transfer": "Перевод",
+      "funds": "ФОНДЫ",
+      "debts": "ПОГАШЕНИЕ ДОЛГОВ",
+      "saved_fund": "Накоплено",
+      "goal": "Цель",
+      "remaining_debt": "Остаток долга",
+      "budget_this_month": "Бюджет (Этот месяц)",
+      "unallocated": "Нераспределенная прибыль"
+    },
     "budget": "Бюджет",
     "transactions": "Транзакции",
     "total_balance": "Общий баланс",
@@ -36,4 +49,3 @@
     "unallocated": "Нераспределенные деньги"
   }
 }
-

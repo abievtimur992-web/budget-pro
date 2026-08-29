@@ -8,7 +8,7 @@ import { ExpenseDonutChart } from '../components/analytics/ExpenseDonutChart';
 import { TrendBarChart } from '../components/analytics/TrendBarChart';
 
 export const Dashboard = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { budgets, transactions, accounts, categories, addTransaction, addIncome, funds, debts } = useFinanceStore();
   
   const [showIncomeModal, setShowIncomeModal] = useState(false);
@@ -60,13 +60,22 @@ export const Dashboard = () => {
   }) || [];
 
   // Trend Data for last 6 months
+  
+  const monthNames = {
+    kk: ['Yanv', 'Fev', 'Mart', 'Apr', 'May', 'Iyun', 'Iyul', 'Avg', 'Sent', 'Okt', 'Noy', 'Dek'],
+    ru: ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Нояб', 'Дек']
+  };
+
   const generateTrendData = () => {
     const data = [];
     for (let i = 5; i >= 0; i--) {
       const d = new Date();
       d.setMonth(d.getMonth() - i);
-      const monthStr = d.toISOString().substring(0, 7); // YYYY-MM
-      const label = d.toLocaleString('default', { month: 'short' });
+      const monthStr = d.toISOString().substring(0, 7);
+      
+      const lang = i18n.language as 'kk' | 'ru';
+      const label = monthNames[lang] ? monthNames[lang][d.getMonth()] : monthNames.kk[d.getMonth()];
+
       
       const income = transactions
         .filter(t => t.type === 'income' && t.date.startsWith(monthStr))
@@ -166,7 +175,7 @@ export const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Expense Donut Chart */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
-          <h3 className="font-bold text-lg mb-4 dark:text-white">Bwl ayda qárejetler</h3>
+          <h3 className="font-bold text-lg mb-4 dark:text-white">{t("dashboard.expenses_this_month")}</h3>
           <ExpenseDonutChart data={donutData} />
         </div>
 
@@ -183,14 +192,14 @@ export const Dashboard = () => {
           className="bg-primary-600 text-white p-2 md:p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-primary-700 transition-colors"
         >
           <PlusCircle size={24} />
-          <span className="font-medium text-[11px] md:text-sm text-center">Dáramat</span>
+          <span className="font-medium text-[11px] md:text-sm text-center">{t("transaction.income")}</span>
         </button>
         <button 
           onClick={() => setShowExpenseModal(true)}
           className="bg-red-500 text-white p-2 md:p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-red-600 transition-colors"
         >
           <ArrowDownRight size={24} />
-          <span className="font-medium text-[11px] md:text-sm text-center">Shıǵıs</span>
+          <span className="font-medium text-[11px] md:text-sm text-center">{t("transaction.expense")}</span>
         </button>
         <button 
           onClick={() => setShowTransferModal(true)}
@@ -205,16 +214,16 @@ export const Dashboard = () => {
         <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 flex flex-col dark:text-white">
           <div className="flex justify-between items-center mb-4">
             <h3 className="font-bold text-gray-800 dark:text-white flex items-center gap-2">
-              <span className="text-xl">🛡</span> QORLAR
+              <span className="text-xl">🛡</span> {t("dashboard.funds")}
             </h3>
           </div>
           <div className="flex justify-between mb-2">
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Jıynalǵan qor</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t("dashboard.saved_fund")}</p>
               <p className="text-xl font-bold dark:text-white">{formatCurrency(totalFundCurrent)}</p>
             </div>
             <div className="text-right">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Maqset</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t("dashboard.goal")}</p>
               <p className="text-xl font-bold dark:text-white">{formatCurrency(totalFundTarget)}</p>
             </div>
           </div>
@@ -227,12 +236,11 @@ export const Dashboard = () => {
         <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border dark:border-gray-700 border-gray-100 dark:border-gray-700 flex flex-col dark:text-white">
           <div className="flex justify-between items-center mb-4">
             <h3 className="font-bold text-gray-800 dark:text-white flex items-center gap-2">
-              <span className="text-xl">💳</span> QARIZDAN QWTILIЎ
-            </h3>
+              <span className="text-xl">💳</span> {t("dashboard.debts")}</h3>
           </div>
           <div className="flex justify-between mb-2">
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Qalǵan qarız</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t("dashboard.remaining_debt")}</p>
               <p className="text-xl font-bold text-red-600">{formatCurrency(totalDebtRemaining)}</p>
             </div>
           </div>
