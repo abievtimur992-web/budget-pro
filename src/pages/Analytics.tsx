@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-//, { useState, useMemo } from 'react';
 import { useFinanceStore } from '../store/useFinanceStore';
 import { formatCurrency, formatMonthName, getCurrentMonth } from '../utils/format';
 import { 
