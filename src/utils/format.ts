@@ -1,5 +1,7 @@
+import i18n from '../i18n';
 export const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat('uz-UZ').format(amount).replace(/,/g, ' ') + ' swm';
+  const currency = i18n.language === 'ru' ? 'сум' : 'swm';
+  return new Intl.NumberFormat('uz-UZ').format(amount).replace(/,/g, ' ') + ' ' + currency;
 };
 
 export const getCurrentMonth = (): string => {

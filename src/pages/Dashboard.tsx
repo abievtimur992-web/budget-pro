@@ -152,7 +152,7 @@ export const Dashboard = () => {
         amount: Number(transferAmount),
         accountId: transferFrom,
         targetAccountId: transferTo,
-        comment: 'Awıstırw (Perevod)'
+        comment: '{t("dashboard.transfer")} (Perevod)'
       });
       setShowTransferModal(false);
       setTransferAmount('');
@@ -206,7 +206,7 @@ export const Dashboard = () => {
           className="bg-blue-500 text-white p-2 md:p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-blue-600 transition-colors"
         >
           <ArrowRightLeft size={24} />
-          <span className="font-medium text-[11px] md:text-sm text-center">Awıstırw</span>
+          <span className="font-medium text-[11px] md:text-sm text-center">{t("dashboard.transfer")}</span>
         </button>
       </div>
 

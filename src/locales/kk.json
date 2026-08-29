@@ -18,7 +18,7 @@
     "start": "Baslaw",
     "dashboard": {
       "expenses_this_month": "Bul aydaǵı qárejetler",
-      "income_expense_trend": "Dáramat hám qárejetler tendenciyası",
+      "income_expense_trend": "Dáramat hám qárejet trendi",
       "income": "Dáramat",
       "expense": "Shıǵıs",
       "transfer": "Awıstırıw",
@@ -27,8 +27,9 @@
       "saved_fund": "Jıynalǵan qor",
       "goal": "Maqset",
       "remaining_debt": "Qalǵan qarız",
-      "budget_this_month": "Byudjet (usı ayda)",
-      "unallocated": "Bólistirilmegen payda"
+      "budget_this_month": "Budjet (Usı ay)",
+      "unallocated": "Bólistirilmegen payda",
+      "paid_off": "jabıldı"
     },
     "budget": "Budjet",
     "transactions": "Tranzakciyalar",
@@ -64,7 +65,20 @@
       "top_5_expenses": "Eń kóp jumsalǵan 5 shıǵıs (Top-5)",
       "funds_analytics": "Qorlar Analitikası",
       "debts_analytics": "Qarız Analitikası",
-      "needs_attention": "Nazar kerek"
+      "needs_attention": "Nazar kerek",
+      "no_data": "Bul qorıtındı ushın málimleme jeterli emes.",
+      "income_up": "Kirisińiz ótken ayǵa qaraǵanda ósti.",
+      "budget_over": "{{cat}} byudjeti {{pct}}% paydalanıldı.",
+      "new_expense": "{{cat}} boyınsha jańa shıǵıs payda boldı.",
+      "expense_up": "{{cat}} shıǵını ótken ayǵa qaraǵanda {{pct}}% ósti.",
+      "debt_down": "Bul periodta qarız qaldıǵı {{sum}} sumǵа azaydı.",
+      "savings_low": "Jıynaq procentińiz tómen ({{pct}}%). Qorlarǵa kóbirek aqsha bóliwdi oylap kóriń.",
+      "all_good": "Barlıǵı jaqsı! Finanslıq jaǵdayıńız turaqlı.",
+      "health_excellent": "Ájayıp",
+      "health_good": "Jaqsı",
+      "health_needs_attention": "Nazar kerek",
+      "total_balance": "Ulıwma balans",
+      "interest_added": "Protsentlik ústeme"
     }
   }
 }
