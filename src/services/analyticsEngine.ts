@@ -246,7 +246,8 @@ export const calculateFinancialHealthScore = (
   savingsRate: number,
   funds: Fund[],
   debts: Debt[],
-  monthlyIncome: number
+  monthlyIncome: number,
+  t: any
 ) => {
   // 1. Budget Adherence (30 points)
   let budgetScore = 0;
@@ -286,9 +287,9 @@ export const calculateFinancialHealthScore = (
 
   const total = Math.round(budgetScore + savingsScore + efScore + debtScore);
   
-  let label = 'Qáўipli';
-  if (total >= 80) label = 'Óte jaqsı';
-  else if (total >= 60) label = 'Jaqsı';
+  let label = t('analytics.health_needs_attention');
+  if (total >= 80) label = t('analytics.health_excellent');
+  else if (total >= 60) label = t('analytics.health_good');
   else if (total >= 40) label = t('analytics.health_needs_attention');
 
   return { total, labels: { budgetScore, savingsScore, efScore, debtScore }, label };

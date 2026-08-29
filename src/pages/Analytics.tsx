@@ -36,8 +36,8 @@ export const Analytics = () => {
   const debtAnalytics = useMemo(() => calculateDebtAnalytics(debts, filteredTx), [debts, filteredTx]);
   const m2m = useMemo(() => compareWithPreviousMonth(filteredTx, prevPeriodTx, funds), [filteredTx, prevPeriodTx, funds]);
   const unusual = useMemo(() => detectUnusualSpending(filteredTx, prevPeriodTx, categories), [filteredTx, prevPeriodTx, categories]);
-  const health = useMemo(() => calculateFinancialHealthScore(budgetActuals, summary.savingsRate, funds, debts, summary.income), [budgetActuals, summary.savingsRate, funds, debts, summary.income]);
-  const insights = useMemo(() => generateSmartInsights(summary, prevSummary, budgetActuals, unusual, health), [summary, prevSummary, budgetActuals, unusual, health]);
+  const health = useMemo(() => calculateFinancialHealthScore(budgetActuals, summary.savingsRate, funds, debts, summary.income, t), [budgetActuals, summary.savingsRate, funds, debts, summary.income, t]);
+  const insights = useMemo(() => generateSmartInsights(summary, prevSummary, budgetActuals, unusual, health, t), [summary, prevSummary, budgetActuals, unusual, health, t]);
   const cashFlow = useMemo(() => getCashFlowData(transactions, funds), [transactions, funds]); // always show full history for chart
 
   const isEmpty = summary.income === 0 && summary.expense === 0 && summary.savings === 0 && summary.debtPaymentTotal === 0 && summary.debtorsLent === 0;
@@ -194,7 +194,7 @@ export const Analytics = () => {
             <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border dark:border-gray-700 dark:text-white">
               <h3 className="font-bold text-lg mb-4 text-blue-900 dark:text-white">{t("analytics.funds_analytics")}</h3>
               <div className="flex justify-between mb-2">
-                <span className="text-gray-500 dark:text-gray-400 text-sm">Ulıwma balans</span>
+                <span className="text-gray-500 dark:text-gray-400 text-sm">{t("analytics.total_balance")}</span>
                 <span className="font-bold dark:text-white">{formatCurrency(fundAnalytics.totalCurrent)} / {formatCurrency(fundAnalytics.totalTarget)}</span>
               </div>
               <div className="w-full bg-blue-100 rounded-full h-4 mb-4">
@@ -230,7 +230,7 @@ export const Analytics = () => {
                   <p className="font-bold text-green-600">{formatCurrency(debtAnalytics.principalPaid)}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Procentlik ústeme</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{t("analytics.interest_added")}</p>
                   <p className="font-bold text-red-600">{formatCurrency(debtAnalytics.interestPaid)}</p>
                 </div>
               </div>
