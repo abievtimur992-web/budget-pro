@@ -181,7 +181,7 @@ export const Dashboard = () => {
 
         {/* 6 Months Trend */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
-          <h3 className="font-bold text-lg mb-4 dark:text-white">Dáramat ҳám qárejet trendi</h3>
+          <h3 className="font-bold text-lg mb-4 dark:text-white">{t("dashboard.income_expense_trend")}</h3>
           <TrendBarChart data={generateTrendData()} />
         </div>
       </div>
@@ -247,12 +247,12 @@ export const Dashboard = () => {
           <div className="w-full bg-gray-100 rounded-full h-3 mb-2">
             <div className="bg-red-500 h-3 rounded-full" style={{ width: `${Math.min(100, Math.round(((totalDebtOriginal - totalDebtRemaining) / totalDebtOriginal) * 100))}%` }}></div>
           </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400 font-bold text-right">{Math.round(((totalDebtOriginal - totalDebtRemaining) / totalDebtOriginal) * 100)}% jabıldı</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 font-bold text-right">{Math.round(((totalDebtOriginal - totalDebtRemaining) / totalDebtOriginal) * 100)}% {t('dashboard.paid_off')}</p>
         </div>
       </div>
 
       <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700 dark:text-white">
-        <h3 className="font-semibold mb-4 text-lg">{t('budget')} (Wsı ay)</h3>
+        <h3 className="font-semibold mb-4 text-lg">{t('dashboard.budget_this_month')}</h3>
         
         {currentBudget && unallocated === 0 ? (
            <p className="text-sm text-green-600 bg-green-50 p-2 rounded-lg mb-4 text-center font-medium">
