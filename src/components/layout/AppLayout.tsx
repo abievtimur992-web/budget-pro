@@ -93,15 +93,15 @@ export const AppLayout = () => {
   };
 
   const navItems = [
-    { path: '/', label: 'Basbet', icon: Home },
-    { path: '/analytics', label: 'Analitika', icon: PieChart },
-    { path: '/budget', label: 'Budjet', icon: PieChart },
-    { path: '/accounts', label: 'Akkawntlar', icon: CreditCard },
-    { path: '/transactions', label: 'Operaciyalar', icon: CreditCard },
-    { path: '/funds', label: 'Qorlar', icon: Shield },
-    { path: '/debts', label: 'Qarızlar', icon: TrendingDown },
-    { path: '/invest', label: 'Invest strategiya', icon: TrendingUp },
-    { path: '/family', label: 'Shańaraq', icon: Settings },
+    { path: '/', label: t('nav.dashboard'), icon: Home },
+    { path: '/analytics', label: t('nav.analytics'), icon: PieChart },
+    { path: '/budget', label: t('nav.budget'), icon: PieChart },
+    { path: '/accounts', label: t('nav.accounts'), icon: CreditCard },
+    { path: '/transactions', label: t('nav.transactions'), icon: CreditCard },
+    { path: '/funds', label: t('nav.funds'), icon: Shield },
+    { path: '/debts', label: t('nav.debts'), icon: TrendingDown },
+    { path: '/invest', label: t('nav.invest'), icon: TrendingUp },
+    { path: '/family', label: t('nav.family'), icon: Settings },
   ];
   
   const switchLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -118,7 +118,7 @@ export const AppLayout = () => {
       >
         <option value="kk">Qaraqalpaqsha</option>
         <option value="uz">O'zbekcha</option>
-        <option value="ru">Rwsskiy</option>
+        <option value="ru">Русский</option>
         <option value="en">English</option>
       </select>
     </div>
@@ -268,7 +268,7 @@ export const AppLayout = () => {
                 className="flex items-center space-x-4 p-4 rounded-xl text-red-600 dark:text-red-400 w-full hover:bg-red-50 dark:hover:bg-red-900/20"
               >
                 <LogOut size={24} />
-                <span className="font-medium text-lg">{t('auth.logout') || 'Shıǵıw'}</span>
+                <span className="font-medium text-lg">{t('auth.logout')}</span>
               </button>
             )}
           </div>
